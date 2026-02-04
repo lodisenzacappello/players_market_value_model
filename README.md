@@ -27,9 +27,12 @@ Nella fase di merge dei dataset ho definito 5 ruoli che vanno a definire 5 grupp
 
 I modelli utilizzati sono:
 
+
 1)LASSO REGRESSION
 
+
 2)SUPPORT VECTOR REGRESSION (SVR)
+
 
 3)XGBoost 
 
