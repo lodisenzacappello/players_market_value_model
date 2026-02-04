@@ -12,7 +12,7 @@ Lo scopo è individuare un modello efficace nel prevedere il valore di mercato d
 Il dataset in analisi è composto da XXXX calciatori che hanno giocato in Serie A tra la stagione 2018-2019 e la stagione 2024-2025. 
 Le statistiche di campo provengono da FBRef (provider Opta) mentre i valori di mercato provengono da TransferMarkt.
 
-#------------------------------------------------------------------------------------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------------------------------------
 
 
 Ho definito 5 ruoli in base ai ruoli possibili su Transfermarkt. I ruoli vanno a definire 5 gruppi di calciatori.
@@ -27,7 +27,7 @@ Ho definito 5 ruoli in base ai ruoli possibili su Transfermarkt. I ruoli vanno a
 
 5)FW = ATTACCANTE = Ala destra/Ala sinistra/Punta centrale/Seconda Punta
 
-#------------------------------------------------------------------------------------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------------------------------------
 
 I modelli utilizzati sono:
 
@@ -38,7 +38,7 @@ I modelli utilizzati sono:
 
 3)XGBoost 
 
-#------------------------------------------------------------------------------------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------------------------------------
 
 I valori dei coefficienti di determinazione sono:
 
@@ -71,7 +71,9 @@ I valori dei coefficienti di determinazione sono:
 		R2 Lasso =   0.5409
 		R2 SVR =     0.5429
 		R2 XGBoost = 0.6195*
-#------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+#---------------------------------------------------------------------------------------------------------------
+
 Le fasi del progetto sono le seguenti:
 
 FASE 0- IMPORTAZIONE DELLE LIBRERIE
