@@ -15,38 +15,51 @@ Le statistiche di campo provengono da FBRef (provider Opta) mentre i valori di m
 Nella fase di merge dei dataset ho definito 5 ruoli che vanno a definire 5 gruppi di calciatori.
 
 1)GK = GOALKEEPER = Portiere
+
 2)DF = DEFENDER = Difensore centrale
+
 3)WB = WINGBACK = Esterno di destra/Esterno di sinistra/Terzino destro/Terzino sinistro
+
 4)MF = MIDFIELDER = Mediano/Centrocampista/Trequartista
+
 5)FW = ATTACCANTE = Ala destra/Ala sinistra/Punta centrale/Seconda Punta
 
 I modelli utilizzati sono:
+
 1)LASSO REGRESSION
+
 2)SUPPORT VECTOR REGRESSION (SVR)
+
 3)XGBoost 
 
 I valori dei coefficienti di determinazione sono:
+
 1)PORTIERI (GK)
+
 R2 Lasso = 
 R2 SVR =
 R2 XGBoost = 
 
 2)DIFENSORI (DF)
+
 R2 Lasso = 
 R2 SVR =
 R2 XGBoost = 
 
 3)ESTERNI (WB)
+
 R2 Lasso = 
 R2 SVR =
 R2 XGBoost = 
 
 4)CENTROCAMPISTI (MF)
+
 R2 Lasso = 
 R2 SVR =
 R2 XGBoost = 
 
 5)ATTACCANTI (FW)
+
 R2 Lasso = 
 R2 SVR =
 R2 XGBoost = 
