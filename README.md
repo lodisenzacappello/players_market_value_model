@@ -12,6 +12,9 @@ Lo scopo è individuare un modello efficace nel prevedere il valore di mercato d
 Il dataset in analisi è composto da XXXX calciatori che hanno giocato in Serie A tra la stagione 2018-2019 e la stagione 2024-2025. 
 Le statistiche di campo provengono da FBRef (provider Opta) mentre i valori di mercato provengono da TransferMarkt.
 
+#------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 Nella fase di merge dei dataset ho definito 5 ruoli che vanno a definire 5 gruppi di calciatori.
 
 1)GK = GOALKEEPER = Portiere
@@ -24,43 +27,47 @@ Nella fase di merge dei dataset ho definito 5 ruoli che vanno a definire 5 grupp
 
 5)FW = ATTACCANTE = Ala destra/Ala sinistra/Punta centrale/Seconda Punta
 
+#------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 I modelli utilizzati sono:
 
 
 1)LASSO REGRESSION
+
 2)SUPPORT VECTOR REGRESSION (SVR)
+
 3)XGBoost 
 
+#------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 I valori dei coefficienti di determinazione sono:
 
-1)PORTIERI (GK)
+1) PORTIERI (GK)
 
-R2 Lasso = 0.5326
-R2 SVR = 0.3268
-R2 XGBoost = 0.7679
+		R2 Lasso =   0.5326
+		R2 SVR =     0.3268
+		R2 XGBoost = 0.7679*
 
-2)DIFENSORI (DF)
+2) DIFENSORI (DF)
 
-R2 Lasso = 0.3587
-R2 SVR = 0.5213
-R2 XGBoost = 0.5056
+		R2 Lasso =   0.3587
+		R2 SVR =     0.5213*
+		R2 XGBoost = 0.5056
 
-3)ESTERNI (WB)
+3) ESTERNI (WB)
 
-R2 Lasso = 0.5920
-R2 SVR = 0.6410
-R2 XGBoost = 0.6500
+		R2 Lasso =   0.5920
+		R2 SVR =     0.6410
+		R2 XGBoost = 0.6500*
 
-4)CENTROCAMPISTI (MF)
+4) CENTROCAMPISTI (MF)
 
-R2 Lasso = 0.4987
-R2 SVR = 0.5093
-R2 XGBoost = 0.6011
+		R2 Lasso =   0.4987
+		R2 SVR =     0.5093
+		R2 XGBoost = 0.6011*
 
-5)ATTACCANTI (FW)
+5) ATTACCANTI (FW)
 
-R2 Lasso = 0.5409
-R2 SVR = 0.5429
-R2 XGBoost = 0.6195
+		R2 Lasso =   0.5409
+		R2 SVR =     0.5429
+		R2 XGBoost = 0.6195*
