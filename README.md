@@ -15,7 +15,7 @@ Le statistiche di campo provengono da FBRef (provider Opta) mentre i valori di m
 #------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-Nella fase di merge dei dataset ho definito 5 ruoli che vanno a definire 5 gruppi di calciatori.
+Ho definito 5 ruoli in base ai ruoli possibili su Transfermarkt. I ruoli vanno a definire 5 gruppi di calciatori.
 
 1)GK = GOALKEEPER = Portiere
 
