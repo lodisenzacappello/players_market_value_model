@@ -24,6 +24,7 @@ Nella fase di merge dei dataset ho definito 5 ruoli che vanno a definire 5 grupp
 
 5)FW = ATTACCANTE = Ala destra/Ala sinistra/Punta centrale/Seconda Punta
 
+
 I modelli utilizzati sono:
 
 1)LASSO REGRESSION
@@ -31,6 +32,7 @@ I modelli utilizzati sono:
 2)SUPPORT VECTOR REGRESSION (SVR)
 
 3)XGBoost 
+
 
 I valori dei coefficienti di determinazione sono:
 
