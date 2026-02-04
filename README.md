@@ -29,11 +29,7 @@ I modelli utilizzati sono:
 
 
 1)LASSO REGRESSION
-
-
 2)SUPPORT VECTOR REGRESSION (SVR)
-
-
 3)XGBoost 
 
 
@@ -41,30 +37,30 @@ I valori dei coefficienti di determinazione sono:
 
 1)PORTIERI (GK)
 
-R2 Lasso = 
-R2 SVR =
-R2 XGBoost = 
+R2 Lasso = 0.5326
+R2 SVR = 0.3268
+R2 XGBoost = 0.7679
 
 2)DIFENSORI (DF)
 
-R2 Lasso = 
-R2 SVR =
-R2 XGBoost = 
+R2 Lasso = 0.3587
+R2 SVR = 0.5213
+R2 XGBoost = 0.5056
 
 3)ESTERNI (WB)
 
-R2 Lasso = 
-R2 SVR =
-R2 XGBoost = 
+R2 Lasso = 0.5920
+R2 SVR = 0.6410
+R2 XGBoost = 0.6500
 
 4)CENTROCAMPISTI (MF)
 
-R2 Lasso = 
-R2 SVR =
-R2 XGBoost = 
+R2 Lasso = 0.4987
+R2 SVR = 0.5093
+R2 XGBoost = 0.6011
 
 5)ATTACCANTI (FW)
 
-R2 Lasso = 
-R2 SVR =
-R2 XGBoost = 
+R2 Lasso = 0.5409
+R2 SVR = 0.5429
+R2 XGBoost = 0.6195
