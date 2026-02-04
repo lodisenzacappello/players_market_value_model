@@ -9,7 +9,20 @@ Nonostante questo nuovo approccio allo sport, l’utilizzo dei dati nel mondo de
 Nel progetto vado a modellare i valori di mercato di Transfermarkt tramite 214 variabili di campo.
 Lo scopo è individuare un modello efficace nel prevedere il valore di mercato di un calciatore e definire quali variabili influenzano maggiormente il vdm per i diversi ruoli.
 
-Il dataset in analisi è composto da XXXX calciatori che hanno giocato in Serie A tra la stagione 2018-2019 e la stagione 2024-2025. 
+#---------------------------------------------------------------------------------------------------------------
+
+I dataset in analisi sono composti dai giocatori che hanno giocato in Serie A tra la stagione 2018-2019 e la stagione 2024-2025. 
+Di seguito riporto la numerosità dei dataset di tutti i giocatori che hanno giocato in ogni stagione di Serie A in esame (senza partizione in ruoli).
+Le statistiche di campo provengono da FBRef (provider Opta) mentre i valori di mercato provengono da TransferMarkt.
+
+	df_final1819 num= 413 giocatori
+	df_final1920 num= 438 giocatori
+	df_final2021 num= 436 giocatori
+	df_final2122 num= 445 giocatori
+	df_final2223 num= 441 giocatori
+	df_final2324 num= 446 giocatori
+	df_final2425 num= 451 giocatori
+
 Le statistiche di campo provengono da FBRef (provider Opta) mentre i valori di mercato provengono da TransferMarkt.
 
 #---------------------------------------------------------------------------------------------------------------
