@@ -23,8 +23,6 @@ Le statistiche di campo provengono da FBRef (provider Opta) mentre i valori di m
 	df_final2324 num= 446 giocatori
 	df_final2425 num= 451 giocatori
 
-Le statistiche di campo provengono da FBRef (provider Opta) mentre i valori di mercato provengono da TransferMarkt.
-
 #---------------------------------------------------------------------------------------------------------------
 
 
