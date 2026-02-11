@@ -1,4 +1,4 @@
-MODELLAZIONE DEI VALORI DI MERCATO DEI CALCIATORI DI SERIE A
+MODELLAZIONE DEI VALORI DI MERCATO DEI CALCIATORI DI SERIE A TRAMITE MACHINE LEARNING
 
 Nel mondo del calcio moderno sta iniziando lentamente una rivoluzione basata sui numeri. 
 Ispirandosi al modello “Moneyball”, reso famoso al grande pubblico dal film con Brad Pitt nel 2011, sempre più squadre europee hanno capito l’importanza dell’utilizzo dei dati per prendere decisioni informate e guadagnare un vantaggio competitivo rispetto alle dirette concorrenti. 
