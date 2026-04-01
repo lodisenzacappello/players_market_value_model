@@ -1001,7 +1001,6 @@ vdm_2122 = scrape_transfermarkt_squads(market_values_2122, "2021-2022", driver_p
 vdm_2223 = scrape_transfermarkt_squads(market_values_2223, "2022-2023", driver_path)
 vdm_2324 = scrape_transfermarkt_squads(market_values_2324, "2023-2024", driver_path)
 vdm_2425 = scrape_transfermarkt_squads(market_values_2425, "2024-2025", driver_path)
-
 #-------------------------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------------------------
@@ -1014,7 +1013,6 @@ vdm_2425 = scrape_transfermarkt_squads(market_values_2425, "2024-2025", driver_p
 #    - i giocatori con piede preferito vuoto
 #    - le colonne non necessarie ovvero 'number' (numero di maglia), 'current_club', 'joined_date', 'signing_fee', 'signed_from'
 #    - elimino i doppioni se coincidono 'player','date of birth' e 'height'   
-
 #-------------------------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------------------------
@@ -1272,7 +1270,6 @@ def recalculate_composite_metrics(df):
         df["miscontrols_per90"] = safe_div(df["miscontrols"], df["90s"]); recalculated_vars.append("miscontrols_per90")
         df["ball_recoveries_per90"] = safe_div(df["ball_recoveries"], df["90s"]); recalculated_vars.append("ball_recoveries_per90")
         df["dispossessed_per90"] = safe_div(df["dispossessed"], df["90s"]); recalculated_vars.append("dispossessed_per90")    
-        df["miscontrols_per90"] = safe_div(df["miscontrols"], df["90s"]); recalculated_vars.append("miscontrols_per90")
         df["offsides_per90"] = safe_div(df["offsides"], df["90s"]); recalculated_vars.append("offsides_per90")        
 
         df["PK_con_per90"] = safe_div(df["PK_con"], df["90s"]); recalculated_vars.append("PK_con_per90")
@@ -1306,7 +1303,7 @@ def recalculate_composite_metrics(df):
         df["tackles_def_3rd_per90"] = safe_div(df["tackles_def_3rd"], df["90s"]); recalculated_vars.append("tackles_def_3rd_per90")
         df["tackles_won_per90"] = safe_div(df["tackles_won"], df["90s"]); recalculated_vars.append("tackles_won_per90")
         df["tackles_won%"] = safe_div(df["tackles_won"], df["tackles"]); recalculated_vars.append("tackles_won%")
-        df["def_actions_per90"] = safe_div(df["def_actions"], df["90s"]); recalculated_vars.append("def_actions_per90%")
+        df["def_actions_per90"] = safe_div(df["def_actions"], df["90s"]); recalculated_vars.append("def_actions_per90")
         
         df["crosses_per90"] = safe_div(df["crosses"], df["90s"]); recalculated_vars.append("crosses_per90")
         df["cross_into_PA_per90"] = safe_div(df["cross_into_PA"], df["90s"]); recalculated_vars.append("cross_into_PA_per90")
@@ -1887,22 +1884,22 @@ graph5 = sns.pairplot(data=df_df_1824, y_vars=['value'],x_vars=["carries_into_at
 #parte centrale del campo abbiano vdm più alti. Questo può essere influenzato dal fatto che squadre forti tendono a giocare con la difesa alta
 #schiacciando l'avversario nella metà campo avversaria
 
-graph5 = sns.pairplot(data=df_df_1824, y_vars=['value'],x_vars=["crosses_per90", "cross_into_PA_per90", "carries_into_att_3rd_per90"], height = 4)
+graph6 = sns.pairplot(data=df_df_1824, y_vars=['value'],x_vars=["crosses_per90", "cross_into_PA_per90", "carries_into_att_3rd_per90"], height = 4)
 #non si vedono relazioni con i vdm
 
-graph6 = sns.pairplot(data=df_df_1824, y_vars=['value'],x_vars=["SCA_per90", "GCA_per90", "%dribblers_tackled"], height = 4)
+graph7 = sns.pairplot(data=df_df_1824, y_vars=['value'],x_vars=["SCA_per90", "GCA_per90", "%dribblers_tackled"], height = 4)
 #SCA e %dribblers_tackled hanno una debole relazione con il vdm
 
-graph7 = sns.pairplot(data=df_df_1824, y_vars=['value'],x_vars=["ball_recoveries_per90", "errors_leading_shot_per90", "dispossessed_per90"], height = 4)
+graph8 = sns.pairplot(data=df_df_1824, y_vars=['value'],x_vars=["ball_recoveries_per90", "errors_leading_shot_per90", "dispossessed_per90"], height = 4)
 #tutte e tre sembrano avere relazione con il vdm
 
-graph8 = sns.pairplot(data=df_df_1824, y_vars=['value'],x_vars=["pass_cmp%", "short_pass_cmp%", "med_pass_cmp%", "long_pass_cmp%"], height = 4)
+graph9 = sns.pairplot(data=df_df_1824, y_vars=['value'],x_vars=["pass_cmp%", "short_pass_cmp%", "med_pass_cmp%", "long_pass_cmp%"], height = 4)
 #tutte le var sembrano avere forte relazione con il vdm
 
-graph9 = sns.pairplot(data=df_df_1824, y_vars=['value'],x_vars=["tackles_won_per90", "tackles_won%", "tackles_def_3rd_per90","tackle_mid_3rd_per90"], height = 4)
+graph10 = sns.pairplot(data=df_df_1824, y_vars=['value'],x_vars=["tackles_won_per90", "tackles_won%", "tackles_def_3rd_per90","tackle_mid_3rd_per90"], height = 4)
 #non si vedono relazioni con i vdm
 
-graph10 = sns.pairplot(data=df_df_1824, y_vars=['value'],x_vars=["def_actions", "def_actions_per90"], height = 4)
+graph11 = sns.pairplot(data=df_df_1824, y_vars=['value'],x_vars=["def_actions", "def_actions_per90"], height = 4)
 
 
 #VARIABILI CATEGORICHE
@@ -1966,11 +1963,12 @@ numeric_cols = df_df_1824.select_dtypes(include=np.number).columns.tolist() #COR
 #-------------------------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------------------------
-#FASE 10.1.1 - LASSO PORTIERI
+# FASE 10.1.1 - LASSO PORTIERI
 #-------------------------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------------------------
-#-------------------------------------------------------------------------------------------------------
-#-------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------
+# 1. Preparazione Dati
 y_column= "value"
 all_features = [col for col in numeric_cols if col != "value" and col != "random" and col!="Born"]
 
@@ -1979,82 +1977,65 @@ y_train_gk = df_gk_1824[y_column]
 x_test_gk = df_gk_2425[all_features]
 y_test_gk = df_gk_2425[y_column]
 
+# Scala la Y (target) per uniformità con SVR e XGBoost
+y_scaler_gk_lasso = StandardScaler()
+y_train_scaled_gk_lasso = y_scaler_gk_lasso.fit_transform(y_train_gk.values.reshape(-1, 1)).ravel()
+
 #Momento di inizio del modello
 start_time_gk_lasso = time.time()
 
-try:
-    age_index = all_features.index('age')
-except ValueError:
-    print("ERRORE: La colonna 'age' non è presente nelle tue features filtrate.")
+# 2. Definizione Pipeline
+# set_output necessario affinché il ColumnTransformer riceva un DataFrame con nomi colonne
+imputer_step = SimpleImputer(strategy='constant', fill_value=0).set_output(transform="pandas")
 
-age_column_index = [age_index]
-other_columns_indices = [i for i, col in enumerate(all_features) if col != 'age']
-
-# Definisci il trasformatore
 feature_transformer = ColumnTransformer(
     transformers=[
-        ('age_poly', PolynomialFeatures(degree=2, include_bias=False), age_column_index)
+        ('poly', PolynomialFeatures(degree=2, include_bias=False), ['age'])
     ],
     remainder='passthrough'
 )
 
 pipeline = Pipeline([
-    ('imputer', SimpleImputer(strategy='constant', fill_value=0)), #RIDONDANTE
+    ('imputer', imputer_step),
     ('transformer', feature_transformer),
     ('scaler', StandardScaler()),
-    ('lasso', Lasso(random_state=42, max_iter=10000)) # Il nostro modello da ottimizzare
+    ('lasso', Lasso(random_state=42, max_iter=10000))
 ])
 
-#???????????????????????????????????????????????????????????????????????????????????????
-#FAI UN CHECK SU QUESTA GRIDSEARCH
-#???????????????????????????????????????????????????????????????????????????????????????
-#SELEZIONE AUTOMATICA (GridSearchCV)??????????
-#L'idea è semplice: useremo l'ultima stagione del training set (2023-2024) come "set di validazione".
-#Training per GridSearch: Dati 2018-2023
-#Validazione per GridSearch: Dati 2023-2024
-#In questo modo, GridSearchCV sarà costretto a scegliere l'alpha che meglio prevede la stagione successiva, 
-#che è esattamente il mio obiettivo.
-x_train_gk_with_season = df_gk_1824[all_features + ['Season']]
-
-# Identifica l'ultima stagione nel set di training
-last_season = x_train_gk_with_season['Season'].max() # '2023/2024'
-
-print(f"Creazione split di validazione: validazione su stagione {last_season}")
-validation_fold = np.where(x_train_gk_with_season['Season'] == last_season, 0, -1)
-
-# Crea lo splitter
-tscv = TimeSeriesSplit(n_splits=5) 
+#SELEZIONE AUTOMATICA (GridSearchCV)
+tscv = TimeSeriesSplit(n_splits=5)
 
 param_grid = {
-    'lasso__alpha': np.logspace(5, 8, 1000) #100 valori di alpha tra 10^5 e 10^7
+    'lasso__alpha': np.logspace(-3, 2, 100)  # 100 valori da 0.001 a 100 (Y standardizzata)
 }
 
 print("Avvio della Grid Search per trovare l'alpha ottimale di Lasso...")
 grid_search_gk = GridSearchCV(
     pipeline, 
     param_grid, 
-    cv= tscv, #predefined split
+    cv=tscv,
     scoring='neg_mean_absolute_error', 
-    n_jobs=-1, # Usa tutti i processori
-    verbose=1  # Mostra i progressi
+    n_jobs=-1,
+    verbose=1  
 )
 
-# Avvia l'addestramento e la ricerca
-grid_search_gk.fit(x_train_gk, y_train_gk)
+# Avvio l'addestramento e la ricerca
+grid_search_gk.fit(x_train_gk, y_train_scaled_gk_lasso)
 
-#4 RISULTATI DELLA SELEZIONE 
+#RISULTATI DELLA SELEZIONE
 print("\n--- Risultati Grid Search ---")
 best_alpha_gk = grid_search_gk.best_params_['lasso__alpha']
 print(f"Alpha ottimale trovato: {best_alpha_gk:.6f}")
-print(f"Miglior MAE in Cross-Validation: {-grid_search_gk.best_score_:.2f}")
+print(f"Miglior MAE Scalato in Cross-Validation: {-grid_search_gk.best_score_:.4f} (Y standardizzata)")
 
-other_columns_names = [col for col in all_features if col != 'age']
+best_model_gk = grid_search_gk.best_estimator_
 
-best_model_gk = grid_search_gk.best_estimator_ #'best_model' = modello finale con alpha migliore
+#VALUTAZIONE FINALE SUL TEST SET
+y_pred_train_scaled_gk_lasso = best_model_gk.predict(x_train_gk)
+y_pred_test_scaled_gk_lasso = best_model_gk.predict(x_test_gk)
 
-#VALUTAZIONE FINALE SUL TEST SET ---
-y_pred_train_gk = best_model_gk.predict(x_train_gk)
-y_pred_test_gk = best_model_gk.predict(x_test_gk)
+y_pred_train_gk = y_scaler_gk_lasso.inverse_transform(y_pred_train_scaled_gk_lasso.reshape(-1, 1)).ravel()
+y_pred_test_gk = y_scaler_gk_lasso.inverse_transform(y_pred_test_scaled_gk_lasso.reshape(-1, 1)).ravel()
 
 mae_test_gk_lasso = mean_absolute_error(y_test_gk, y_pred_test_gk)
 mae_train_gk_lasso = mean_absolute_error(y_train_gk, y_pred_train_gk)
@@ -2067,16 +2048,14 @@ print(f"MAE sul set di TEST: {mae_test_gk_lasso:.2f}")
 print(f"R2 Score sul set di TRAINING: {r2_train_gk_lasso:.4f}")
 print(f"R2 Score sul set di TEST: {r2_test_gk_lasso:.4f}")
 
-#ANALISI DEI COEFFICIENTI 
-# Ricrea l'elenco dei nomi delle feature nell'ordine corretto
-other_columns_names = [col for col in all_features if col != 'age']
-feature_names_transformed = ['age', 'age^2'] + other_columns_names
+#ANALISI DEI COEFFICIENTI
+transformer_step = best_model_gk.named_steps['transformer']
+feature_names_out = transformer_step.get_feature_names_out()
 
-# Estrai i coefficienti dal modello ottimale
 lasso_regressor_gk = best_model_gk.named_steps['lasso']
-lasso_coef_gk = pd.Series(lasso_regressor_gk.coef_, index=feature_names_transformed)
+lasso_coef_gk = pd.Series(lasso_regressor_gk.coef_, index=feature_names_out)
+lasso_coef_gk.index = lasso_coef_gk.index.str.replace('remainder__', '').str.replace('poly__', '')
 
-# Filtra quelle azzerate
 zero_features_gk = lasso_coef_gk[np.abs(lasso_coef_gk) < 1e-6]
 relevant_features_gk = lasso_coef_gk[np.abs(lasso_coef_gk) >= 1e-6]
 
@@ -2086,13 +2065,12 @@ print(f"Feature eliminate da Lasso (coefficiente ≈ 0): {len(zero_features_gk)}
 print(f"Feature mantenute (significative): {len(relevant_features_gk)}")
 
 print("\nFeature più importanti (coefficienti più alti):")
-print(relevant_features_gk.abs().sort_values(ascending=False).head(25))
+print(relevant_features_gk.abs().sort_values(ascending=False).head(20))
 
 #Momento di fine del modello
 end_time_gk_lasso = time.time()
 execution_time_gk_lasso = end_time_gk_lasso - start_time_gk_lasso
 print(f"--- Tempo di esecuzione Modello LASSO sui Portieri: {execution_time_gk_lasso:.2f} secondi ---")
-
 # =============================================================================
 # MODELLO DI CONTROLLO PORTIERI: REGRESSIONE LINEARE SEMPLICE CON VARIABILE RANDOM
 # =============================================================================
@@ -2145,6 +2123,7 @@ print(f"R2 Test:  {r2_test_gk_lasso_ctrl:.4f}")
 #-------------------------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------------------------
+# 1. Preparazione Dati
 y_column= "value"
 all_features = [col for col in numeric_cols if col != "value" and col != "random" and col!="Born"]
 
@@ -2153,80 +2132,65 @@ y_train_df = df_df_1824[y_column]
 x_test_df = df_df_2425[all_features]
 y_test_df = df_df_2425[y_column]
 
+# Scala la Y (target) per uniformità con SVR e XGBoost
+y_scaler_df_lasso = StandardScaler()
+y_train_scaled_df_lasso = y_scaler_df_lasso.fit_transform(y_train_df.values.reshape(-1, 1)).ravel()
+
 #Momento di inizio del modello
 start_time_df_lasso = time.time()
 
-try:
-    age_index = all_features.index('age')
-except ValueError:
-    print("ERRORE: La colonna 'age' non è presente nelle tue features filtrate.")
-    # Interrompi o gestisci l'errore qui
+# 2. Definizione Pipeline
+# set_output necessario affinché il ColumnTransformer riceva un DataFrame con nomi colonne
+imputer_step = SimpleImputer(strategy='constant', fill_value=0).set_output(transform="pandas")
 
-age_column_index = [age_index]
-other_columns_indices = [i for i, col in enumerate(all_features) if col != 'age']
-
-# Definisco il trasformatore
 feature_transformer = ColumnTransformer(
     transformers=[
-        ('age_poly', PolynomialFeatures(degree=2, include_bias=False), age_column_index)
+        ('poly', PolynomialFeatures(degree=2, include_bias=False), ['age'])
     ],
     remainder='passthrough'
 )
 
 pipeline = Pipeline([
-    ('imputer', SimpleImputer(strategy='constant', fill_value=0)), #RIDONDANTE
+    ('imputer', imputer_step),
     ('transformer', feature_transformer),
     ('scaler', StandardScaler()),
-    ('lasso', Lasso(random_state=42, max_iter=10000)) # Il nostro modello da ottimizzare
+    ('lasso', Lasso(random_state=42, max_iter=10000))
 ])
 
-#SELEZIONE AUTOMATICA (GridSearchCV) ---
-x_train_df_with_season = df_df_1824[all_features + ['Season']]
-
-# Identifica l'ultima stagione nel set di training
-last_season = x_train_df_with_season['Season'].max() # '2023/2024'
-
-print(f"Creazione split di validazione: validazione su stagione {last_season}")
-# Creo l'array per PredefinedSplit
-# -1 significa "usa questa riga per l'addestramento"
-#  0 significa "usa questa riga per la validazione (test_fold)"
-validation_fold = np.where(x_train_df_with_season['Season'] == last_season, 0, -1)
-
-# Creo lo splitter
-tscv = TimeSeriesSplit(n_splits=5) 
+#SELEZIONE AUTOMATICA (GridSearchCV)
+tscv = TimeSeriesSplit(n_splits=5)
 
 param_grid = {
-    'lasso__alpha': np.logspace(5, 8, 1000) #100 valori di alpha tra 10^5 e 10^7
+    'lasso__alpha': np.logspace(-3, 2, 100)  # 100 valori da 0.001 a 100 (Y standardizzata)
 }
 
 print("Avvio della Grid Search per trovare l'alpha ottimale di Lasso...")
-# Usiamo 'neg_mean_absolute_error' perché GridSearchCV cerca di massimizzare
-# (massimizzare un MAE negativo = minimizzare il MAE)
 grid_search_df = GridSearchCV(
     pipeline, 
     param_grid, 
-    cv= tscv, #predefined split
+    cv=tscv,
     scoring='neg_mean_absolute_error', 
-    n_jobs=-1, # Usa tutti i processori
-    verbose=1  # Mostra i progressi
+    n_jobs=-1,
+    verbose=1
 )
 
-# Avvia l'addestramento e la ricerca
-grid_search_df.fit(x_train_df, y_train_df)
+# Avvio l'addestramento e la ricerca
+grid_search_df.fit(x_train_df, y_train_scaled_df_lasso)
 
 #RISULTATI DELLA SELEZIONE
 print("\n--- Risultati Grid Search ---")
 best_alpha_df = grid_search_df.best_params_['lasso__alpha']
 print(f"Alpha ottimale trovato: {best_alpha_df:.6f}")
-print(f"Miglior MAE in Cross-Validation: {-grid_search_df.best_score_:.2f}")
+print(f"Miglior MAE Scalato in Cross-Validation: {-grid_search_df.best_score_:.4f} (Y standardizzata)")
 
-other_columns_names = [col for col in all_features if col != 'age']
-
-best_model_df = grid_search_df.best_estimator_ #'best_model' = modello finale con alpha migliore
+best_model_df = grid_search_df.best_estimator_
 
 #VALUTAZIONE FINALE SUL TEST SET
-y_pred_train_df = best_model_df.predict(x_train_df)
-y_pred_test_df = best_model_df.predict(x_test_df)
+y_pred_train_scaled_df_lasso = best_model_df.predict(x_train_df)
+y_pred_test_scaled_df_lasso = best_model_df.predict(x_test_df)
+
+y_pred_train_df = y_scaler_df_lasso.inverse_transform(y_pred_train_scaled_df_lasso.reshape(-1, 1)).ravel()
+y_pred_test_df = y_scaler_df_lasso.inverse_transform(y_pred_test_scaled_df_lasso.reshape(-1, 1)).ravel()
 
 mae_test_df_lasso = mean_absolute_error(y_test_df, y_pred_test_df)
 mae_train_df_lasso = mean_absolute_error(y_train_df, y_pred_train_df)
@@ -2239,16 +2203,14 @@ print(f"MAE sul set di TEST: {mae_test_df_lasso:.2f}")
 print(f"R2 Score sul set di TRAINING: {r2_train_df_lasso:.4f}")
 print(f"R2 Score sul set di TEST: {r2_test_df_lasso:.4f}")
 
-#ANALISI DEI COEFFICIENTI 
-# Ricrea l'elenco dei nomi delle feature nell'ordine corretto
-other_columns_names = [col for col in all_features if col != 'age']
-feature_names_transformed = ['age', 'age^2'] + other_columns_names
+#ANALISI DEI COEFFICIENTI
+transformer_step = best_model_df.named_steps['transformer']
+feature_names_out = transformer_step.get_feature_names_out()
 
-# Estrai i coefficienti dal modello ottimale
 lasso_regressor_df = best_model_df.named_steps['lasso']
-lasso_coef_df = pd.Series(lasso_regressor_df.coef_, index=feature_names_transformed)
+lasso_coef_df = pd.Series(lasso_regressor_df.coef_, index=feature_names_out)
+lasso_coef_df.index = lasso_coef_df.index.str.replace('remainder__', '').str.replace('poly__', '')
 
-# Filtra quelle azzerate
 zero_features_df = lasso_coef_df[np.abs(lasso_coef_df) < 1e-6]
 relevant_features_df = lasso_coef_df[np.abs(lasso_coef_df) >= 1e-6]
 
@@ -2258,13 +2220,12 @@ print(f"Feature eliminate da Lasso (coefficiente ≈ 0): {len(zero_features_df)}
 print(f"Feature mantenute (significative): {len(relevant_features_df)}")
 
 print("\nFeature più importanti (coefficienti più alti):")
-print(relevant_features_df.abs().sort_values(ascending=False).head(15))
+print(relevant_features_df.abs().sort_values(ascending=False).head(20))
 
 #Momento di fine del modello
 end_time_df_lasso = time.time()
 execution_time_df_lasso = end_time_df_lasso - start_time_df_lasso
 print(f"--- Tempo di esecuzione Modello LASSO sui Difensori: {execution_time_df_lasso:.2f} secondi ---")
-
 # =============================================================================
 # MODELLO DI CONTROLLO DIFENSORI: REGRESSIONE LINEARE SEMPLICE CON VARIABILE RANDOM
 # =============================================================================
@@ -2308,6 +2269,7 @@ print(f"MAE Test: {mae_test_df_lasso_ctrl:.2f} M€")
 print(f"MAE Train: {mae_train_df_lasso_ctrl:.2f} M€")
 print(f"R2 Train: {r2_train_df_lasso_ctrl:.4f}")
 print(f"R2 Test:  {r2_test_df_lasso_ctrl:.4f}")
+
 #-------------------------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------------------------
@@ -2319,6 +2281,7 @@ print(f"R2 Test:  {r2_test_df_lasso_ctrl:.4f}")
 #-------------------------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------------------------
+# 1. Preparazione Dati
 y_column= "value"
 all_features = [col for col in numeric_cols if col != "value" and col != "random" and col!="Born"]
 
@@ -2327,74 +2290,65 @@ y_train_wb = df_wb_1824[y_column]
 x_test_wb = df_wb_2425[all_features]
 y_test_wb = df_wb_2425[y_column]
 
+# Scala la Y (target) per uniformità con SVR e XGBoost
+y_scaler_wb_lasso = StandardScaler()
+y_train_scaled_wb_lasso = y_scaler_wb_lasso.fit_transform(y_train_wb.values.reshape(-1, 1)).ravel()
+
 #Momento di inizio del modello
 start_time_wb_lasso = time.time()
 
-try:
-    age_index = all_features.index('age')
-except ValueError:
-    print("ERRORE: La colonna 'age' non è presente nelle tue features filtrate.")
+# 2. Definizione Pipeline
+# set_output necessario affinché il ColumnTransformer riceva un DataFrame con nomi colonne
+imputer_step = SimpleImputer(strategy='constant', fill_value=0).set_output(transform="pandas")
 
-age_column_index = [age_index]
-other_columns_indices = [i for i, col in enumerate(all_features) if col != 'age']
-
-# Definisci il trasformatore
 feature_transformer = ColumnTransformer(
     transformers=[
-        ('age_poly', PolynomialFeatures(degree=2, include_bias=False), age_column_index)
+        ('poly', PolynomialFeatures(degree=2, include_bias=False), ['age'])
     ],
     remainder='passthrough'
 )
 
 pipeline = Pipeline([
-    ('imputer', SimpleImputer(strategy='constant', fill_value=0)), #RIDONDANTE
+    ('imputer', imputer_step),
     ('transformer', feature_transformer),
     ('scaler', StandardScaler()),
-    ('lasso', Lasso(random_state=42, max_iter=10000)) # Il nostro modello da ottimizzare
+    ('lasso', Lasso(random_state=42, max_iter=10000))
 ])
 
-#SELEZIONE AUTOMATICA (GridSearchCV) ---
-x_train_wb_with_season = df_wb_1824[all_features + ['Season']]
-
-# Identifica l'ultima stagione nel set di training
-last_season = x_train_wb_with_season['Season'].max() # '2023/2024'
-
-print(f"Creazione split di validazione: validazione su stagione {last_season}")
-validation_fold = np.where(x_train_wb_with_season['Season'] == last_season, 0, -1)
-
-# Crea lo splitter
-tscv = TimeSeriesSplit(n_splits=5) 
+#SELEZIONE AUTOMATICA (GridSearchCV)
+tscv = TimeSeriesSplit(n_splits=5)
 
 param_grid = {
-    'lasso__alpha': np.logspace(5, 8, 1000) #100 valori di alpha tra 10^5 e 10^7
+    'lasso__alpha': np.logspace(-3, 2, 100)  # 100 valori da 0.001 a 100 (Y standardizzata)
 }
 
 print("Avvio della Grid Search per trovare l'alpha ottimale di Lasso...")
 grid_search_wb = GridSearchCV(
-    pipeline, 
-    param_grid, 
-    cv= tscv, #predefined split
-    scoring='neg_mean_absolute_error', 
-    n_jobs=-1, # Usa tutti i processori
-    verbose=1  # Mostra i progressi
+    pipeline,
+    param_grid,
+    cv=tscv,
+    scoring='neg_mean_absolute_error',
+    n_jobs=-1,
+    verbose=1
 )
 
-# Avvia l'addestramento e la ricerca
-grid_search_wb.fit(x_train_wb, y_train_wb)
+# Avvio l'addestramento e la ricerca
+grid_search_wb.fit(x_train_wb, y_train_scaled_wb_lasso)
 
 #RISULTATI DELLA SELEZIONE
 print("\n--- Risultati Grid Search ---")
 best_alpha_wb = grid_search_wb.best_params_['lasso__alpha']
 print(f"Alpha ottimale trovato: {best_alpha_wb:.6f}")
-print(f"Miglior MAE in Cross-Validation: {-grid_search_wb.best_score_:.2f}")
+print(f"Miglior MAE Scalato in Cross-Validation: {-grid_search_wb.best_score_:.4f} (Y standardizzata)")
 
-other_columns_names = [col for col in all_features if col != 'age']
-
-best_model_wb = grid_search_wb.best_estimator_ #'best_model' = modello finale con alpha migliore
+best_model_wb = grid_search_wb.best_estimator_
 
 #VALUTAZIONE FINALE SUL TEST SET
-y_pred_train_wb = best_model_wb.predict(x_train_wb)
-y_pred_test_wb = best_model_wb.predict(x_test_wb)
+y_pred_train_scaled_wb_lasso = best_model_wb.predict(x_train_wb)
+y_pred_test_scaled_wb_lasso = best_model_wb.predict(x_test_wb)
+
+y_pred_train_wb = y_scaler_wb_lasso.inverse_transform(y_pred_train_scaled_wb_lasso.reshape(-1, 1)).ravel()
+y_pred_test_wb = y_scaler_wb_lasso.inverse_transform(y_pred_test_scaled_wb_lasso.reshape(-1, 1)).ravel()
 
 mae_test_wb_lasso = mean_absolute_error(y_test_wb, y_pred_test_wb)
 mae_train_wb_lasso = mean_absolute_error(y_train_wb, y_pred_train_wb)
@@ -2407,16 +2361,14 @@ print(f"MAE sul set di TEST: {mae_test_wb_lasso:.2f}")
 print(f"R2 Score sul set di TRAINING: {r2_train_wb_lasso:.4f}")
 print(f"R2 Score sul set di TEST: {r2_test_wb_lasso:.4f}")
 
-#ANALISI DEI COEFFICIENTI 
-# Ricrea l'elenco dei nomi delle feature nell'ordine corretto
-other_columns_names = [col for col in all_features if col != 'age']
-feature_names_transformed = ['age', 'age^2'] + other_columns_names
+#ANALISI DEI COEFFICIENTI
+transformer_step = best_model_wb.named_steps['transformer']
+feature_names_out = transformer_step.get_feature_names_out()
 
-# Estraggo i coefficienti dal modello ottimale
 lasso_regressor_wb = best_model_wb.named_steps['lasso']
-lasso_coef_wb = pd.Series(lasso_regressor_wb.coef_, index=feature_names_transformed)
+lasso_coef_wb = pd.Series(lasso_regressor_wb.coef_, index=feature_names_out)
+lasso_coef_wb.index = lasso_coef_wb.index.str.replace('remainder__', '').str.replace('poly__', '')
 
-# Filtro variabili azzerate
 zero_features_wb = lasso_coef_wb[np.abs(lasso_coef_wb) < 1e-6]
 relevant_features_wb = lasso_coef_wb[np.abs(lasso_coef_wb) >= 1e-6]
 
@@ -2432,58 +2384,6 @@ print(relevant_features_wb.abs().sort_values(ascending=False).head(20))
 end_time_wb_lasso = time.time()
 execution_time_wb_lasso = end_time_wb_lasso - start_time_wb_lasso
 print(f"--- Tempo di esecuzione Modello LASSO sui Wingback: {execution_time_wb_lasso:.2f} secondi ---")
-#-------------------------------------------------------------------------------------------------------
-#MODELLO DI CONTROLLO LASSO WINGBACK(USO REGRESSIONE LINEARE)
-#-------------------------------------------------------------------------------------------------------
-feature_control = ["random"]
-y_column = "value"
-
-x_train_wb = df_wb_1824[feature_control]
-y_train_wb = df_wb_1824[y_column]
-x_test_wb = df_wb_2425[feature_control]
-y_test_wb = df_wb_2425[y_column]
-
-x_train_with_season = df_wb_1824[feature_control + ['Season']]
-tscv = TimeSeriesSplit(n_splits=5) 
-
-pipeline_control_wb = Pipeline([
-    ('scaler', StandardScaler()),
-    ('lasso', Lasso(random_state=42, max_iter=10000)) 
-])
-
-param_grid = {
-    'lasso__alpha': np.logspace(5, 7, 20) 
-}
-
-grid_search_wb_ctrl = GridSearchCV(
-    pipeline_control_wb, 
-    param_grid, 
-    cv=tscv, 
-    scoring='neg_mean_absolute_error', 
-    n_jobs=-1, 
-    verbose=1 
-)
-
-grid_search_wb_ctrl.fit(x_train_wb, y_train_wb)
-
-#VALUTAZIONE
-best_model_wb_ctrl = grid_search_wb_ctrl.best_estimator_
-
-y_pred_train_wb_ctrl = best_model_wb_ctrl.predict(x_train_wb)
-y_pred_test_wb_ctrl = best_model_wb_ctrl.predict(x_test_wb)
-
-r2_test_wb_lasso_ctrl = r2_score(y_test_wb, y_pred_test_wb_ctrl)
-r2_train_wb_lasso_ctrl = r2_score(y_train_wb, y_pred_train_wb_ctrl)
-mae_train_wb_lasso_ctrl = mean_absolute_error(y_train_wb, y_pred_train_wb_ctrl)
-mae_test_wb_lasso_ctrl = mean_absolute_error(y_test_wb, y_pred_test_wb_ctrl)
-
-print("RISULTATI MODELLO DI CONTROLLO (RANDOM) - WINGBACK")
-print(f"Alpha ottimale scelto: {grid_search_wb_ctrl.best_params_['lasso__alpha']:.2f}")
-print(f"MAE Train: {mae_train_wb_lasso_ctrl:.2f}")
-print(f"MAE Test: {mae_test_wb_lasso_ctrl:.2f}")
-print(f"R2 Train:  {r2_train_wb_lasso_ctrl:.4f}")
-print(f"R2 Test:  {r2_test_wb_lasso_ctrl:.4f}")
-
 # =============================================================================
 # MODELLO DI CONTROLLO WINGBACK: REGRESSIONE LINEARE SEMPLICE CON VARIABILE RANDOM
 # =============================================================================
@@ -2538,6 +2438,7 @@ print(f"R2 Test:  {r2_test_wb_lasso_ctrl:.4f}")
 #-------------------------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------------------------
+# 1. Preparazione Dati
 y_column= "value"
 all_features = [col for col in numeric_cols if col != "value" and col != "random" and col!="Born"]
 
@@ -2546,74 +2447,65 @@ y_train_mf = df_mf_1824[y_column]
 x_test_mf = df_mf_2425[all_features]
 y_test_mf = df_mf_2425[y_column]
 
+# Scala la Y (target) per uniformità con SVR e XGBoost
+y_scaler_mf_lasso = StandardScaler()
+y_train_scaled_mf_lasso = y_scaler_mf_lasso.fit_transform(y_train_mf.values.reshape(-1, 1)).ravel()
+
 #Momento di inizio del modello
 start_time_mf_lasso = time.time()
 
-try:
-    age_index = all_features.index('age')
-except ValueError:
-    print("ERRORE: La colonna 'age' non è presente nelle tue features filtrate.")
+# 2. Definizione Pipeline
+# set_output necessario affinché il ColumnTransformer riceva un DataFrame con nomi colonne
+imputer_step = SimpleImputer(strategy='constant', fill_value=0).set_output(transform="pandas")
 
-age_column_index = [age_index]
-other_columns_indices = [i for i, col in enumerate(all_features) if col != 'age']
-
-# Definisci il trasformatore
 feature_transformer = ColumnTransformer(
     transformers=[
-        ('age_poly', PolynomialFeatures(degree=2, include_bias=False), age_column_index)
+        ('poly', PolynomialFeatures(degree=2, include_bias=False), ['age'])
     ],
     remainder='passthrough'
 )
 
 pipeline = Pipeline([
-    ('imputer', SimpleImputer(strategy='constant', fill_value=0)), #RIDONDANTE
+    ('imputer', imputer_step),
     ('transformer', feature_transformer),
     ('scaler', StandardScaler()),
-    ('lasso', Lasso(random_state=42, max_iter=10000)) # Il nostro modello da ottimizzare
+    ('lasso', Lasso(random_state=42, max_iter=10000))
 ])
 
 #SELEZIONE AUTOMATICA (GridSearchCV)
-x_train_mf_with_season = df_mf_1824[all_features + ['Season']]
-
-# Identifico l'ultima stagione nel set di training
-last_season = x_train_mf_with_season['Season'].max() # '2023/2024'
-
-print(f"Creazione split di validazione: validazione su stagione {last_season}")
-validation_fold = np.where(x_train_mf_with_season['Season'] == last_season, 0, -1)
-
-# Creo lo splitter
-tscv = TimeSeriesSplit(n_splits=5) 
+tscv = TimeSeriesSplit(n_splits=5)
 
 param_grid = {
-    'lasso__alpha': np.logspace(5, 8, 1000) #1000 valori di alpha tra 10^5 e 10^8
+    'lasso__alpha': np.logspace(-3, 2, 100)  # 100 valori da 0.001 a 100 (Y standardizzata)
 }
 
 print("Avvio della Grid Search per trovare l'alpha ottimale di Lasso...")
 grid_search_mf = GridSearchCV(
-    pipeline, 
-    param_grid, 
-    cv= tscv, #predefined split
-    scoring='neg_mean_absolute_error', 
-    n_jobs=-1, # Usa tutti i processori
-    verbose=1  # Mostra i progressi
+    pipeline,
+    param_grid,
+    cv=tscv,
+    scoring='neg_mean_absolute_error',
+    n_jobs=-1,
+    verbose=1
 )
 
 # Avvio l'addestramento e la ricerca
-grid_search_mf.fit(x_train_mf, y_train_mf)
+grid_search_mf.fit(x_train_mf, y_train_scaled_mf_lasso)
 
 #RISULTATI DELLA SELEZIONE
 print("\n--- Risultati Grid Search ---")
 best_alpha_mf = grid_search_mf.best_params_['lasso__alpha']
 print(f"Alpha ottimale trovato: {best_alpha_mf:.6f}")
-print(f"Miglior MAE in Cross-Validation: {-grid_search_mf.best_score_:.2f}")
+print(f"Miglior MAE Scalato in Cross-Validation: {-grid_search_mf.best_score_:.4f} (Y standardizzata)")
 
-other_columns_names = [col for col in all_features if col != 'age']
-
-best_model_mf = grid_search_mf.best_estimator_ #'best_model' = modello finale con alpha migliore
+best_model_mf = grid_search_mf.best_estimator_
 
 #VALUTAZIONE FINALE SUL TEST SET
-y_pred_train_mf = best_model_mf.predict(x_train_mf)
-y_pred_test_mf = best_model_mf.predict(x_test_mf)
+y_pred_train_scaled_mf_lasso = best_model_mf.predict(x_train_mf)
+y_pred_test_scaled_mf_lasso = best_model_mf.predict(x_test_mf)
+
+y_pred_train_mf = y_scaler_mf_lasso.inverse_transform(y_pred_train_scaled_mf_lasso.reshape(-1, 1)).ravel()
+y_pred_test_mf = y_scaler_mf_lasso.inverse_transform(y_pred_test_scaled_mf_lasso.reshape(-1, 1)).ravel()
 
 mae_test_mf_lasso = mean_absolute_error(y_test_mf, y_pred_test_mf)
 mae_train_mf_lasso = mean_absolute_error(y_train_mf, y_pred_train_mf)
@@ -2626,16 +2518,14 @@ print(f"MAE sul set di TEST: {mae_test_mf_lasso:.2f}")
 print(f"R2 Score sul set di TRAINING: {r2_train_mf_lasso:.4f}")
 print(f"R2 Score sul set di TEST: {r2_test_mf_lasso:.4f}")
 
-#ANALISI DEI COEFFICIENTI 
-# Ricreo l'elenco dei nomi delle feature nell'ordine corretto
-other_columns_names = [col for col in all_features if col != 'age']
-feature_names_transformed = ['age', 'age^2'] + other_columns_names
+#ANALISI DEI COEFFICIENTI
+transformer_step = best_model_mf.named_steps['transformer']
+feature_names_out = transformer_step.get_feature_names_out()
 
-# Estraggo i coefficienti dal modello ottimale
 lasso_regressor_mf = best_model_mf.named_steps['lasso']
-lasso_coef_mf = pd.Series(lasso_regressor_mf.coef_, index=feature_names_transformed)
+lasso_coef_mf = pd.Series(lasso_regressor_mf.coef_, index=feature_names_out)
+lasso_coef_mf.index = lasso_coef_mf.index.str.replace('remainder__', '').str.replace('poly__', '')
 
-# Filtro variabili azzerate
 zero_features_mf = lasso_coef_mf[np.abs(lasso_coef_mf) < 1e-6]
 relevant_features_mf = lasso_coef_mf[np.abs(lasso_coef_mf) >= 1e-6]
 
@@ -2694,7 +2584,6 @@ print(f"MAE Test: {mae_test_mf_lasso_ctrl:.2f} M€")
 print(f"MAE Train: {mae_train_mf_lasso_ctrl:.2f} M€")
 print(f"R2 Train: {r2_train_mf_lasso_ctrl:.4f}")
 print(f"R2 Test:  {r2_test_mf_lasso_ctrl:.4f}")
-
 #-------------------------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------------------------
@@ -2706,6 +2595,7 @@ print(f"R2 Test:  {r2_test_mf_lasso_ctrl:.4f}")
 #-------------------------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------------------------
+# 1. Preparazione Dati
 y_column= "value"
 all_features = [col for col in numeric_cols if col != "value" and col != "random" and col!="Born"]
 
@@ -2714,74 +2604,65 @@ y_train_fw = df_fw_1824[y_column]
 x_test_fw = df_fw_2425[all_features]
 y_test_fw = df_fw_2425[y_column]
 
+# Scala la Y (target) per uniformità con SVR e XGBoost
+y_scaler_fw_lasso = StandardScaler()
+y_train_scaled_fw_lasso = y_scaler_fw_lasso.fit_transform(y_train_fw.values.reshape(-1, 1)).ravel()
+
 #Momento di inizio del modello
 start_time_fw_lasso = time.time()
 
-try:
-    age_index = all_features.index('age')
-except ValueError:
-    print("ERRORE: La colonna 'age' non è presente nelle tue features filtrate.")
+# 2. Definizione Pipeline
+# set_output necessario affinché il ColumnTransformer riceva un DataFrame con nomi colonne
+imputer_step = SimpleImputer(strategy='constant', fill_value=0).set_output(transform="pandas")
 
-age_column_index = [age_index]
-other_columns_indices = [i for i, col in enumerate(all_features) if col != 'age']
-
-# Definisci il trasformatore
 feature_transformer = ColumnTransformer(
     transformers=[
-        ('age_poly', PolynomialFeatures(degree=2, include_bias=False), age_column_index)
+        ('poly', PolynomialFeatures(degree=2, include_bias=False), ['age'])
     ],
     remainder='passthrough'
 )
 
 pipeline = Pipeline([
-    ('imputer', SimpleImputer(strategy='constant', fill_value=0)), #RIDONDANTE
+    ('imputer', imputer_step),
     ('transformer', feature_transformer),
     ('scaler', StandardScaler()),
-    ('lasso', Lasso(random_state=42, max_iter=10000)) # Il nostro modello da ottimizzare
+    ('lasso', Lasso(random_state=42, max_iter=10000))
 ])
 
 #SELEZIONE AUTOMATICA (GridSearchCV)
-x_train_fw_with_season = df_fw_1824[all_features + ['Season']]
-
-# Identifico l'ultima stagione nel set di training
-last_season = x_train_fw_with_season['Season'].max() # '2023/2024'
-
-print(f"Creazione split di validazione: validazione su stagione {last_season}")
-validation_fold = np.where(x_train_fw_with_season['Season'] == last_season, 0, -1)
-
-# Creo lo splitter
-tscv = TimeSeriesSplit(n_splits=5) 
+tscv = TimeSeriesSplit(n_splits=5)
 
 param_grid = {
-    'lasso__alpha': np.logspace(5, 8, 1000) #100 valori di alpha tra 10^5 e 10^7
+    'lasso__alpha': np.logspace(-3, 2, 100)  # 100 valori da 0.001 a 100 (Y standardizzata)
 }
 
 print("Avvio della Grid Search per trovare l'alpha ottimale di Lasso...")
 grid_search_fw = GridSearchCV(
-    pipeline, 
-    param_grid, 
-    cv= tscv, #predefined split
-    scoring='neg_mean_absolute_error', 
-    n_jobs=-1, # Usa tutti i processori
-    verbose=1  # Mostra i progressi
+    pipeline,
+    param_grid,
+    cv=tscv,
+    scoring='neg_mean_absolute_error',
+    n_jobs=-1,
+    verbose=1
 )
 
-# Avvia l'addestramento e la ricerca
-grid_search_fw.fit(x_train_fw, y_train_fw)
+# Avvio l'addestramento e la ricerca
+grid_search_fw.fit(x_train_fw, y_train_scaled_fw_lasso)
 
-#RISULTATI DELLA SELEZIONE ---
+#RISULTATI DELLA SELEZIONE
 print("\n--- Risultati Grid Search ---")
 best_alpha_fw = grid_search_fw.best_params_['lasso__alpha']
 print(f"Alpha ottimale trovato: {best_alpha_fw:.6f}")
-print(f"Miglior MAE in Cross-Validation: {-grid_search_fw.best_score_:.2f}")
+print(f"Miglior MAE Scalato in Cross-Validation: {-grid_search_fw.best_score_:.4f} (Y standardizzata)")
 
-other_columns_names = [col for col in all_features if col != 'age']
-
-best_model_fw = grid_search_fw.best_estimator_ #'best_model' = modello finale con alpha migliore
+best_model_fw = grid_search_fw.best_estimator_
 
 #VALUTAZIONE FINALE SUL TEST SET
-y_pred_train_fw = best_model_fw.predict(x_train_fw)
-y_pred_test_fw = best_model_fw.predict(x_test_fw)
+y_pred_train_scaled_fw_lasso = best_model_fw.predict(x_train_fw)
+y_pred_test_scaled_fw_lasso = best_model_fw.predict(x_test_fw)
+
+y_pred_train_fw = y_scaler_fw_lasso.inverse_transform(y_pred_train_scaled_fw_lasso.reshape(-1, 1)).ravel()
+y_pred_test_fw = y_scaler_fw_lasso.inverse_transform(y_pred_test_scaled_fw_lasso.reshape(-1, 1)).ravel()
 
 mae_test_fw_lasso = mean_absolute_error(y_test_fw, y_pred_test_fw)
 mae_train_fw_lasso = mean_absolute_error(y_train_fw, y_pred_train_fw)
@@ -2794,16 +2675,14 @@ print(f"MAE sul set di TEST: {mae_test_fw_lasso:.2f}")
 print(f"R2 Score sul set di TRAINING: {r2_train_fw_lasso:.4f}")
 print(f"R2 Score sul set di TEST: {r2_test_fw_lasso:.4f}")
 
-#ANALISI DEI COEFFICIENTI 
-# Ricreo l'elenco dei nomi delle feature nell'ordine corretto
-other_columns_names = [col for col in all_features if col != 'age']
-feature_names_transformed = ['age', 'age^2'] + other_columns_names
+#ANALISI DEI COEFFICIENTI
+transformer_step = best_model_fw.named_steps['transformer']
+feature_names_out = transformer_step.get_feature_names_out()
 
-# Estraggo i coefficienti dal modello ottimale
 lasso_regressor_fw = best_model_fw.named_steps['lasso']
-lasso_coef_fw = pd.Series(lasso_regressor_fw.coef_, index=feature_names_transformed)
+lasso_coef_fw = pd.Series(lasso_regressor_fw.coef_, index=feature_names_out)
+lasso_coef_fw.index = lasso_coef_fw.index.str.replace('remainder__', '').str.replace('poly__', '')
 
-# Filtro quelle azzerate
 zero_features_fw = lasso_coef_fw[np.abs(lasso_coef_fw) < 1e-6]
 relevant_features_fw = lasso_coef_fw[np.abs(lasso_coef_fw) >= 1e-6]
 
@@ -2813,63 +2692,12 @@ print(f"Feature eliminate da Lasso (coefficiente ≈ 0): {len(zero_features_fw)}
 print(f"Feature mantenute (significative): {len(relevant_features_fw)}")
 
 print("\nFeature più importanti (coefficienti più alti):")
-print(relevant_features_fw.abs().sort_values(ascending=False).head(25))
+print(relevant_features_fw.abs().sort_values(ascending=False).head(20))
 
 #Momento di fine del modello
 end_time_fw_lasso = time.time()
 execution_time_fw_lasso = end_time_fw_lasso - start_time_fw_lasso
-print(f"--- Tempo di esecuzione Modello LASSO sugli Attaccanti: {execution_time_fw_lasso:.2f} secondi ---")
-#-------------------------------------------------------------------------------------------------------
-#MODELLO DI CONTROLLO LASSO ATTACCANTI(USO REGRESSIONE LINEARE)
-#-------------------------------------------------------------------------------------------------------
-feature_control = ["random"]
-y_column = "value"
-
-x_train_fw = df_fw_1824[feature_control]
-y_train_fw = df_fw_1824[y_column]
-x_test_fw = df_fw_2425[feature_control]
-y_test_fw = df_fw_2425[y_column]
-
-x_train_with_season = df_fw_1824[feature_control + ['Season']]
-tscv = TimeSeriesSplit(n_splits=5) 
-
-pipeline_control_fw = Pipeline([
-    ('scaler', StandardScaler()),
-    ('lasso', Lasso(random_state=42, max_iter=10000)) 
-])
-
-param_grid = {
-    'lasso__alpha': np.logspace(5, 7, 20) 
-}
-
-grid_search_fw_ctrl = GridSearchCV(
-    pipeline_control_fw, 
-    param_grid, 
-    cv=tscv, 
-    scoring='neg_mean_absolute_error', 
-    n_jobs=-1, 
-    verbose=1 
-)
-
-grid_search_fw_ctrl.fit(x_train_fw, y_train_fw)
-
-#VALUTAZIONE ---
-best_model_fw_ctrl = grid_search_fw_ctrl.best_estimator_
-
-y_pred_train_fw_ctrl = best_model_fw_ctrl.predict(x_train_fw)
-y_pred_test_fw_ctrl = best_model_fw_ctrl.predict(x_test_fw)
-
-r2_test_fw_lasso_ctrl = r2_score(y_test_fw, y_pred_test_fw_ctrl)
-r2_train_fw_lasso_ctrl = r2_score(y_train_fw, y_pred_train_fw_ctrl)
-mae_train_fw_lasso_ctrl = mean_absolute_error(y_train_fw, y_pred_train_fw_ctrl)
-mae_test_fw_lasso_ctrl = mean_absolute_error(y_test_fw, y_pred_test_fw_ctrl)
-
-print("RISULTATI MODELLO DI CONTROLLO (RANDOM) - ATTACCANTI")
-print(f"Alpha ottimale scelto: {grid_search_fw_ctrl.best_params_['lasso__alpha']:.2f}")
-print(f"MAE Train: {mae_train_fw_lasso_ctrl:.2f}")
-print(f"MAE Test: {mae_test_fw_lasso_ctrl:.2f}")
-print(f"R2 Train:  {r2_train_fw_lasso_ctrl:.4f}")
-print(f"R2 Test:  {r2_test_fw_lasso_ctrl:.4f}")
+print(f"--- Tempo di esecuzione Modello LASSO sui Attaccanti: {execution_time_fw_lasso:.2f} secondi ---")
 # =============================================================================
 # MODELLO DI CONTROLLO ATTACCANTI: REGRESSIONE LINEARE SEMPLICE CON VARIABILE RANDOM
 # =============================================================================
@@ -2923,26 +2751,32 @@ print(f"R2 Test:  {r2_test_fw_lasso_ctrl:.4f}")
 #all'interno di un margine di tolleranza epsilon.
 #Nel mio caso ho utilizzato il kernel RBF.
 
+#PER LA SVR E' NECESSARIO AVERE IL VALORE DI Y SCALATO
+
 #Funzione di scoring personalizzata per la Permutation Importance
-def unscaled_mae_scorer_func(model, X, y_true_unscaled):
+from sklearn.metrics import mean_absolute_error
+
+def create_unscaled_scorer(scaler_to_use):
     """
-    Scorer personalizzato:
-    1. Prende le previsioni SCALATE dal modello
-    2. Le de-scala (inverse_transform)
-    3. Calcola il MAE contro la y REALE (non scalata)
-    4. Restituisce il MAE NEGATIVO (perché permutation_importance massimizza)
+    Funzione 'fabbrica' che genera uno scorer personalizzato.
+    Accetta in ingresso lo scaler specifico del ruolo (es. y_scaler_gk)
+    e restituisce la funzione esatta che serve a Scikit-Learn.
     """
-    y_pred_scaled = model.predict(X)
     
-    # 1. Riporta le previsioni in euro (milioni)
-    # Dobbiamo usare lo scaler 'y_scaler_fw' che è nello scope globale
-    y_pred_unscaled = y_scaler_fw.inverse_transform(y_pred_scaled.reshape(-1, 1))
-    
-    # 2. Calcola il MAE in euro
-    mae_in_euros = mean_absolute_error(y_true_unscaled, y_pred_unscaled)
-    
-    # 3. Restituisci il NEGATIVO del MAE
-    return -mae_in_euros 
+    def custom_scorer(model, X, y_true_unscaled):
+        # 1. Fa la predizione scalata
+        y_pred_scaled = model.predict(X)
+        
+        # 2. De-scala usando lo scaler passato alla funzione madre
+        y_pred_unscaled = scaler_to_use.inverse_transform(y_pred_scaled.reshape(-1, 1))
+        
+        # 3. Calcola il MAE reale
+        mae_in_euros = mean_absolute_error(y_true_unscaled, y_pred_unscaled)
+        
+        # 4. Ritorna il negativo
+        return -mae_in_euros
+        
+    return custom_scorer
 #-------------------------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------------------------
@@ -2984,12 +2818,6 @@ pipeline_svr = Pipeline([
 # Questa è una griglia relativamente piccola per contenere i tempi.
 # Se i risultati sono ai bordi della griglia, dovrai espanderla.
 
-#param_grid = {
-#    'svr__C': [10, 11, 12, 100, 1000],          # 6 valori
-#    'svr__gamma': [0.001, 0.01, 0.1, 1, 1.1],       # 6 valori
-#    'svr__epsilon': [0.1, 0.2, 0.5, 0.6, 0.7]      # 6 valori
-#}
-
 #Solo per dataset coin solo "age", no "born"
 param_grid = {
    'svr__C': [6, 7, 8, 9, 10, 11],         
@@ -3028,8 +2856,8 @@ best_model_gk_svr = grid_search_gk_svr.best_estimator_
 y_pred_train_scaled_gk_svr = best_model_gk_svr.predict(x_train_gk)
 y_pred_test_scaled_gk_svr = best_model_gk_svr.predict(x_test_gk)
 
-y_pred_train_final_gk_svr = y_scaler_gk.inverse_transform(y_pred_train_scaled_gk_svr.reshape(-1, 1))
-y_pred_test_final_gk_svr = y_scaler_gk.inverse_transform(y_pred_test_scaled_gk_svr.reshape(-1, 1))
+y_pred_train_final_gk_svr = y_scaler_gk.inverse_transform(y_pred_train_scaled_gk_svr.reshape(-1, 1)).ravel()
+y_pred_test_final_gk_svr = y_scaler_gk.inverse_transform(y_pred_test_scaled_gk_svr.reshape(-1, 1)).ravel()
 
 mae_test_gk_svr = mean_absolute_error(y_test_gk, y_pred_test_final_gk_svr)
 mae_train_gk_svr = mean_absolute_error(y_train_gk, y_pred_train_final_gk_svr)
@@ -3049,15 +2877,17 @@ print(f"SVR RBF (Portieri):         R2 Test = {r2_test_gk_svr:.4f}")
 #PERMUTATION IMPORTANCE GK
 print("\nAvvio calcolo Permutation Importance per i GK")
 
+gk_scorer = create_unscaled_scorer(y_scaler_gk)
+
 # n_repeats=10 rende il calcolo più robusto (esegue 10 shuffle per feature)
 perm_imp_gk_svr = permutation_importance(
     best_model_gk_svr, 
     x_test_gk, 
     y_test_gk, 
-    n_repeats=10,
+    n_repeats=20,
     random_state=42, 
     n_jobs=-1,
-    scoring=unscaled_mae_scorer_func # Puoi anche usare 'neg_mean_absolute error'
+    scoring=gk_scorer # Puoi anche usare 'neg_mean_absolute_error'
 )
 
 # --- 3. Organizza e Stampa i Risultati ---
@@ -3082,9 +2912,9 @@ print(importance_gk_svr.head(10))
 end_time_gk_svr = time.time()
 execution_time_gk_svr = end_time_gk_svr - start_time_gk_svr
 print(f"--- Tempo di esecuzione Modello SVR sui Portieri: {execution_time_gk_svr:.2f} secondi ---")
-#-------------------------------------------------------------------------------------------------------
-#MODELLO DI CONTROLLO SVR-RBF PORTIERI(USO SVR)
-#-------------------------------------------------------------------------------------------------------
+# =============================================================================
+#MODELLO DI CONTROLLO RANDOM SVR-RBF PORTIERI
+# =============================================================================
 feature_control = ["random"]
 y_column = "value"
 
@@ -3139,8 +2969,8 @@ best_model_gk_svr_ctrl = grid_search_gk_svr_ctrl.best_estimator_
 y_pred_train_scaled_gk_svr_ctrl = best_model_gk_svr_ctrl.predict(x_train_gk)
 y_pred_test_scaled_gk_svr_ctrl = best_model_gk_svr_ctrl.predict(x_test_gk)
 
-y_pred_train_gk_svr_ctrl = y_scaler_gk_svr_ctrl.inverse_transform(y_pred_train_scaled_gk_svr_ctrl.reshape(-1, 1))
-y_pred_test_gk_svr_ctrl = y_scaler_gk_svr_ctrl.inverse_transform(y_pred_test_scaled_gk_svr_ctrl.reshape(-1, 1))
+y_pred_train_gk_svr_ctrl = y_scaler_gk_svr_ctrl.inverse_transform(y_pred_train_scaled_gk_svr_ctrl.reshape(-1, 1)).ravel()
+y_pred_test_gk_svr_ctrl = y_scaler_gk_svr_ctrl.inverse_transform(y_pred_test_scaled_gk_svr_ctrl.reshape(-1, 1)).ravel()
 
 mae_test_gk_svr_ctrl = mean_absolute_error(y_test_gk, y_pred_test_gk_svr_ctrl)
 mae_train_gk_svr_ctrl = mean_absolute_error(y_train_gk, y_pred_train_gk_svr_ctrl)
@@ -3195,11 +3025,12 @@ pipeline_svr = Pipeline([
 # Questa è una griglia relativamente piccola per contenere i tempi.
 # Se i risultati sono ai bordi della griglia, dovrai espanderla.
 param_grid = {
-    'svr__C': [10, 11, 12],          # 6 valori
-    'svr__gamma': [0.001, 0.01, 0.1, 1, 1.1],       # 6 valori
-    'svr__epsilon': [0.1, 0.2, 0.5, 0.6, 0.7]      # 6 valori
+    'svr__C': [10, 11, 12],          #3 valori
+    'svr__gamma': [0.001, 0.01, 0.1, 1, 1.1],       # 5 valori
+    'svr__epsilon': [0.1, 0.2, 0.5, 0.6, 0.7]      # 5 valori
 }
 
+#3 * 5 * 5 = 75 combinazioni
 
 # Usiamo lo stesso TimeSeriesSplit per correttezza metodologica
 tscv = TimeSeriesSplit(n_splits=5) 
@@ -3231,8 +3062,8 @@ best_model_df_svr = grid_search_df_svr.best_estimator_
 y_pred_train_scaled_df_svr = best_model_df_svr.predict(x_train_df)
 y_pred_test_scaled_df_svr = best_model_df_svr.predict(x_test_df)
 
-y_pred_train_final_df_svr = y_scaler_df.inverse_transform(y_pred_train_scaled_df_svr.reshape(-1, 1))
-y_pred_test_final_df_svr = y_scaler_df.inverse_transform(y_pred_test_scaled_df_svr.reshape(-1, 1))
+y_pred_train_final_df_svr = y_scaler_df.inverse_transform(y_pred_train_scaled_df_svr.reshape(-1, 1)).ravel()
+y_pred_test_final_df_svr = y_scaler_df.inverse_transform(y_pred_test_scaled_df_svr.reshape(-1, 1)).ravel()
 
 mae_test_df_svr = mean_absolute_error(y_test_df, y_pred_test_final_df_svr)
 mae_train_df_svr = mean_absolute_error(y_train_df, y_pred_train_final_df_svr)
@@ -3252,6 +3083,9 @@ print(f"SVR RBF (Difensori):         R2 Test = {r2_test_df_svr:.4f}")
 print("\nAvvio calcolo Permutation Importance per i DF")
 # Usiamo R² come metrica di scoring
 # n_repeats=10 rende il calcolo più robusto (esegue 10 shuffle per feature)
+
+df_scorer = create_unscaled_scorer(y_scaler_df)
+
 perm_imp_df_svr = permutation_importance(
     best_model_df_svr, 
     x_test_df, 
@@ -3259,7 +3093,7 @@ perm_imp_df_svr = permutation_importance(
     n_repeats=20,
     random_state=42, 
     n_jobs=-1,
-    scoring=unscaled_mae_scorer_func # Puoi anche usare 'neg_mean_absolute_error'
+    scoring=df_scorer # Puoi anche usare 'neg_mean_absolute_error'
 )
 
 # --- 3. Organizza e Stampa i Risultati ---
@@ -3282,9 +3116,9 @@ print(importance_df_svr.head(10))
 end_time_df_svr = time.time()
 execution_time_df_svr = end_time_df_svr - start_time_df_svr
 print(f"--- Tempo di esecuzione Modello SVR sui Difensori: {execution_time_df_svr:.2f} secondi ---")
-#-------------------------------------------------------------------------------------------------------
-#MODELLO DI CONTROLLO SVR-RBF DIFENSORI(USO SVR)
-#-------------------------------------------------------------------------------------------------------
+# =============================================================================
+#MODELLO DI CONTROLLO RANDOM SVR-RBF DIFENSORI
+# =============================================================================
 feature_control = ["random"]
 y_column = "value"
 
@@ -3339,8 +3173,8 @@ best_model_df_svr_ctrl = grid_search_df_svr_ctrl.best_estimator_
 y_pred_train_scaled_df_svr_ctrl = best_model_df_svr_ctrl.predict(x_train_df)
 y_pred_test_scaled_df_svr_ctrl = best_model_df_svr_ctrl.predict(x_test_df)
 
-y_pred_train_df_svr_ctrl = y_scaler_df_svr_ctrl.inverse_transform(y_pred_train_scaled_df_svr_ctrl.reshape(-1, 1))
-y_pred_test_df_svr_ctrl = y_scaler_df_svr_ctrl.inverse_transform(y_pred_test_scaled_df_svr_ctrl.reshape(-1, 1))
+y_pred_train_df_svr_ctrl = y_scaler_df_svr_ctrl.inverse_transform(y_pred_train_scaled_df_svr_ctrl.reshape(-1, 1)).ravel()
+y_pred_test_df_svr_ctrl = y_scaler_df_svr_ctrl.inverse_transform(y_pred_test_scaled_df_svr_ctrl.reshape(-1, 1)).ravel()
 
 mae_test_df_svr_ctrl = mean_absolute_error(y_test_df, y_pred_test_df_svr_ctrl)
 mae_train_df_svr_ctrl = mean_absolute_error(y_train_df, y_pred_train_df_svr_ctrl)
@@ -3429,8 +3263,8 @@ best_model_wb_svr = grid_search_wb_svr.best_estimator_
 y_pred_train_scaled_wb_svr = best_model_wb_svr.predict(x_train_wb)
 y_pred_test_scaled_wb_svr = best_model_wb_svr.predict(x_test_wb)
 
-y_pred_train_final_wb_svr = y_scaler_wb.inverse_transform(y_pred_train_scaled_wb_svr.reshape(-1, 1))
-y_pred_test_final_wb_svr = y_scaler_wb.inverse_transform(y_pred_test_scaled_wb_svr.reshape(-1, 1))
+y_pred_train_final_wb_svr = y_scaler_wb.inverse_transform(y_pred_train_scaled_wb_svr.reshape(-1, 1)).ravel()
+y_pred_test_final_wb_svr = y_scaler_wb.inverse_transform(y_pred_test_scaled_wb_svr.reshape(-1, 1)).ravel()
 
 mae_test_wb_svr = mean_absolute_error(y_test_wb, y_pred_test_final_wb_svr)
 mae_train_wb_svr = mean_absolute_error(y_train_wb, y_pred_train_final_wb_svr)
@@ -3449,6 +3283,8 @@ print(f"SVR RBF (Wingback):         R2 Test = {r2_test_wb_svr:.4f}")
 
 print("\nAvvio calcolo Permutation Importance per i WB")
 
+wb_scorer = create_unscaled_scorer(y_scaler_wb)
+
 # Usiamo R² come metrica di scoring
 # n_repeats=10 rende il calcolo più robusto (esegue 10 shuffle per feature)
 perm_imp_wb_svr = permutation_importance(
@@ -3458,7 +3294,7 @@ perm_imp_wb_svr = permutation_importance(
     n_repeats=20,
     random_state=42, 
     n_jobs=-1,
-    scoring=unscaled_mae_scorer_func # Puoi anche usare 'neg_mean_absolute_error'
+    scoring=wb_scorer # Puoi anche usare 'neg_mean_absolute_error'
 )
 
 # --- 3. Organizza e Stampa i Risultati ---
@@ -3475,15 +3311,15 @@ importance_wb_svr = importance_wb_svr.sort_values('importance_mean', ascending=F
 #L'output "importance_mean" è la diminuizione media del mio R2 se "rompo" quella
 #features
 print("\n--- Feature Importance dei WB per SVR ---")
-print(importance_wb_svr.head(18))
+print(importance_wb_svr.head(10))
 
 #Momento di fine del modello
 end_time_wb_svr = time.time()
 execution_time_wb_svr = end_time_wb_svr - start_time_wb_svr
 print(f"--- Tempo di esecuzione Modello SVR sui Wingback: {execution_time_wb_svr:.2f} secondi ---")
-#-------------------------------------------------------------------------------------------------------
-#MODELLO DI CONTROLLO SVR-RBF WINGBACK(USO SVR)
-#-------------------------------------------------------------------------------------------------------
+# =============================================================================
+#MODELLO DI CONTROLLO RANDOM SVR-RBF WINGBACK
+# =============================================================================
 feature_control = ["random"]
 y_column = "value"
 
@@ -3538,8 +3374,8 @@ best_model_wb_svr_ctrl = grid_search_wb_svr_ctrl.best_estimator_
 y_pred_train_scaled_wb_svr_ctrl = best_model_wb_svr_ctrl.predict(x_train_wb)
 y_pred_test_scaled_wb_svr_ctrl = best_model_wb_svr_ctrl.predict(x_test_wb)
 
-y_pred_train_wb_svr_ctrl = y_scaler_wb_svr_ctrl.inverse_transform(y_pred_train_scaled_wb_svr_ctrl.reshape(-1, 1))
-y_pred_test_wb_svr_ctrl = y_scaler_wb_svr_ctrl.inverse_transform(y_pred_test_scaled_wb_svr_ctrl.reshape(-1, 1))
+y_pred_train_wb_svr_ctrl = y_scaler_wb_svr_ctrl.inverse_transform(y_pred_train_scaled_wb_svr_ctrl.reshape(-1, 1)).ravel()
+y_pred_test_wb_svr_ctrl = y_scaler_wb_svr_ctrl.inverse_transform(y_pred_test_scaled_wb_svr_ctrl.reshape(-1, 1)).ravel()
 
 mae_test_wb_svr_ctrl = mean_absolute_error(y_test_wb, y_pred_test_wb_svr_ctrl)
 mae_train_wb_svr_ctrl = mean_absolute_error(y_train_wb, y_pred_train_wb_svr_ctrl)
@@ -3628,8 +3464,8 @@ best_model_mf_svr = grid_search_mf_svr.best_estimator_
 y_pred_train_scaled_mf_svr = best_model_mf_svr.predict(x_train_mf)
 y_pred_test_scaled_mf_svr = best_model_mf_svr.predict(x_test_mf)
 
-y_pred_train_final_mf_svr = y_scaler_mf.inverse_transform(y_pred_train_scaled_mf_svr.reshape(-1, 1))
-y_pred_test_final_mf_svr = y_scaler_mf.inverse_transform(y_pred_test_scaled_mf_svr.reshape(-1, 1))
+y_pred_train_final_mf_svr = y_scaler_mf.inverse_transform(y_pred_train_scaled_mf_svr.reshape(-1, 1)).ravel()
+y_pred_test_final_mf_svr = y_scaler_mf.inverse_transform(y_pred_test_scaled_mf_svr.reshape(-1, 1)).ravel()
 
 mae_test_mf_svr = mean_absolute_error(y_test_mf, y_pred_test_final_mf_svr)
 mae_train_mf_svr = mean_absolute_error(y_train_mf, y_pred_train_final_mf_svr)
@@ -3648,6 +3484,7 @@ print(f"SVR RBF (Centrocampisti):         R2 Test = {r2_test_mf_svr:.4f}")
 
 print("\nAvvio calcolo Permutation Importance")
 
+mf_scorer = create_unscaled_scorer(y_scaler_mf)
 # Usiamo R² come metrica di scoring
 # n_repeats=10 rende il calcolo più robusto (esegue 10 shuffle per feature)
 perm_imp_mf_svr = permutation_importance(
@@ -3657,7 +3494,7 @@ perm_imp_mf_svr = permutation_importance(
     n_repeats=20,
     random_state=42, 
     n_jobs=-1,
-    scoring=unscaled_mae_scorer_func 
+    scoring=mf_scorer
 )
 
 # --- 3. Organizza e Stampa i Risultati ---
@@ -3674,15 +3511,15 @@ importance_mf_svr = importance_mf_svr.sort_values('importance_mean', ascending=F
 #L'output "importance_mean" è la diminuizione media del mio R2 se "rompo" quella
 #features
 print("\n--- Feature Importance dei MF per SVR ---")
-print(importance_mf_svr.head(14))
+print(importance_mf_svr.head(10))
 
 #Momento di fine del modello
 end_time_mf_svr = time.time()
 execution_time_mf_svr = end_time_mf_svr - start_time_mf_svr
 print(f"--- Tempo di esecuzione Modello SVR sui Centrocampisti: {execution_time_mf_svr:.2f} secondi ---")
-#-------------------------------------------------------------------------------------------------------
-#MODELLO DI CONTROLLO SVR-RBF CENTROCAMPISTI(USO SVR)
-#-------------------------------------------------------------------------------------------------------
+# =============================================================================
+#MODELLO DI CONTROLLO RANDOM SVR-RBF CENTROCAMPISTI
+# =============================================================================
 feature_control = ["random"]
 y_column = "value"
 
@@ -3737,8 +3574,8 @@ best_model_mf_svr_ctrl = grid_search_mf_svr_ctrl.best_estimator_
 y_pred_train_scaled_mf_svr_ctrl = best_model_mf_svr_ctrl.predict(x_train_mf)
 y_pred_test_scaled_mf_svr_ctrl = best_model_mf_svr_ctrl.predict(x_test_mf)
 
-y_pred_train_mf_svr_ctrl = y_scaler_mf_svr_ctrl.inverse_transform(y_pred_train_scaled_mf_svr_ctrl.reshape(-1, 1))
-y_pred_test_mf_svr_ctrl = y_scaler_mf_svr_ctrl.inverse_transform(y_pred_test_scaled_mf_svr_ctrl.reshape(-1, 1))
+y_pred_train_mf_svr_ctrl = y_scaler_mf_svr_ctrl.inverse_transform(y_pred_train_scaled_mf_svr_ctrl.reshape(-1, 1)).ravel()
+y_pred_test_mf_svr_ctrl = y_scaler_mf_svr_ctrl.inverse_transform(y_pred_test_scaled_mf_svr_ctrl.reshape(-1, 1)).ravel()
 
 mae_test_mf_svr_ctrl = mean_absolute_error(y_test_mf, y_pred_test_mf_svr_ctrl)
 mae_train_mf_svr_ctrl = mean_absolute_error(y_train_mf, y_pred_train_mf_svr_ctrl)
@@ -3793,7 +3630,7 @@ pipeline_svr = Pipeline([
 # Se i risultati sono ai bordi della griglia, dovrai espanderla.
 param_grid = {
     'svr__C': [8, 10, 11, 12, 100, 1000],          # 6 valori
-    'svr__gamma': [0.0001, 0.001, 0.001, 0.01, 0.1, 1, 1.1],       # 6 valori
+    'svr__gamma': [0.0001, 0.001, 0.01, 0.1, 1, 1.1],       # 6 valori
     'svr__epsilon': [0.001, 0.01, 0.1, 0.2, 0.5, 0.6, 0.7]      # 6 valori
 }
 # Usiamo lo stesso TimeSeriesSplit per correttezza metodologica
@@ -3826,8 +3663,8 @@ best_model_fw_svr = grid_search_fw_svr.best_estimator_
 y_pred_train_scaled_fw_svr = best_model_fw_svr.predict(x_train_fw)
 y_pred_test_scaled_fw_svr = best_model_fw_svr.predict(x_test_fw)
 
-y_pred_train_final_fw_svr = y_scaler_fw.inverse_transform(y_pred_train_scaled_fw_svr.reshape(-1, 1))
-y_pred_test_final_fw_svr = y_scaler_fw.inverse_transform(y_pred_test_scaled_fw_svr.reshape(-1, 1))
+y_pred_train_final_fw_svr = y_scaler_fw.inverse_transform(y_pred_train_scaled_fw_svr.reshape(-1, 1)).ravel()
+y_pred_test_final_fw_svr = y_scaler_fw.inverse_transform(y_pred_test_scaled_fw_svr.reshape(-1, 1)).ravel()
 
 mae_test_fw_svr = mean_absolute_error(y_test_fw, y_pred_test_final_fw_svr)
 mae_train_fw_svr = mean_absolute_error(y_train_fw, y_pred_train_final_fw_svr)
@@ -3847,6 +3684,8 @@ print(f"SVR RBF (Attaccanti):         R2 Test = {r2_test_fw_svr:.4f}")
 #PERMUTATION IMPORTANCE ATTACCANTI
 print("\nAvvio calcolo Permutation Importance")
 
+fw_scorer = create_unscaled_scorer(y_scaler_fw)
+
 perm_imp_fw_svr = permutation_importance(
     best_model_fw_svr, 
     x_test_fw, 
@@ -3854,7 +3693,7 @@ perm_imp_fw_svr = permutation_importance(
     n_repeats=20,
     random_state=42, 
     n_jobs=-1,
-    scoring=unscaled_mae_scorer_func 
+    scoring=fw_scorer
 )
 
 # 3. Organizza e Stampa i Risultati
@@ -3871,15 +3710,15 @@ importance_fw_svr = importance_fw_svr.sort_values('importance_mean', ascending=F
 print("\n--- Feature Importance dei FW per SVR (misurata in € MAE) ---")
 print("L'output 'importance_mean' è l'aumento medio del MAE (in Milioni)")
 print("se 'rompiamo' quella feature.")
-print(importance_fw_svr.head(25))
+print(importance_fw_svr.head(10))
 
 #Momento di fine del modello
 end_time_fw_svr = time.time()
 execution_time_fw_svr = end_time_fw_svr - start_time_fw_svr
 print(f"--- Tempo di esecuzione Modello SVR sugli Attaccanti: {execution_time_fw_svr:.2f} secondi ---")
-#-------------------------------------------------------------------------------------------------------
-#MODELLO DI CONTROLLO SVR-RBF ATTACCANTI(USO SVR)
-#-------------------------------------------------------------------------------------------------------
+# =============================================================================
+#MODELLO DI CONTROLLO RANDOM SVR-RBF ATTACCANTI
+# =============================================================================
 feature_control = ["random"]
 y_column = "value"
 
@@ -3934,8 +3773,8 @@ best_model_fw_svr_ctrl = grid_search_fw_svr_ctrl.best_estimator_
 y_pred_train_scaled_fw_svr_ctrl = best_model_fw_svr_ctrl.predict(x_train_fw)
 y_pred_test_scaled_fw_svr_ctrl = best_model_fw_svr_ctrl.predict(x_test_fw)
 
-y_pred_train_fw_svr_ctrl = y_scaler_fw_svr_ctrl.inverse_transform(y_pred_train_scaled_fw_svr_ctrl.reshape(-1, 1))
-y_pred_test_fw_svr_ctrl = y_scaler_fw_svr_ctrl.inverse_transform(y_pred_test_scaled_fw_svr_ctrl.reshape(-1, 1))
+y_pred_train_fw_svr_ctrl = y_scaler_fw_svr_ctrl.inverse_transform(y_pred_train_scaled_fw_svr_ctrl.reshape(-1, 1)).ravel()
+y_pred_test_fw_svr_ctrl = y_scaler_fw_svr_ctrl.inverse_transform(y_pred_test_scaled_fw_svr_ctrl.reshape(-1, 1)).ravel()
 
 mae_test_fw_svr_ctrl = mean_absolute_error(y_test_fw, y_pred_test_fw_svr_ctrl)
 mae_train_fw_svr_ctrl = mean_absolute_error(y_train_fw, y_pred_train_fw_svr_ctrl)
@@ -4001,7 +3840,7 @@ y_train_scaled_gk_xgb = y_scaler_gk.fit_transform(y_train_gk.values.reshape(-1, 
 pipeline_xgb = Pipeline([
     ('imputer', SimpleImputer(strategy='constant', fill_value=0)),
     ('scaler', StandardScaler()), 
-    ('xgb', XGBRegressor(objective='reg:squarederror', random_state=42))
+    ('xgb', XGBRegressor(objective='reg:squarederror', random_state=42, n_jobs=1))
 ])
 
 # --- 4. SELEZIONE IPERPARAMETRI (GridSearchCV) ---
@@ -4012,14 +3851,6 @@ pipeline_xgb = Pipeline([
     #indica il numero di nodi di ogni albero
 #subsample:percentuale di giocatori (righe) da usare per addestrare ogni albero
 #colsample_bytree: percentuale di statistiche (feature) da usare per ogni albero
-
-#param_grid = {
-#    'xgb__n_estimators': [50, 70, 80, 90],  #50
-#    'xgb__learning_rate': [0.1, 0.2, 0.3],  #0.2
-#    'xgb__max_depth': [3, 5, 7, 9, 11],    #9
-#    'xgb__subsample': [0.7, 0.8, 1.0],  #0.8
-#    'xgb__colsample_bytree': [0.7, 0.8, 0.9] #0.7
-#}
 
 #Solo per dataset con "age" e non "Born"
 param_grid = {
@@ -4057,8 +3888,8 @@ y_pred_train_scaled_gk_xgb = best_model_gk_xgb.predict(x_train_gk)
 y_pred_test_scaled_gk_xgb = best_model_gk_xgb.predict(x_test_gk)
 
 # Riportiamo le previsioni in Milioni di Euro
-y_pred_train_final_gk_xgb = y_scaler_gk.inverse_transform(y_pred_train_scaled_gk_xgb.reshape(-1, 1))
-y_pred_test_final_gk_xgb = y_scaler_gk.inverse_transform(y_pred_test_scaled_gk_xgb.reshape(-1, 1))
+y_pred_train_final_gk_xgb = y_scaler_gk.inverse_transform(y_pred_train_scaled_gk_xgb.reshape(-1, 1)).ravel()
+y_pred_test_final_gk_xgb = y_scaler_gk.inverse_transform(y_pred_test_scaled_gk_xgb.reshape(-1, 1)).ravel()
 
 mae_test_gk_xgb = mean_absolute_error(y_test_gk, y_pred_test_final_gk_xgb)
 mae_train_gk_xgb = mean_absolute_error(y_train_gk, y_pred_train_final_gk_xgb)
@@ -4079,12 +3910,7 @@ print(f"XGBoost (Portieri):  R2 Test = {r2_test_gk_xgb:.4f}")
 # --- 7. PERMUTATION IMPORTANCE (Basata su MAE Reale) ---
 print("\nAvvio calcolo Permutation Importance (XGBoost)...")
 
-# Riutilizziamo la funzione di scoring personalizzata definita per l'SVR
-# che de-scala y e calcola il MAE in euro reali.
-def unscaled_mae_scorer_xgb(model, X, y_true_unscaled):
-    y_pred_scaled = model.predict(X)
-    y_pred_unscaled = y_scaler_gk.inverse_transform(y_pred_scaled.reshape(-1, 1))
-    return -mean_absolute_error(y_true_unscaled, y_pred_unscaled)
+gk_xgb_scorer = create_unscaled_scorer(y_scaler_gk)
 
 perm_imp_gk_xgb = permutation_importance(
     best_model_gk_xgb, 
@@ -4093,7 +3919,7 @@ perm_imp_gk_xgb = permutation_importance(
     n_repeats=20, # Numero di ripetizioni per stabilità
     random_state=42, 
     n_jobs=-1,
-    scoring=unscaled_mae_scorer_xgb
+    scoring=gk_xgb_scorer
 )
 
 importance_gk_xgb = pd.DataFrame({
@@ -4111,9 +3937,9 @@ print(importance_gk_xgb.head(25))
 end_time_gk_xgb = time.time()
 execution_time_gk_xgb = end_time_gk_xgb - start_time_gk_xgb
 print(f"\n--- Tempo di esecuzione XGBoost: {execution_time_gk_xgb:.2f} secondi ---")
-#-------------------------------------------------------------------------------------------------------
-#MODELLO DI CONTROLLO XGBoost (BENCHMARCK RANDOM) - PORTIERI
-#-------------------------------------------------------------------------------------------------------
+# =============================================================================
+#MODELLO DI CONTROLLO RANDOM XGB - PORTIERI
+# =============================================================================
 feature_control = ["random"]
 y_column = "value"
 
@@ -4175,8 +4001,8 @@ y_pred_train_scaled_gk_xgb_ctrl = best_model_gk_xgb_ctrl.predict(x_train_gk)
 y_pred_test_scaled_gk_xgb_ctrl = best_model_gk_xgb_ctrl.predict(x_test_gk)
 
 # Riportiamo i valori in milioni di euro (de-scaling)
-y_pred_train_gk_xgb_ctrl = y_scaler_gk_xgb_ctrl.inverse_transform(y_pred_train_scaled_gk_xgb_ctrl.reshape(-1, 1))
-y_pred_test_gk_xgb_ctrl = y_scaler_gk_xgb_ctrl.inverse_transform(y_pred_test_scaled_gk_xgb_ctrl.reshape(-1, 1))
+y_pred_train_gk_xgb_ctrl = y_scaler_gk_xgb_ctrl.inverse_transform(y_pred_train_scaled_gk_xgb_ctrl.reshape(-1, 1)).ravel()
+y_pred_test_gk_xgb_ctrl = y_scaler_gk_xgb_ctrl.inverse_transform(y_pred_test_scaled_gk_xgb_ctrl.reshape(-1, 1)).ravel()
 
 # Calcolo metriche reali
 mae_test_gk_xgb_ctrl = mean_absolute_error(y_test_gk, y_pred_test_gk_xgb_ctrl)
@@ -4205,7 +4031,7 @@ print(f"XGBoost Random (Controllo): {r2_test_gk_xgb_ctrl:.4f}")
 #-------------------------------------------------------------------------------------------------------
 y_column = "value"
 all_features = [col for col in numeric_cols if col != "value" and col != "random" and col!="Born"]
-print(f"Inizio addestramento XGBoost con GridSearchCV su {len(all_features)} feature.")
+print(f"Inizio addestramento XGBoost (Difensori) con GridSearchCV su {len(all_features)} feature.")
 
 x_train_df = df_df_1824[all_features]
 y_train_df = df_df_1824[y_column]
@@ -4216,48 +4042,28 @@ y_test_df = df_df_2425[y_column]
 start_time_df_xgb = time.time()
 
 # --- 2. SCALARE LA Y (TARGET) ---
-# Anche se XGBoost è robusto, scaliamo la Y per confrontare i MAE scalati 
-# durante la GridSearch con quelli dell'SVR.
 y_scaler_df = StandardScaler()
 y_train_scaled_df_xgb = y_scaler_df.fit_transform(y_train_df.values.reshape(-1, 1)).ravel()
 
 # --- 3. DEFINIZIONE DELLA PIPELINE ---
-# Usiamo XGBRegressor. n_jobs=1 all'interno del modello perché la parallelizzazione
-# è già gestita esternamente dalla GridSearchCV (n_jobs=-1).
 pipeline_xgb = Pipeline([
     ('imputer', SimpleImputer(strategy='constant', fill_value=0)),
     ('scaler', StandardScaler()), 
-    ('xgb', XGBRegressor(objective='reg:squarederror', random_state=42))
+    ('xgb', XGBRegressor(objective='reg:squarederror', random_state=42, n_jobs=1)) 
+    # n_jobs=1 aggiunto qui per evitare conflitti con la parallelizzazione della GridSearch
 ])
 
 # --- 4. SELEZIONE IPERPARAMETRI (GridSearchCV) ---
-# n_estimators: numero di alberi utilizzati per l'ensemble learning
-# learning_rate: "passo" del modello ad ogni correzione degli errori
-    #value finale= value base + eta*model1 + eta*model2 +...
-# max_depth: profondità degli alberi (controllo complessità)
-    #indica il numero di nodi di ogni albero
-#subsample:percentuale di giocatori (righe) da usare per addestrare ogni albero
-#colsample_bytree: percentuale di statistiche (feature) da usare per ogni albero
-
-#param_grid = {
-#    'xgb__n_estimators': [60, 80, 90], 
-#    'xgb__learning_rate': [0.05, 0.1, 0.15],
-#    'xgb__max_depth': [3, 4, 5],
-#    'xgb__subsample': [0.8, 0.9, 1.0],
-#    'xgb__colsample_bytree': [0.6, 0.8, 0.9] 
-#}
-
-#Solo per dataset con "age" e non "Born"
 param_grid = {
-    'xgb__n_estimators': [60, 80, 90], 
+    'xgb__n_estimators': [60, 80, 90, 100], 
     'xgb__learning_rate': [0.05, 0.1, 0.15],
-    'xgb__max_depth': [2, 3, 4, 5],
+    'xgb__max_depth': [3, 4, 5, 6],
     'xgb__subsample': [0.8, 0.9, 1.0],
-    'xgb__colsample_bytree': [0.6, 0.8, 0.9, 0.95] 
+    'xgb__colsample_bytree': [0.6, 0.8, 0.9] 
 }
 
 tscv = TimeSeriesSplit(n_splits=5)
-print("Avvio della GridSearchCV per XGBoost")
+print("Avvio della GridSearchCV per XGBoost (Difensori)...")
 
 grid_search_df_xgb = GridSearchCV(
     pipeline_xgb,
@@ -4265,14 +4071,14 @@ grid_search_df_xgb = GridSearchCV(
     cv=tscv,
     scoring='neg_mean_absolute_error',
     n_jobs=-1,
-    verbose=2
+    verbose=1
 )
 
 # FIT sui dati scalati
 grid_search_df_xgb.fit(x_train_df, y_train_scaled_df_xgb)
 
 # --- 5. RISULTATI ---
-print("\n--- Risultati GridSearchCV XGBoost ---")
+print("\n--- Risultati GridSearchCV XGBoost (Difensori) ---")
 print(f"Migliori iperparametri: {grid_search_df_xgb.best_params_}")
 print(f"Miglior MAE Scalato in CV: {-grid_search_df_xgb.best_score_:.4f}")
 
@@ -4283,8 +4089,8 @@ y_pred_train_scaled_df_xgb = best_model_df_xgb.predict(x_train_df)
 y_pred_test_scaled_df_xgb = best_model_df_xgb.predict(x_test_df)
 
 # Riportiamo le previsioni in Milioni di Euro
-y_pred_train_final_df_xgb = y_scaler_df.inverse_transform(y_pred_train_scaled_df_xgb.reshape(-1, 1))
-y_pred_test_final_df_xgb = y_scaler_df.inverse_transform(y_pred_test_scaled_df_xgb.reshape(-1, 1))
+y_pred_train_final_df_xgb = y_scaler_df.inverse_transform(y_pred_train_scaled_df_xgb.reshape(-1, 1)).ravel()
+y_pred_test_final_df_xgb = y_scaler_df.inverse_transform(y_pred_test_scaled_df_xgb.reshape(-1, 1)).ravel()
 
 mae_test_df_xgb = mean_absolute_error(y_test_df, y_pred_test_final_df_xgb)
 mae_train_df_xgb = mean_absolute_error(y_train_df, y_pred_train_final_df_xgb)
@@ -4292,34 +4098,30 @@ r2_test_df_xgb = r2_score(y_test_df, y_pred_test_final_df_xgb)
 r2_train_df_xgb = r2_score(y_train_df, y_pred_train_final_df_xgb)
 
 print("\n--- Performance Modello XGBoost Ottimizzato (Difensori) ---")
-print(f"MAE Training Set: {mae_train_df_xgb:.2f} M€")
-print(f"MAE Test Set: {mae_test_df_xgb:.2f} M€")
+print(f"MAE Training Set: {mae_train_df_xgb:.2f} €")
+print(f"MAE Test Set: {mae_test_df_xgb:.2f} €")
 print(f"R2 Score Training: {r2_train_df_xgb:.4f}")
 print(f"R2 Score Test: {r2_test_df_xgb:.4f}")
 
-print("\n--- Confronto Finale ---")
+print("\n--- Confronto Finale (Difensori) ---")
 print(f"Lasso (Difensori):    R2 Test = {r2_test_df_lasso:.4f}")
 print(f"SVR RBF (Difensori):  R2 Test = {r2_test_df_svr:.4f}")
 print(f"XGBoost (Difensori):  R2 Test = {r2_test_df_xgb:.4f}")
 
 # --- 7. PERMUTATION IMPORTANCE (Basata su MAE Reale) ---
-print("\nAvvio calcolo Permutation Importance (XGBoost)...")
+print("\nAvvio calcolo Permutation Importance (XGBoost - DF)...")
 
-# Riutilizziamo la funzione di scoring personalizzata definita per l'SVR
-# che de-scala y e calcola il MAE in euro reali.
-def unscaled_mae_scorer_xgb(model, X, y_true_unscaled):
-    y_pred_scaled = model.predict(X)
-    y_pred_unscaled = y_scaler_df.inverse_transform(y_pred_scaled.reshape(-1, 1))
-    return -mean_absolute_error(y_true_unscaled, y_pred_unscaled)
+# USIAMO LA FACTORY FUNCTION (PIÙ PULITO)
+df_xgb_scorer = create_unscaled_scorer(y_scaler_df)
 
 perm_imp_df_xgb = permutation_importance(
     best_model_df_xgb, 
     x_test_df, 
     y_test_df, 
-    n_repeats=20, # Numero di ripetizioni per stabilità
+    n_repeats=20, 
     random_state=42, 
     n_jobs=-1,
-    scoring=unscaled_mae_scorer_xgb
+    scoring=df_xgb_scorer 
 )
 
 importance_df_xgb = pd.DataFrame({
@@ -4337,9 +4139,9 @@ print(importance_df_xgb.head(25))
 end_time_df_xgb = time.time()
 execution_time_df_xgb = end_time_df_xgb - start_time_df_xgb
 print(f"\n--- Tempo di esecuzione XGBoost: {execution_time_df_xgb:.2f} secondi ---")
-#-------------------------------------------------------------------------------------------------------
-#MODELLO DI CONTROLLO XGBoost (BENCHMARCK RANDOM) - DIFENSORI
-#-------------------------------------------------------------------------------------------------------
+# =============================================================================
+#MODELLO DI CONTROLLO RANDOM XGB - DIFENSORI
+# =============================================================================
 feature_control = ["random"]
 y_column = "value"
 
@@ -4401,8 +4203,8 @@ y_pred_train_scaled_df_xgb_ctrl = best_model_df_xgb_ctrl.predict(x_train_df)
 y_pred_test_scaled_df_xgb_ctrl = best_model_df_xgb_ctrl.predict(x_test_df)
 
 # Riportiamo i valori in milioni di euro (de-scaling)
-y_pred_train_df_xgb_ctrl = y_scaler_df_xgb_ctrl.inverse_transform(y_pred_train_scaled_df_xgb_ctrl.reshape(-1, 1))
-y_pred_test_df_xgb_ctrl = y_scaler_df_xgb_ctrl.inverse_transform(y_pred_test_scaled_df_xgb_ctrl.reshape(-1, 1))
+y_pred_train_df_xgb_ctrl = y_scaler_df_xgb_ctrl.inverse_transform(y_pred_train_scaled_df_xgb_ctrl.reshape(-1, 1)).ravel()
+y_pred_test_df_xgb_ctrl = y_scaler_df_xgb_ctrl.inverse_transform(y_pred_test_scaled_df_xgb_ctrl.reshape(-1, 1)).ravel()
 
 # Calcolo metriche reali
 mae_test_df_xgb_ctrl = mean_absolute_error(y_test_df, y_pred_test_df_xgb_ctrl)
@@ -4431,7 +4233,7 @@ print(f"XGBoost Random (Controllo): {r2_test_df_xgb_ctrl:.4f}")
 #-------------------------------------------------------------------------------------------------------
 y_column = "value"
 all_features = [col for col in numeric_cols if col != "value" and col != "random" and col!="Born"]
-print(f"Inizio addestramento XGBoost con GridSearchCV su {len(all_features)} feature.")
+print(f"Inizio addestramento XGBoost (Wingback) con GridSearchCV su {len(all_features)} feature.")
 
 x_train_wb = df_wb_1824[all_features]
 y_train_wb = df_wb_1824[y_column]
@@ -4442,45 +4244,28 @@ y_test_wb = df_wb_2425[y_column]
 start_time_wb_xgb = time.time()
 
 # --- 2. SCALARE LA Y (TARGET) ---
-# Anche se XGBoost è robusto, scaliamo la Y per confrontare i MAE scalati 
-# durante la GridSearch con quelli dell'SVR.
 y_scaler_wb = StandardScaler()
 y_train_scaled_wb_xgb = y_scaler_wb.fit_transform(y_train_wb.values.reshape(-1, 1)).ravel()
 
 # --- 3. DEFINIZIONE DELLA PIPELINE ---
-# Usiamo XGBRegressor. n_jobs=1 all'interno del modello perché la parallelizzazione
-# è già gestita esternamente dalla GridSearchCV (n_jobs=-1).
 pipeline_xgb = Pipeline([
     ('imputer', SimpleImputer(strategy='constant', fill_value=0)),
     ('scaler', StandardScaler()), 
-    ('xgb', XGBRegressor(objective='reg:squarederror', random_state=42))
+    ('xgb', XGBRegressor(objective='reg:squarederror', random_state=42, n_jobs=1)) 
 ])
 
 # --- 4. SELEZIONE IPERPARAMETRI (GridSearchCV) ---
-# n_estimators: numero di alberi utilizzati per l'ensemble learning
-# max_depth: profondità degli alberi (controllo complessità)
-# learning_rate: "passo" del modello ad ogni correzione degli errori
-# subsample: % di righe campionate per ogni albero
-
-#param_grid = {
-#    'xgb__n_estimators': [50, 70, 90, 100],  
-#    'xgb__learning_rate': [0.05, 0.1, 0.2],  
-#    'xgb__max_depth': [3, 4, 5], #4
-#    'xgb__subsample': [0.7, 0.8, 1.0],  
-#    'xgb__colsample_bytree': [0.6, 0.7, 0.8] 
-#}
-
-#Solo per datset con "age" e non "born"
+# Riduciamo leggermente max_depth per combattere l'overfitting visto nei DF
 param_grid = {
-    'xgb__n_estimators': [70, 90, 100, 110],  
-    'xgb__learning_rate': [0.05, 0.1, 0.2],  
-    'xgb__max_depth': [3, 4, 5, 6], 
-    'xgb__subsample': [0.6, 0.7, 0.8],  
-    'xgb__colsample_bytree': [0.7, 0.8, 0.9] 
+    'xgb__n_estimators': [50, 80, 100, 150], 
+    'xgb__learning_rate': [0.01, 0.05, 0.1],
+    'xgb__max_depth': [2, 3, 4, 5], # Alberi meno profondi per generalizzare meglio
+    'xgb__subsample': [0.7, 0.8, 1.0],
+    'xgb__colsample_bytree': [0.7, 0.8, 1.0] 
 }
 
 tscv = TimeSeriesSplit(n_splits=5)
-print("Avvio della GridSearchCV per XGBoost")
+print("Avvio della GridSearchCV per XGBoost (Wingback)...")
 
 grid_search_wb_xgb = GridSearchCV(
     pipeline_xgb,
@@ -4488,14 +4273,14 @@ grid_search_wb_xgb = GridSearchCV(
     cv=tscv,
     scoring='neg_mean_absolute_error',
     n_jobs=-1,
-    verbose=2
+    verbose=1
 )
 
 # FIT sui dati scalati
 grid_search_wb_xgb.fit(x_train_wb, y_train_scaled_wb_xgb)
 
 # --- 5. RISULTATI ---
-print("\n--- Risultati GridSearchCV XGBoost ---")
+print("\n--- Risultati GridSearchCV XGBoost (Wingback) ---")
 print(f"Migliori iperparametri: {grid_search_wb_xgb.best_params_}")
 print(f"Miglior MAE Scalato in CV: {-grid_search_wb_xgb.best_score_:.4f}")
 
@@ -4506,8 +4291,8 @@ y_pred_train_scaled_wb_xgb = best_model_wb_xgb.predict(x_train_wb)
 y_pred_test_scaled_wb_xgb = best_model_wb_xgb.predict(x_test_wb)
 
 # Riportiamo le previsioni in Milioni di Euro
-y_pred_train_final_wb_xgb = y_scaler_wb.inverse_transform(y_pred_train_scaled_wb_xgb.reshape(-1, 1))
-y_pred_test_final_wb_xgb = y_scaler_wb.inverse_transform(y_pred_test_scaled_wb_xgb.reshape(-1, 1))
+y_pred_train_final_wb_xgb = y_scaler_wb.inverse_transform(y_pred_train_scaled_wb_xgb.reshape(-1, 1)).ravel()
+y_pred_test_final_wb_xgb = y_scaler_wb.inverse_transform(y_pred_test_scaled_wb_xgb.reshape(-1, 1)).ravel()
 
 mae_test_wb_xgb = mean_absolute_error(y_test_wb, y_pred_test_final_wb_xgb)
 mae_train_wb_xgb = mean_absolute_error(y_train_wb, y_pred_train_final_wb_xgb)
@@ -4515,34 +4300,29 @@ r2_test_wb_xgb = r2_score(y_test_wb, y_pred_test_final_wb_xgb)
 r2_train_wb_xgb = r2_score(y_train_wb, y_pred_train_final_wb_xgb)
 
 print("\n--- Performance Modello XGBoost Ottimizzato (Wingback) ---")
-print(f"MAE Training Set: {mae_train_wb_xgb:.2f} M€")
-print(f"MAE Test Set: {mae_test_wb_xgb:.2f} M€")
+print(f"MAE Training Set: {mae_train_wb_xgb:.2f} €")
+print(f"MAE Test Set: {mae_test_wb_xgb:.2f} €")
 print(f"R2 Score Training: {r2_train_wb_xgb:.4f}")
 print(f"R2 Score Test: {r2_test_wb_xgb:.4f}")
 
-print("\n--- Confronto Finale ---")
+print("\n--- Confronto Finale (Wingback) ---")
 print(f"Lasso (Wingback):    R2 Test = {r2_test_wb_lasso:.4f}")
 print(f"SVR RBF (Wingback):  R2 Test = {r2_test_wb_svr:.4f}")
 print(f"XGBoost (Wingback):  R2 Test = {r2_test_wb_xgb:.4f}")
 
 # --- 7. PERMUTATION IMPORTANCE (Basata su MAE Reale) ---
-print("\nAvvio calcolo Permutation Importance (XGBoost)...")
+print("\nAvvio calcolo Permutation Importance (XGBoost - WB)...")
 
-# Riutilizziamo la funzione di scoring personalizzata definita per l'SVR
-# che de-scala y e calcola il MAE in euro reali.
-def unscaled_mae_scorer_xgb(model, X, y_true_unscaled):
-    y_pred_scaled = model.predict(X)
-    y_pred_unscaled = y_scaler_wb.inverse_transform(y_pred_scaled.reshape(-1, 1))
-    return -mean_absolute_error(y_true_unscaled, y_pred_unscaled)
+wb_xgb_scorer = create_unscaled_scorer(y_scaler_wb)
 
 perm_imp_wb_xgb = permutation_importance(
     best_model_wb_xgb, 
     x_test_wb, 
     y_test_wb, 
-    n_repeats=20, # Numero di ripetizioni per stabilità
+    n_repeats=20, 
     random_state=42, 
     n_jobs=-1,
-    scoring=unscaled_mae_scorer_xgb
+    scoring=wb_xgb_scorer 
 )
 
 importance_wb_xgb = pd.DataFrame({
@@ -4560,9 +4340,9 @@ print(importance_wb_xgb.head(25))
 end_time_wb_xgb = time.time()
 execution_time_wb_xgb = end_time_wb_xgb - start_time_wb_xgb
 print(f"\n--- Tempo di esecuzione XGBoost: {execution_time_wb_xgb:.2f} secondi ---")
-#-------------------------------------------------------------------------------------------------------
-#MODELLO DI CONTROLLO XGBoost (BENCHMARCK RANDOM) - WINGBACK
-#-------------------------------------------------------------------------------------------------------
+# =============================================================================
+#MODELLO DI CONTROLLO RANDOM XGB - WINGBACK
+# =============================================================================
 feature_control = ["random"]
 y_column = "value"
 
@@ -4624,8 +4404,8 @@ y_pred_train_scaled_wb_xgb_ctrl = best_model_wb_xgb_ctrl.predict(x_train_wb)
 y_pred_test_scaled_wb_xgb_ctrl = best_model_wb_xgb_ctrl.predict(x_test_wb)
 
 # Riportiamo i valori in milioni di euro (de-scaling)
-y_pred_train_wb_xgb_ctrl = y_scaler_wb_xgb_ctrl.inverse_transform(y_pred_train_scaled_wb_xgb_ctrl.reshape(-1, 1))
-y_pred_test_wb_xgb_ctrl = y_scaler_wb_xgb_ctrl.inverse_transform(y_pred_test_scaled_wb_xgb_ctrl.reshape(-1, 1))
+y_pred_train_wb_xgb_ctrl = y_scaler_wb_xgb_ctrl.inverse_transform(y_pred_train_scaled_wb_xgb_ctrl.reshape(-1, 1)).ravel()
+y_pred_test_wb_xgb_ctrl = y_scaler_wb_xgb_ctrl.inverse_transform(y_pred_test_scaled_wb_xgb_ctrl.reshape(-1, 1)).ravel()
 
 # Calcolo metriche reali
 mae_test_wb_xgb_ctrl = mean_absolute_error(y_test_wb, y_pred_test_wb_xgb_ctrl)
@@ -4633,7 +4413,7 @@ mae_train_wb_xgb_ctrl = mean_absolute_error(y_train_wb, y_pred_train_wb_xgb_ctrl
 r2_test_wb_xgb_ctrl = r2_score(y_test_wb, y_pred_test_wb_xgb_ctrl)
 r2_train_wb_xgb_ctrl = r2_score(y_train_wb, y_pred_train_wb_xgb_ctrl)
 
-print("\n--- PERFORMANCE MODELLO DI CONTROLLO XGBOOST (RANDOM) - CENTROCAMPISTI ---")
+print("\n--- PERFORMANCE MODELLO DI CONTROLLO XGBOOST (RANDOM) - WINGBACK ---")
 print(f"MAE sul set di TRAINING: {mae_train_wb_xgb_ctrl:.2f} M€")
 print(f"MAE sul set di TEST: {mae_test_wb_xgb_ctrl:.2f} M€")
 print(f"R2 Score sul set di TRAINING: {r2_train_wb_xgb_ctrl:.4f}")
@@ -4654,7 +4434,7 @@ print(f"XGBoost Random (Controllo): {r2_test_wb_xgb_ctrl:.4f}")
 #-------------------------------------------------------------------------------------------------------
 y_column = "value"
 all_features = [col for col in numeric_cols if col != "value" and col != "random" and col!="Born"]
-print(f"Inizio addestramento XGBoost con GridSearchCV su {len(all_features)} feature.")
+print(f"Inizio addestramento XGBoost (Centrocampisti) con GridSearchCV su {len(all_features)} feature.")
 
 x_train_mf = df_mf_1824[all_features]
 y_train_mf = df_mf_1824[y_column]
@@ -4665,45 +4445,28 @@ y_test_mf = df_mf_2425[y_column]
 start_time_mf_xgb = time.time()
 
 # --- 2. SCALARE LA Y (TARGET) ---
-# Anche se XGBoost è robusto, scaliamo la Y per confrontare i MAE scalati 
-# durante la GridSearch con quelli dell'SVR.
 y_scaler_mf = StandardScaler()
 y_train_scaled_mf_xgb = y_scaler_mf.fit_transform(y_train_mf.values.reshape(-1, 1)).ravel()
 
 # --- 3. DEFINIZIONE DELLA PIPELINE ---
-# Usiamo XGBRegressor. n_jobs=1 all'interno del modello perché la parallelizzazione
-# è già gestita esternamente dalla GridSearchCV (n_jobs=-1).
 pipeline_xgb = Pipeline([
     ('imputer', SimpleImputer(strategy='constant', fill_value=0)),
     ('scaler', StandardScaler()), 
-    ('xgb', XGBRegressor(objective='reg:squarederror', random_state=42))
+    ('xgb', XGBRegressor(objective='reg:squarederror', random_state=42, n_jobs=1)) 
 ])
 
 # --- 4. SELEZIONE IPERPARAMETRI (GridSearchCV) ---
-# n_estimators: numero di alberi utilizzati per l'ensemble learning
-# max_depth: profondità degli alberi (controllo complessità)
-# learning_rate: "passo" del modello ad ogni correzione degli errori
-# subsample: % di righe campionate per ogni albero
-
-#param_grid = {
-#    'xgb__n_estimators': [70, 90, 100, 110], #100
-#    'xgb__learning_rate': [0.03, 0.05, 0.1], #0.05
-#    'xgb__max_depth': [3, 4, 5], #4
-#    'xgb__subsample': [0.5, 0.6, 0.75], #0.6
-#    'xgb__colsample_bytree': [0.5, 0.6, 0.7, 0.8] #0.6
-#}
-
-#Solo per dataset con "age" e no "Born"
+# Per i MF, che sono inclini all'overfitting, manteniamo profondità contenute
 param_grid = {
-    'xgb__n_estimators': [100,110, 120, 130], 
-    'xgb__learning_rate': [0.05, 0.1, 0.2], 
-    'xgb__max_depth': [2, 3, 4, 5],
-    'xgb__subsample': [0.5, 0.6, 0.75], 
-    'xgb__colsample_bytree': [0.6, 0.7, 0.8] 
+    'xgb__n_estimators': [50, 100, 150], 
+    'xgb__learning_rate': [0.05, 0.1, 0.15],
+    'xgb__max_depth': [3, 4, 5, 6], 
+    'xgb__subsample': [0.7, 0.8, 1.0],
+    'xgb__colsample_bytree': [0.7, 0.8, 0.9] 
 }
 
 tscv = TimeSeriesSplit(n_splits=5)
-print("Avvio della GridSearchCV per XGBoost")
+print("Avvio della GridSearchCV per XGBoost (Centrocampisti)...")
 
 grid_search_mf_xgb = GridSearchCV(
     pipeline_xgb,
@@ -4711,14 +4474,14 @@ grid_search_mf_xgb = GridSearchCV(
     cv=tscv,
     scoring='neg_mean_absolute_error',
     n_jobs=-1,
-    verbose=2
+    verbose=1
 )
 
 # FIT sui dati scalati
 grid_search_mf_xgb.fit(x_train_mf, y_train_scaled_mf_xgb)
 
 # --- 5. RISULTATI ---
-print("\n--- Risultati GridSearchCV XGBoost ---")
+print("\n--- Risultati GridSearchCV XGBoost (Centrocampisti) ---")
 print(f"Migliori iperparametri: {grid_search_mf_xgb.best_params_}")
 print(f"Miglior MAE Scalato in CV: {-grid_search_mf_xgb.best_score_:.4f}")
 
@@ -4729,8 +4492,8 @@ y_pred_train_scaled_mf_xgb = best_model_mf_xgb.predict(x_train_mf)
 y_pred_test_scaled_mf_xgb = best_model_mf_xgb.predict(x_test_mf)
 
 # Riportiamo le previsioni in Milioni di Euro
-y_pred_train_final_mf_xgb = y_scaler_mf.inverse_transform(y_pred_train_scaled_mf_xgb.reshape(-1, 1))
-y_pred_test_final_mf_xgb = y_scaler_mf.inverse_transform(y_pred_test_scaled_mf_xgb.reshape(-1, 1))
+y_pred_train_final_mf_xgb = y_scaler_mf.inverse_transform(y_pred_train_scaled_mf_xgb.reshape(-1, 1)).ravel()
+y_pred_test_final_mf_xgb = y_scaler_mf.inverse_transform(y_pred_test_scaled_mf_xgb.reshape(-1, 1)).ravel()
 
 mae_test_mf_xgb = mean_absolute_error(y_test_mf, y_pred_test_final_mf_xgb)
 mae_train_mf_xgb = mean_absolute_error(y_train_mf, y_pred_train_final_mf_xgb)
@@ -4738,34 +4501,29 @@ r2_test_mf_xgb = r2_score(y_test_mf, y_pred_test_final_mf_xgb)
 r2_train_mf_xgb = r2_score(y_train_mf, y_pred_train_final_mf_xgb)
 
 print("\n--- Performance Modello XGBoost Ottimizzato (Centrocampisti) ---")
-print(f"MAE Training Set: {mae_train_mf_xgb:.2f} M€")
-print(f"MAE Test Set: {mae_test_mf_xgb:.2f} M€")
+print(f"MAE Training Set: {mae_train_mf_xgb:.2f} €")
+print(f"MAE Test Set: {mae_test_mf_xgb:.2f} €")
 print(f"R2 Score Training: {r2_train_mf_xgb:.4f}")
 print(f"R2 Score Test: {r2_test_mf_xgb:.4f}")
 
-print("\n--- Confronto Finale ---")
+print("\n--- Confronto Finale (Centrocampisti) ---")
 print(f"Lasso (Centrocampisti):    R2 Test = {r2_test_mf_lasso:.4f}")
 print(f"SVR RBF (Centrocampisti):  R2 Test = {r2_test_mf_svr:.4f}")
 print(f"XGBoost (Centrocampisti):  R2 Test = {r2_test_mf_xgb:.4f}")
 
 # --- 7. PERMUTATION IMPORTANCE (Basata su MAE Reale) ---
-print("\nAvvio calcolo Permutation Importance (XGBoost)...")
+print("\nAvvio calcolo Permutation Importance (XGBoost - MF)...")
 
-# Riutilizziamo la funzione di scoring personalizzata definita per l'SVR
-# che de-scala y e calcola il MAE in euro reali.
-def unscaled_mae_scorer_xgb(model, X, y_true_unscaled):
-    y_pred_scaled = model.predict(X)
-    y_pred_unscaled = y_scaler_mf.inverse_transform(y_pred_scaled.reshape(-1, 1))
-    return -mean_absolute_error(y_true_unscaled, y_pred_unscaled)
+mf_xgb_scorer = create_unscaled_scorer(y_scaler_mf)
 
 perm_imp_mf_xgb = permutation_importance(
     best_model_mf_xgb, 
     x_test_mf, 
     y_test_mf, 
-    n_repeats=20, # Numero di ripetizioni per stabilità
+    n_repeats=20, 
     random_state=42, 
     n_jobs=-1,
-    scoring=unscaled_mae_scorer_xgb
+    scoring=mf_xgb_scorer 
 )
 
 importance_mf_xgb = pd.DataFrame({
@@ -4782,10 +4540,10 @@ print(importance_mf_xgb.head(25))
 # Fine cronometro
 end_time_mf_xgb = time.time()
 execution_time_mf_xgb = end_time_mf_xgb - start_time_mf_xgb
-print(f"\n--- Tempo di esecuzione XGBoost MF: {execution_time_mf_xgb:.2f} secondi ---")
-#-------------------------------------------------------------------------------------------------------
-#MODELLO DI CONTROLLO XGBoost (BENCHMARCK RANDOM) - CENTROCAMPISTI
-#-------------------------------------------------------------------------------------------------------
+print(f"\n--- Tempo di esecuzione XGBoost: {execution_time_mf_xgb:.2f} secondi ---")
+# =============================================================================
+#MODELLO DI CONTROLLO RANDOM XGB - CENTROCAMPISTI
+# =============================================================================
 feature_control = ["random"]
 y_column = "value"
 
@@ -4847,8 +4605,8 @@ y_pred_train_scaled_mf_xgb_ctrl = best_model_mf_xgb_ctrl.predict(x_train_mf)
 y_pred_test_scaled_mf_xgb_ctrl = best_model_mf_xgb_ctrl.predict(x_test_mf)
 
 # Riportiamo i valori in milioni di euro (de-scaling)
-y_pred_train_mf_xgb_ctrl = y_scaler_mf_xgb_ctrl.inverse_transform(y_pred_train_scaled_mf_xgb_ctrl.reshape(-1, 1))
-y_pred_test_mf_xgb_ctrl = y_scaler_mf_xgb_ctrl.inverse_transform(y_pred_test_scaled_mf_xgb_ctrl.reshape(-1, 1))
+y_pred_train_mf_xgb_ctrl = y_scaler_mf_xgb_ctrl.inverse_transform(y_pred_train_scaled_mf_xgb_ctrl.reshape(-1, 1)).ravel()
+y_pred_test_mf_xgb_ctrl = y_scaler_mf_xgb_ctrl.inverse_transform(y_pred_test_scaled_mf_xgb_ctrl.reshape(-1, 1)).ravel()
 
 # Calcolo metriche reali
 mae_test_mf_xgb_ctrl = mean_absolute_error(y_test_mf, y_pred_test_mf_xgb_ctrl)
@@ -4877,7 +4635,7 @@ print(f"XGBoost Random (Controllo): {r2_test_mf_xgb_ctrl:.4f}")
 #-------------------------------------------------------------------------------------------------------
 y_column = "value"
 all_features = [col for col in numeric_cols if col != "value" and col != "random" and col!="Born"]
-print(f"Inizio addestramento XGBoost con GridSearchCV su {len(all_features)} feature.")
+print(f"Inizio addestramento XGBoost (Attaccanti) con GridSearchCV su {len(all_features)} feature.")
 
 x_train_fw = df_fw_1824[all_features]
 y_train_fw = df_fw_1824[y_column]
@@ -4888,49 +4646,28 @@ y_test_fw = df_fw_2425[y_column]
 start_time_fw_xgb = time.time()
 
 # --- 2. SCALARE LA Y (TARGET) ---
-# Anche se XGBoost è robusto, scaliamo la Y per confrontare i MAE scalati 
-# durante la GridSearch con quelli dell'SVR.
 y_scaler_fw = StandardScaler()
 y_train_scaled_fw_xgb = y_scaler_fw.fit_transform(y_train_fw.values.reshape(-1, 1)).ravel()
 
 # --- 3. DEFINIZIONE DELLA PIPELINE ---
-# Usiamo XGBRegressor. n_jobs=1 all'interno del modello perché la parallelizzazione
-# è già gestita esternamente dalla GridSearchCV (n_jobs=-1).
 pipeline_xgb = Pipeline([
     ('imputer', SimpleImputer(strategy='constant', fill_value=0)),
     ('scaler', StandardScaler()), 
-    ('xgb', XGBRegressor(objective='reg:squarederror', random_state=42))
+    ('xgb', XGBRegressor(objective='reg:squarederror', random_state=42, n_jobs=1)) 
 ])
 
 # --- 4. SELEZIONE IPERPARAMETRI (GridSearchCV) ---
-# n_estimators: numero di alberi utilizzati per l'ensemble learning
-# learning_rate: "passo" del modello ad ogni correzione degli errori
-    #value finale= value base + eta*model1 + eta*model2 +...
-# max_depth: profondità degli alberi (controllo complessità)
-    #indica il numero di nodi di ogni albero
-#subsample:percentuale di giocatori (righe) da usare per addestrare ogni albero
-#colsample_bytree: percentuale di statistiche (feature) da usare per ogni albero
-
-# subsample: % di righe campionate per ogni albero
-#param_grid = {
-#    'xgb__n_estimators': [90, 100, 110],   #
-#    'xgb__learning_rate': [0.1, 0.2, 0.3],  #
-#    'xgb__max_depth': [3, 4, 5],    #
-#    'xgb__subsample': [0.6, 0.7, 0.8],  #
-#    'xgb__colsample_bytree': [0.7, 0.8, 0.9]    #
-#}
-
-#Solo per dataset con "age" e non "Born"
+# Griglia bilanciata: abbastanza profonda per trovare pattern, ma controllata
 param_grid = {
-    'xgb__n_estimators': [130, 140, 160],   
-    'xgb__learning_rate': [0.05, 0.1, 0.2],  
-    'xgb__max_depth': [2, 3, 4, 5],    
-    'xgb__subsample': [0.6, 0.7, 0.8],  
-    'xgb__colsample_bytree': [0.7, 0.8, 0.9]    
+    'xgb__n_estimators': [50, 80, 100, 150], 
+    'xgb__learning_rate': [0.01, 0.05, 0.1, 0.15],
+    'xgb__max_depth': [3, 4, 5, 6], 
+    'xgb__subsample': [0.7, 0.8, 1.0],
+    'xgb__colsample_bytree': [0.7, 0.8, 1.0] 
 }
 
 tscv = TimeSeriesSplit(n_splits=5)
-print("Avvio della GridSearchCV per XGBoost")
+print("Avvio della GridSearchCV per XGBoost (Attaccanti)...")
 
 grid_search_fw_xgb = GridSearchCV(
     pipeline_xgb,
@@ -4938,14 +4675,14 @@ grid_search_fw_xgb = GridSearchCV(
     cv=tscv,
     scoring='neg_mean_absolute_error',
     n_jobs=-1,
-    verbose=2
+    verbose=1
 )
 
 # FIT sui dati scalati
 grid_search_fw_xgb.fit(x_train_fw, y_train_scaled_fw_xgb)
 
 # --- 5. RISULTATI ---
-print("\n--- Risultati GridSearchCV XGBoost ---")
+print("\n--- Risultati GridSearchCV XGBoost (Attaccanti) ---")
 print(f"Migliori iperparametri: {grid_search_fw_xgb.best_params_}")
 print(f"Miglior MAE Scalato in CV: {-grid_search_fw_xgb.best_score_:.4f}")
 
@@ -4956,8 +4693,8 @@ y_pred_train_scaled_fw_xgb = best_model_fw_xgb.predict(x_train_fw)
 y_pred_test_scaled_fw_xgb = best_model_fw_xgb.predict(x_test_fw)
 
 # Riportiamo le previsioni in Milioni di Euro
-y_pred_train_final_fw_xgb = y_scaler_fw.inverse_transform(y_pred_train_scaled_fw_xgb.reshape(-1, 1))
-y_pred_test_final_fw_xgb = y_scaler_fw.inverse_transform(y_pred_test_scaled_fw_xgb.reshape(-1, 1))
+y_pred_train_final_fw_xgb = y_scaler_fw.inverse_transform(y_pred_train_scaled_fw_xgb.reshape(-1, 1)).ravel()
+y_pred_test_final_fw_xgb = y_scaler_fw.inverse_transform(y_pred_test_scaled_fw_xgb.reshape(-1, 1)).ravel()
 
 mae_test_fw_xgb = mean_absolute_error(y_test_fw, y_pred_test_final_fw_xgb)
 mae_train_fw_xgb = mean_absolute_error(y_train_fw, y_pred_train_final_fw_xgb)
@@ -4965,34 +4702,32 @@ r2_test_fw_xgb = r2_score(y_test_fw, y_pred_test_final_fw_xgb)
 r2_train_fw_xgb = r2_score(y_train_fw, y_pred_train_final_fw_xgb)
 
 print("\n--- Performance Modello XGBoost Ottimizzato (Attaccanti) ---")
-print(f"MAE Training Set: {mae_train_fw_xgb:.2f} M€")
-print(f"MAE Test Set: {mae_test_fw_xgb:.2f} M€")
+print(f"MAE Training Set: {mae_train_fw_xgb:.2f} €")
+print(f"MAE Test Set: {mae_test_fw_xgb:.2f} €")
 print(f"R2 Score Training: {r2_train_fw_xgb:.4f}")
 print(f"R2 Score Test: {r2_test_fw_xgb:.4f}")
 
-print("\n--- Confronto Finale ---")
-print(f"Lasso (Attaccanti):    R2 Test = {r2_test_fw_lasso:.4f}")
-print(f"SVR RBF (Attaccanti):  R2 Test = {r2_test_fw_svr:.4f}")
+print("\n--- Confronto Finale (Attaccanti) ---")
+try:
+    print(f"Lasso (Attaccanti):    R2 Test = {r2_test_fw_lasso:.4f}")
+    print(f"SVR RBF (Attaccanti):  R2 Test = {r2_test_fw_svr:.4f}")
+except:
+    pass
 print(f"XGBoost (Attaccanti):  R2 Test = {r2_test_fw_xgb:.4f}")
 
 # --- 7. PERMUTATION IMPORTANCE (Basata su MAE Reale) ---
-print("\nAvvio calcolo Permutation Importance (XGBoost)...")
+print("\nAvvio calcolo Permutation Importance (XGBoost - FW)...")
 
-# Riutilizziamo la funzione di scoring personalizzata definita per l'SVR
-# che de-scala y e calcola il MAE in euro reali.
-def unscaled_mae_scorer_xgb(model, X, y_true_unscaled):
-    y_pred_scaled = model.predict(X)
-    y_pred_unscaled = y_scaler_fw.inverse_transform(y_pred_scaled.reshape(-1, 1))
-    return -mean_absolute_error(y_true_unscaled, y_pred_unscaled)
+fw_xgb_scorer = create_unscaled_scorer(y_scaler_fw)
 
 perm_imp_fw_xgb = permutation_importance(
     best_model_fw_xgb, 
     x_test_fw, 
     y_test_fw, 
-    n_repeats=20, # Numero di ripetizioni per stabilità
+    n_repeats=20, 
     random_state=42, 
     n_jobs=-1,
-    scoring=unscaled_mae_scorer_xgb
+    scoring=fw_xgb_scorer 
 )
 
 importance_fw_xgb = pd.DataFrame({
@@ -5010,9 +4745,9 @@ print(importance_fw_xgb.head(25))
 end_time_fw_xgb = time.time()
 execution_time_fw_xgb = end_time_fw_xgb - start_time_fw_xgb
 print(f"\n--- Tempo di esecuzione XGBoost: {execution_time_fw_xgb:.2f} secondi ---")
-#-------------------------------------------------------------------------------------------------------
-#MODELLO DI CONTROLLO XGBoost (BENCHMARCK RANDOM) - ATTACCANTI
-#-------------------------------------------------------------------------------------------------------
+# =============================================================================
+#MODELLO DI CONTROLLO RANDOM XGB - ATTACCANTI
+# =============================================================================
 feature_control = ["random"]
 y_column = "value"
 
@@ -5074,8 +4809,8 @@ y_pred_train_scaled_fw_xgb_ctrl = best_model_fw_xgb_ctrl.predict(x_train_fw)
 y_pred_test_scaled_fw_xgb_ctrl = best_model_fw_xgb_ctrl.predict(x_test_fw)
 
 # Riportiamo i valori in milioni di euro (de-scaling)
-y_pred_train_fw_xgb_ctrl = y_scaler_fw_xgb_ctrl.inverse_transform(y_pred_train_scaled_fw_xgb_ctrl.reshape(-1, 1))
-y_pred_test_fw_xgb_ctrl = y_scaler_fw_xgb_ctrl.inverse_transform(y_pred_test_scaled_fw_xgb_ctrl.reshape(-1, 1))
+y_pred_train_fw_xgb_ctrl = y_scaler_fw_xgb_ctrl.inverse_transform(y_pred_train_scaled_fw_xgb_ctrl.reshape(-1, 1)).ravel()
+y_pred_test_fw_xgb_ctrl = y_scaler_fw_xgb_ctrl.inverse_transform(y_pred_test_scaled_fw_xgb_ctrl.reshape(-1, 1)).ravel()
 
 # Calcolo metriche reali
 mae_test_fw_xgb_ctrl = mean_absolute_error(y_test_fw, y_pred_test_fw_xgb_ctrl)
@@ -5093,13 +4828,2550 @@ print(f"R2 Score sul set di TEST: {r2_test_fw_xgb_ctrl:.4f}")
 print("\n--- Verifica Potere Predittivo (R2 Test) ---")
 print(f"XGBoost Reale (Attaccanti): {r2_test_fw_xgb:.4f}")
 print(f"XGBoost Random (Controllo): {r2_test_fw_xgb_ctrl:.4f}")
+
 #-------------------------------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------------------------------
-#FASE 11 - GRAFICI
+#FASE 11 - MODELLI DI CONTROLLO LASSO + SVR + XGBOOST SENZA PARTIZIONE IN RUOLI
+#-------------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------------
+# ======================================================================================
+#MODELLO DI CONTROLLO SENZA PARTIZIONI - LASSO 
+# ======================================================================================
+# 1. PREPARAZIONE DATASET GLOBALI (18/19 - 23/24 per Training, 24/25 per Test)
+train_df_global_list = [df_merge_1819, df_merge_1920, df_merge_2021, df_merge_2122, df_merge_2223, df_merge_2324]
+df_train_glob = pd.concat(train_df_global_list, axis=0).reset_index(drop=True)
+df_test_glob = df_merge_2425.copy()
+
+# Inizio cronometro
+start_time_lasso_glob = time.time()
+
+# 2. DEFINIZIONE FEATURE E TARGET
+y_column = "value"
+all_features = [col for col in numeric_cols if col != "value" and col != "random" and col!="Born"]
+
+x_train_glob = df_train_glob[all_features]
+y_train_glob = df_train_glob[y_column]
+x_test_glob = df_test_glob[all_features]
+y_test_glob = df_test_glob[y_column]
+
+# 3. SCALARE LA Y (Target)
+y_scaler_lasso_glob = StandardScaler()
+y_train_scaled_lasso_glob = y_scaler_lasso_glob.fit_transform(y_train_glob.values.reshape(-1, 1)).ravel()
+
+# 4. PIPELINE LASSO
+# set_output necessario affinché il ColumnTransformer riceva un DataFrame con nomi colonne
+imputer_step = SimpleImputer(strategy='constant', fill_value=0).set_output(transform="pandas")
+
+feature_transformer = ColumnTransformer(
+    transformers=[
+        ('poly', PolynomialFeatures(degree=2, include_bias=False), ['age'])
+    ],
+    remainder='passthrough'
+)
+
+pipeline_lasso_glob = Pipeline([
+    ('imputer', imputer_step),
+    ('transformer', feature_transformer),
+    ('scaler', StandardScaler()),
+    ('lasso', Lasso(random_state=42, max_iter=10000))
+])
+
+# 5. GRID SEARCH CON TIMESERIESSPLIT
+param_grid_lasso = {
+    'lasso__alpha': np.logspace(-3, 2, 100)  # 100 valori da 0.001 a 100 (Y standardizzata)
+}
+
+tscv = TimeSeriesSplit(n_splits=5)
+
+grid_search_lasso_glob = GridSearchCV(
+    pipeline_lasso_glob,
+    param_grid=param_grid_lasso,
+    cv=tscv,
+    scoring='neg_mean_absolute_error',
+    n_jobs=-1,
+    verbose=1
+)
+
+print(f"Inizio addestramento LASSO Globale su {len(x_train_glob)} campioni...")
+grid_search_lasso_glob.fit(x_train_glob, y_train_scaled_lasso_glob)
+
+# 6. VALUTAZIONE E INVERSE TRANSFORM
+best_lasso_glob = grid_search_lasso_glob.best_estimator_
+
+y_pred_train_scaled_lasso_glob = best_lasso_glob.predict(x_train_glob)
+y_pred_test_scaled_lasso_glob = best_lasso_glob.predict(x_test_glob)
+
+y_pred_train_lasso_glob = y_scaler_lasso_glob.inverse_transform(y_pred_train_scaled_lasso_glob.reshape(-1, 1)).ravel()
+y_pred_test_lasso_glob = y_scaler_lasso_glob.inverse_transform(y_pred_test_scaled_lasso_glob.reshape(-1, 1)).ravel()
+
+# Metriche
+r2_train_lasso_glob = r2_score(y_train_glob, y_pred_train_lasso_glob)
+r2_test_lasso_glob = r2_score(y_test_glob, y_pred_test_lasso_glob)
+mae_test_lasso_glob = mean_absolute_error(y_test_glob, y_pred_test_lasso_glob)
+mae_train_lasso_glob = mean_absolute_error(y_train_glob, y_pred_train_lasso_glob)
+
+# 7. ANALISI DEI COEFFICIENTI
+transformer_step = best_lasso_glob.named_steps['transformer']
+feature_names_out = transformer_step.get_feature_names_out()
+
+lasso_regressor_glob = best_lasso_glob.named_steps['lasso']
+lasso_coef_glob = pd.Series(lasso_regressor_glob.coef_, index=feature_names_out)
+lasso_coef_glob.index = lasso_coef_glob.index.str.replace('remainder__', '').str.replace('poly__', '')
+
+zero_features_glob = lasso_coef_glob[np.abs(lasso_coef_glob) < 1e-6]
+relevant_features_glob = lasso_coef_glob[np.abs(lasso_coef_glob) >= 1e-6]
+
+print("\n--- Feature Selection Automatica Eseguita ---")
+print(f"Feature totali iniziali: {len(all_features)}")
+print(f"Feature eliminate da Lasso (coefficiente ≈ 0): {len(zero_features_glob)}")
+print(f"Feature mantenute (significative): {len(relevant_features_glob)}")
+
+print("\nFeature più importanti (coefficienti più alti):")
+print(relevant_features_glob.abs().sort_values(ascending=False).head(20))
+
+print("\n--- RISULTATI MODELLO LASSO GLOBALE (TUTTI I RUOLI - SENZA PARTIZIONE) ---")
+print(f"Miglior Alpha: {grid_search_lasso_glob.best_params_['lasso__alpha']}")
+print(f"MAE TRAINING: {mae_train_lasso_glob:.2f} €")
+print(f"MAE TEST: {mae_test_lasso_glob:.2f} €")
+print(f"R2 Score TRAINING: {r2_train_lasso_glob:.4f}")
+print(f"R2 Score TEST: {r2_test_lasso_glob:.4f}")
+
+# Fine cronometro
+end_time_lasso_glob = time.time()
+execution_time_lasso_glob = end_time_lasso_glob - start_time_lasso_glob
+print(f"\n--- Tempo di esecuzione LASSO SENZA PARTIZIONI: {execution_time_lasso_glob:.2f} secondi ---")
+
+# =============================================================================
+# APPLICAZIONE DEL MODELLO LASSO GLOBALE SUI SINGOLI RUOLI
+# Il modello è stato allenato su tutti i giocatori (2018-2024).
+# Lo applichiamo ora sui sottoinsiemi per ruolo del test set (2024-25)
+# e del training set (2018-2024) per un confronto diretto con i modelli per ruolo.
+# =============================================================================
+
+ruoli = {
+    'GK': (df_gk_1824, df_gk_2425),
+    'DF': (df_df_1824, df_df_2425),
+    'WB': (df_wb_1824, df_wb_2425),
+    'MF': (df_mf_1824, df_mf_2425),
+    'FW': (df_fw_1824, df_fw_2425),
+}
+
+print("\n--- APPLICAZIONE MODELLO LASSO GLOBALE SUI SINGOLI RUOLI ---")
+print(f"{'Ruolo':<6} {'R2 Train':>10} {'R2 Test':>10} {'MAE Train':>12} {'MAE Test':>12} {'N Train':>9} {'N Test':>8}")
+print("-" * 65)
+
+r2_train_lasso_glob_gk = r2_train_lasso_glob_df = r2_train_lasso_glob_wb = r2_train_lasso_glob_mf = r2_train_lasso_glob_fw = None
+r2_test_lasso_glob_gk  = r2_test_lasso_glob_df  = r2_test_lasso_glob_wb  = r2_test_lasso_glob_mf  = r2_test_lasso_glob_fw  = None
+mae_train_lasso_glob_gk = mae_train_lasso_glob_df = mae_train_lasso_glob_wb = mae_train_lasso_glob_mf = mae_train_lasso_glob_fw = None
+mae_test_lasso_glob_gk  = mae_test_lasso_glob_df  = mae_test_lasso_glob_wb  = mae_test_lasso_glob_mf  = mae_test_lasso_glob_fw  = None
+
+for ruolo, (df_train_ruolo, df_test_ruolo) in ruoli.items():
+
+    # Feature e target per ruolo
+    x_train_ruolo = df_train_ruolo[all_features]
+    y_train_ruolo = df_train_ruolo[y_column]
+    x_test_ruolo  = df_test_ruolo[all_features]
+    y_test_ruolo  = df_test_ruolo[y_column]
+
+    # Predizioni scalate usando il modello globale già allenato
+    y_pred_train_scaled = best_lasso_glob.predict(x_train_ruolo)
+    y_pred_test_scaled  = best_lasso_glob.predict(x_test_ruolo)
+
+    # Inverse transform con lo scaler globale
+    y_pred_train_ruolo = y_scaler_lasso_glob.inverse_transform(y_pred_train_scaled.reshape(-1, 1)).ravel()
+    y_pred_test_ruolo  = y_scaler_lasso_glob.inverse_transform(y_pred_test_scaled.reshape(-1, 1)).ravel()
+
+    # Metriche
+    r2_train  = r2_score(y_train_ruolo, y_pred_train_ruolo)
+    r2_test   = r2_score(y_test_ruolo,  y_pred_test_ruolo)
+    mae_train = mean_absolute_error(y_train_ruolo, y_pred_train_ruolo)
+    mae_test  = mean_absolute_error(y_test_ruolo,  y_pred_test_ruolo)
+
+    # Salvataggio in variabili nominali per uso nei grafici di Fase 13
+    if ruolo == 'GK':
+        r2_train_lasso_glob_gk  = r2_train;  r2_test_lasso_glob_gk  = r2_test
+        mae_train_lasso_glob_gk = mae_train; mae_test_lasso_glob_gk  = mae_test
+    elif ruolo == 'DF':
+        r2_train_lasso_glob_df  = r2_train;  r2_test_lasso_glob_df  = r2_test
+        mae_train_lasso_glob_df = mae_train; mae_test_lasso_glob_df  = mae_test
+    elif ruolo == 'WB':
+        r2_train_lasso_glob_wb  = r2_train;  r2_test_lasso_glob_wb  = r2_test
+        mae_train_lasso_glob_wb = mae_train; mae_test_lasso_glob_wb  = mae_test
+    elif ruolo == 'MF':
+        r2_train_lasso_glob_mf  = r2_train;  r2_test_lasso_glob_mf  = r2_test
+        mae_train_lasso_glob_mf = mae_train; mae_test_lasso_glob_mf  = mae_test
+    elif ruolo == 'FW':
+        r2_train_lasso_glob_fw  = r2_train;  r2_test_lasso_glob_fw  = r2_test
+        mae_train_lasso_glob_fw = mae_train; mae_test_lasso_glob_fw  = mae_test
+
+    print(f"{ruolo:<6} {r2_train:>10.4f} {r2_test:>10.4f} {mae_train:>12.2f} {mae_test:>12.2f} {len(y_train_ruolo):>9} {len(y_test_ruolo):>8}")
+
+print("-" * 65)
+print("\nConfronto di riferimento (modello globale su tutto il test set):")
+print(f"  R2 Test globale:  {r2_test_lasso_glob:.4f}")
+print(f"  MAE Test globale: {mae_test_lasso_glob:.2f} €")
+
+# =============================================================================
+#MODELLO DI CONTROLLO SENZA PARTIZIONI - SVR
+# =============================================================================
+# 1. PREPARAZIONE DATASET GLOBALI (18/19 - 23/24 per Training, 24/25 per Test)
+train_df_global_list = [df_merge_1819, df_merge_1920, df_merge_2021, df_merge_2122, df_merge_2223, df_merge_2324]
+df_train_glob = pd.concat(train_df_global_list, axis=0).reset_index(drop=True)
+df_test_glob = df_merge_2425.copy()
+
+# Inizio cronometro
+start_time_svr_glob = time.time()
+
+# 2. DEFINIZIONE FEATURE E TARGET
+y_column = "value"
+all_features = [col for col in numeric_cols if col != "value" and col != "random" and col!="Born"]
+
+x_train_glob = df_train_glob[all_features]
+y_train_glob = df_train_glob[y_column]
+x_test_glob = df_test_glob[all_features]
+y_test_glob = df_test_glob[y_column]
+
+# Utilizziamo lo stesso scaler 
+y_scaler_svr_glob = StandardScaler()
+y_train_scaled_svr_glob = y_scaler_svr_glob.fit_transform(y_train_glob.values.reshape(-1, 1)).ravel()
+
+# 3. PIPELINE SVR
+# L'SVR è estremamente sensibile alla scala delle feature, quindi StandardScaler è vitale
+pipeline_svr_glob = Pipeline([
+    ('imputer', SimpleImputer(strategy='constant', fill_value=0)),
+    ('scaler', StandardScaler()),
+    ('svr', SVR(kernel='rbf') )
+])
+
+# 4. GRID SEARCH CON TIMESERIESSPLIT
+# Testiamo i parametri classici: C (regolarizzazione) ed Epsilon (tolleranza errore)
+param_grid_svr_glob = {
+    'svr__C': [1, 10, 100],
+    'svr__gamma': [0.001, 0.01, 0.1, 1, 1.1],
+    'svr__epsilon': [0.1, 0.2, 0.5, 0.6, 0.7],
+}
+
+
+tscv = TimeSeriesSplit(n_splits=5)
+
+grid_search_svr_glob = GridSearchCV(
+    pipeline_svr_glob,
+    param_grid=param_grid_svr_glob,
+    cv=tscv,
+    scoring='neg_mean_absolute_error',
+    n_jobs=-1,
+    verbose=1
+)
+
+print(f"Inizio addestramento SVR Globale su {len(x_train_glob)} campioni...")
+grid_search_svr_glob.fit(x_train_glob, y_train_scaled_svr_glob)
+
+# 5. VALUTAZIONE E INVERSE TRANSFORM
+best_svr_glob = grid_search_svr_glob.best_estimator_
+
+y_pred_train_scaled_svr_glob = best_svr_glob.predict(x_train_glob)
+y_pred_test_scaled_svr_glob = best_svr_glob.predict(x_test_glob)
+
+y_pred_train_svr_glob = y_scaler_svr_glob.inverse_transform(y_pred_train_scaled_svr_glob.reshape(-1, 1)).ravel()
+y_pred_test_svr_glob = y_scaler_svr_glob.inverse_transform(y_pred_test_scaled_svr_glob.reshape(-1, 1)).ravel()
+
+# 6. CALCOLO METRICHE
+r2_train_svr_glob = r2_score(y_train_glob, y_pred_train_svr_glob)
+r2_test_svr_glob = r2_score(y_test_glob, y_pred_test_svr_glob)
+
+mae_train_svr_glob = mean_absolute_error(y_train_glob, y_pred_train_svr_glob)
+mae_test_svr_glob = mean_absolute_error(y_test_glob, y_pred_test_svr_glob)
+
+print("\n--- RISULTATI MODELLO SVR GLOBALE (TUTTI I RUOLI - SENZA PARTIZIONE) ---")
+print(f"Migliori Parametri: {grid_search_svr_glob.best_params_}")
+print(f"MAE TRAINING: {mae_train_svr_glob:.2f} €")
+print(f"MAE TEST: {mae_test_svr_glob:.2f} €")
+print(f"R2 Score TRAINING: {r2_train_svr_glob:.4f}")
+print(f"R2 Score TEST: {r2_test_svr_glob:.4f}")
+
+# Fine cronometro
+end_time_svr_glob = time.time()
+execution_time_svr_glob = end_time_svr_glob - start_time_svr_glob
+print(f"\n--- Tempo di esecuzione SVR SENZA PARTIZIONI: {execution_time_svr_glob:.2f} secondi ---")
+
+# =============================================================================
+# APPLICAZIONE DEL MODELLO SVR GLOBALE SUI SINGOLI RUOLI
+# Il modello è stato allenato su tutti i giocatori (2018-2024).
+# Lo applichiamo ora sui sottoinsiemi per ruolo del test set (2024-25)
+# e del training set (2018-2024) per un confronto diretto con i modelli per ruolo.
+# =============================================================================
+
+ruoli = {
+    'GK': (df_gk_1824, df_gk_2425),
+    'DF': (df_df_1824, df_df_2425),
+    'WB': (df_wb_1824, df_wb_2425),
+    'MF': (df_mf_1824, df_mf_2425),
+    'FW': (df_fw_1824, df_fw_2425),
+}
+
+print("\n--- APPLICAZIONE MODELLO SVR GLOBALE SUI SINGOLI RUOLI ---")
+print(f"{'Ruolo':<6} {'R2 Train':>10} {'R2 Test':>10} {'MAE Train':>12} {'MAE Test':>12} {'N Train':>9} {'N Test':>8}")
+print("-" * 65)
+
+r2_train_svr_glob_gk = r2_train_svr_glob_df = r2_train_svr_glob_wb = r2_train_svr_glob_mf = r2_train_svr_glob_fw = None
+r2_test_svr_glob_gk  = r2_test_svr_glob_df  = r2_test_svr_glob_wb  = r2_test_svr_glob_mf  = r2_test_svr_glob_fw  = None
+mae_train_svr_glob_gk = mae_train_svr_glob_df = mae_train_svr_glob_wb = mae_train_svr_glob_mf = mae_train_svr_glob_fw = None
+mae_test_svr_glob_gk  = mae_test_svr_glob_df  = mae_test_svr_glob_wb  = mae_test_svr_glob_mf  = mae_test_svr_glob_fw  = None
+
+for ruolo, (df_train_ruolo, df_test_ruolo) in ruoli.items():
+
+    # Feature e target per ruolo
+    x_train_ruolo = df_train_ruolo[all_features]
+    y_train_ruolo = df_train_ruolo[y_column]
+    x_test_ruolo  = df_test_ruolo[all_features]
+    y_test_ruolo  = df_test_ruolo[y_column]
+
+    # Predizioni scalate usando il modello globale già allenato
+    y_pred_train_scaled = best_svr_glob.predict(x_train_ruolo)
+    y_pred_test_scaled  = best_svr_glob.predict(x_test_ruolo)
+
+    # Inverse transform con lo scaler globale
+    y_pred_train_ruolo = y_scaler_svr_glob.inverse_transform(y_pred_train_scaled.reshape(-1, 1)).ravel()
+    y_pred_test_ruolo  = y_scaler_svr_glob.inverse_transform(y_pred_test_scaled.reshape(-1, 1)).ravel()
+
+    # Metriche
+    r2_train  = r2_score(y_train_ruolo, y_pred_train_ruolo)
+    r2_test   = r2_score(y_test_ruolo,  y_pred_test_ruolo)
+    mae_train = mean_absolute_error(y_train_ruolo, y_pred_train_ruolo)
+    mae_test  = mean_absolute_error(y_test_ruolo,  y_pred_test_ruolo)
+
+    # Salvataggio in variabili nominali per uso nei grafici di Fase 13
+    if ruolo == 'GK':
+        r2_train_svr_glob_gk  = r2_train;  r2_test_svr_glob_gk  = r2_test
+        mae_train_svr_glob_gk = mae_train; mae_test_svr_glob_gk  = mae_test
+    elif ruolo == 'DF':
+        r2_train_svr_glob_df  = r2_train;  r2_test_svr_glob_df  = r2_test
+        mae_train_svr_glob_df = mae_train; mae_test_svr_glob_df  = mae_test
+    elif ruolo == 'WB':
+        r2_train_svr_glob_wb  = r2_train;  r2_test_svr_glob_wb  = r2_test
+        mae_train_svr_glob_wb = mae_train; mae_test_svr_glob_wb  = mae_test
+    elif ruolo == 'MF':
+        r2_train_svr_glob_mf  = r2_train;  r2_test_svr_glob_mf  = r2_test
+        mae_train_svr_glob_mf = mae_train; mae_test_svr_glob_mf  = mae_test
+    elif ruolo == 'FW':
+        r2_train_svr_glob_fw  = r2_train;  r2_test_svr_glob_fw  = r2_test
+        mae_train_svr_glob_fw = mae_train; mae_test_svr_glob_fw  = mae_test
+
+    print(f"{ruolo:<6} {r2_train:>10.4f} {r2_test:>10.4f} {mae_train:>12.2f} {mae_test:>12.2f} {len(y_train_ruolo):>9} {len(y_test_ruolo):>8}")
+
+print("-" * 65)
+print("\nConfronto di riferimento (modello globale su tutto il test set):")
+print(f"  R2 Test globale:  {r2_test_svr_glob:.4f}")
+print(f"  MAE Test globale: {mae_test_svr_glob:.2f} €")
+# ======================================================================================
+# MODELLO DI CONTROLLO SENZA PARTIZIONI - XGBOOST 
+# ======================================================================================
+# 1. PREPARAZIONE DATASET GLOBALI (18/19 - 23/24 per Training, 24/25 per Test)
+train_df_global_list = [df_merge_1819, df_merge_1920, df_merge_2021, df_merge_2122, df_merge_2223, df_merge_2324]
+df_train_glob = pd.concat(train_df_global_list, axis=0).reset_index(drop=True)
+df_test_glob = df_merge_2425.copy()
+
+# Inizio cronometro
+start_time_xgb_glob = time.time()
+
+# 2. DEFINIZIONE FEATURE E TARGET
+y_column = "value"
+all_features = [col for col in numeric_cols if col != "value" and col != "random" and col!="Born"]
+
+x_train_glob = df_train_glob[all_features]
+y_train_glob = df_train_glob[y_column]
+x_test_glob = df_test_glob[all_features]
+y_test_glob = df_test_glob[y_column]
+
+# 3. SCALARE LA Y
+y_scaler_xgb_glob = StandardScaler()
+y_train_scaled_xgb_glob = y_scaler_xgb_glob.fit_transform(y_train_glob.values.reshape(-1, 1)).ravel()
+
+# 4. PIPELINE XGBOOST
+pipeline_xgb_glob = Pipeline([
+    ('imputer', SimpleImputer(strategy='constant', fill_value=0)),
+    ('scaler', StandardScaler()),
+    ('xgb', XGBRegressor(objective='reg:squarederror', random_state=42))
+])
+
+# 5. GRID SEARCH (Stessa griglia usata per i ruoli per coerenza)
+param_grid_xgb_glob = {
+    'xgb__n_estimators': [50, 70, 90],
+    'xgb__learning_rate': [0.1, 0.2, 0.3],
+    'xgb__max_depth': [5, 7, 9],
+    'xgb__subsample': [0.7, 0.8, 1.0],
+    'xgb__colsample_bytree': [0.7, 0.8]
+}
+
+tscv = TimeSeriesSplit(n_splits=5)
+
+grid_search_xgb_glob = GridSearchCV(
+    pipeline_xgb_glob,
+    param_grid=param_grid_xgb_glob,
+    cv=tscv,
+    scoring='neg_mean_absolute_error',
+    n_jobs=-1,
+    verbose=1
+)
+
+print(f"Inizio addestramento XGBoost Globale su {len(x_train_glob)} campioni...")
+grid_search_xgb_glob.fit(x_train_glob, y_train_scaled_xgb_glob)
+
+# 6. VALUTAZIONE E INVERSE TRANSFORM
+best_xgb_glob = grid_search_xgb_glob.best_estimator_
+
+y_pred_train_scaled_xgb_glob = best_xgb_glob.predict(x_train_glob)
+y_pred_test_scaled_xgb_glob = best_xgb_glob.predict(x_test_glob)
+
+y_pred_train_xgb_glob = y_scaler_xgb_glob.inverse_transform(y_pred_train_scaled_xgb_glob.reshape(-1, 1)).ravel()
+y_pred_test_xgb_glob = y_scaler_xgb_glob.inverse_transform(y_pred_test_scaled_xgb_glob.reshape(-1, 1)).ravel()
+
+# 7. METRICHE
+r2_train_xgb_glob = r2_score(y_train_glob, y_pred_train_xgb_glob)
+r2_test_xgb_glob = r2_score(y_test_glob, y_pred_test_xgb_glob)
+mae_train_xgb_glob = mean_absolute_error(y_train_glob, y_pred_train_xgb_glob)
+mae_test_xgb_glob = mean_absolute_error(y_test_glob, y_pred_test_xgb_glob)
+
+print("\n--- RISULTATI MODELLO XGBOOST GLOBALE (TUTTI I RUOLI - SENZA PARTIZIONE) ---")
+print(f"Migliori Parametri: {grid_search_xgb_glob.best_params_}")
+print(f"MAE TRAINING: {mae_train_xgb_glob:,.2f} €")
+print(f"MAE TEST: {mae_test_xgb_glob:,.2f} €")
+print(f"R2 Score TRAINING: {r2_train_xgb_glob:.4f}")
+print(f"R2 Score TEST: {r2_test_xgb_glob:.4f}")
+
+# Fine cronometro
+end_time_xgb_glob = time.time()
+execution_time_xgb_glob = end_time_xgb_glob - start_time_xgb_glob
+print(f"\n--- Tempo di esecuzione XGB SENZA PARTIZIONI: {execution_time_xgb_glob:.2f} secondi ---")
+
+# =============================================================================
+# APPLICAZIONE DEL MODELLO XGB GLOBALE SUI SINGOLI RUOLI
+# Il modello è stato allenato su tutti i giocatori (2018-2024).
+# Lo applichiamo ora sui sottoinsiemi per ruolo del test set (2024-25)
+# e del training set (2018-2024) per un confronto diretto con i modelli per ruolo.
+# =============================================================================
+
+ruoli = {
+    'GK': (df_gk_1824, df_gk_2425),
+    'DF': (df_df_1824, df_df_2425),
+    'WB': (df_wb_1824, df_wb_2425),
+    'MF': (df_mf_1824, df_mf_2425),
+    'FW': (df_fw_1824, df_fw_2425),
+}
+
+print("\n--- APPLICAZIONE MODELLO XGB GLOBALE SUI SINGOLI RUOLI ---")
+print(f"{'Ruolo':<6} {'R2 Train':>10} {'R2 Test':>10} {'MAE Train':>12} {'MAE Test':>12} {'N Train':>9} {'N Test':>8}")
+print("-" * 65)
+
+r2_train_xgb_glob_gk = r2_train_xgb_glob_df = r2_train_xgb_glob_wb = r2_train_xgb_glob_mf = r2_train_xgb_glob_fw = None
+r2_test_xgb_glob_gk  = r2_test_xgb_glob_df  = r2_test_xgb_glob_wb  = r2_test_xgb_glob_mf  = r2_test_xgb_glob_fw  = None
+mae_train_xgb_glob_gk = mae_train_xgb_glob_df = mae_train_xgb_glob_wb = mae_train_xgb_glob_mf = mae_train_xgb_glob_fw = None
+mae_test_xgb_glob_gk  = mae_test_xgb_glob_df  = mae_test_xgb_glob_wb  = mae_test_xgb_glob_mf  = mae_test_xgb_glob_fw  = None
+
+for ruolo, (df_train_ruolo, df_test_ruolo) in ruoli.items():
+
+    # Feature e target per ruolo
+    x_train_ruolo = df_train_ruolo[all_features]
+    y_train_ruolo = df_train_ruolo[y_column]
+    x_test_ruolo  = df_test_ruolo[all_features]
+    y_test_ruolo  = df_test_ruolo[y_column]
+
+    # Predizioni scalate usando il modello globale già allenato
+    y_pred_train_scaled = best_xgb_glob.predict(x_train_ruolo)
+    y_pred_test_scaled  = best_xgb_glob.predict(x_test_ruolo)
+
+    # Inverse transform con lo scaler globale
+    y_pred_train_ruolo = y_scaler_xgb_glob.inverse_transform(y_pred_train_scaled.reshape(-1, 1)).ravel()
+    y_pred_test_ruolo  = y_scaler_xgb_glob.inverse_transform(y_pred_test_scaled.reshape(-1, 1)).ravel()
+
+    # Metriche
+    r2_train  = r2_score(y_train_ruolo, y_pred_train_ruolo)
+    r2_test   = r2_score(y_test_ruolo,  y_pred_test_ruolo)
+    mae_train = mean_absolute_error(y_train_ruolo, y_pred_train_ruolo)
+    mae_test  = mean_absolute_error(y_test_ruolo,  y_pred_test_ruolo)
+
+    # Salvataggio in variabili nominali per uso nei grafici di Fase 13
+    if ruolo == 'GK':
+        r2_train_xgb_glob_gk  = r2_train;  r2_test_xgb_glob_gk  = r2_test
+        mae_train_xgb_glob_gk = mae_train; mae_test_xgb_glob_gk  = mae_test
+    elif ruolo == 'DF':
+        r2_train_xgb_glob_df  = r2_train;  r2_test_xgb_glob_df  = r2_test
+        mae_train_xgb_glob_df = mae_train; mae_test_xgb_glob_df  = mae_test
+    elif ruolo == 'WB':
+        r2_train_xgb_glob_wb  = r2_train;  r2_test_xgb_glob_wb  = r2_test
+        mae_train_xgb_glob_wb = mae_train; mae_test_xgb_glob_wb  = mae_test
+    elif ruolo == 'MF':
+        r2_train_xgb_glob_mf  = r2_train;  r2_test_xgb_glob_mf  = r2_test
+        mae_train_xgb_glob_mf = mae_train; mae_test_xgb_glob_mf  = mae_test
+    elif ruolo == 'FW':
+        r2_train_xgb_glob_fw  = r2_train;  r2_test_xgb_glob_fw  = r2_test
+        mae_train_xgb_glob_fw = mae_train; mae_test_xgb_glob_fw  = mae_test
+
+    print(f"{ruolo:<6} {r2_train:>10.4f} {r2_test:>10.4f} {mae_train:>12.2f} {mae_test:>12.2f} {len(y_train_ruolo):>9} {len(y_test_ruolo):>8}")
+
+print("-" * 65)
+print("\nConfronto di riferimento (modello globale su tutto il test set):")
+print(f"  R2 Test globale:  {r2_test_xgb_glob:.4f}")
+print(f"  MAE Test globale: {mae_test_xgb_glob:.2f} €")
+#-------------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------------
+#FASE 12 - MODELLI DI CONTROLLO LASSO + SVR + XGBOOST CON PARTIZIONI CASUALI
+#-------------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------------------------------------
+#FASE 12.1 - CREAZIONE DELLE PARTIZIONI CASUALI
+#Partiamo dalla creazione di partizioni casuali mantenendo la stessa numerosità dei dataset veri
+# ===========================================================================================
+# #STAGIONE 2018-2019
+# ===========================================================================================
+# 1. DEFINIZIONE DELLE DIMENSIONI TARGET (basate sui tuoi dataset per ruolo 18/19)
+# Usiamo le lunghezze reali dei dataset partizionati per ruolo
+target_sizes_1819 = {
+    "group1": len(df_gk_1819),
+    "group2": len(df_df_1819),
+    "group3": len(df_wb_1819),
+    "group4": len(df_mf_1819),
+    "group5": len(df_fw_1819)
+}
+
+print("Dimensioni target per ogni gruppo casuale:")
+for group, size in target_sizes_1819.items():
+    print(f"{group}: {size} giocatori")
+
+# 2. ESTRAZIONE CASUALE PROPORZIONALE
+# Creiamo una copia per non alterare l'originale durante l'estrazione
+df_pool_1819= df_merge_1819.copy()
+
+# Estraiamo senza rimpiazzo per garantire che i gruppi siano disgiunti (come i ruoli)
+group1_1819 = df_pool_1819.sample(n=target_sizes_1819["group1"], random_state=42)
+df_pool_1819 = df_pool_1819.drop(group1_1819.index)
+
+group2_1819 = df_pool_1819.sample(n=target_sizes_1819["group2"], random_state=42)
+df_pool_1819 = df_pool_1819.drop(group2_1819.index)
+
+group3_1819 = df_pool_1819.sample(n=target_sizes_1819["group3"], random_state=42)
+df_pool_1819 = df_pool_1819.drop(group3_1819.index)
+
+group4_1819 = df_pool_1819.sample(n=target_sizes_1819["group4"], random_state=42)
+df_pool_1819 = df_pool_1819.drop(group4_1819.index)
+
+# L'ultimo gruppo prende i restanti (che saranno pari alla dimensione di df_fw_1819)
+group5_1819 = df_pool_1819.sample(n=target_sizes_1819["group5"], random_state=42)
+
+print("\nVerifica lunghezze gruppi estratti STAGIONE 2018-2019:")
+print(f"group1: {len(group1_1819)}")
+print(f"group2: {len(group2_1819)}")
+print(f"group3: {len(group3_1819)}")
+print(f"group4: {len(group4_1819)}")
+print(f"group5: {len(group5_1819)}")
+# ======================================================================================
+# #STAGIONE 2019-2020
+# ======================================================================================
+target_sizes_1920 = {
+    "group1": len(df_gk_1920),
+    "group2": len(df_df_1920),
+    "group3": len(df_wb_1920),
+    "group4": len(df_mf_1920),
+    "group5": len(df_fw_1920)
+}
+
+print("Dimensioni target per ogni gruppo casuale:")
+for group, size in target_sizes_1920.items():
+    print(f"{group}: {size} giocatori")
+
+# 2. ESTRAZIONE CASUALE PROPORZIONALE
+# Creiamo una copia per non alterare l'originale durante l'estrazione
+df_pool_1920 = df_merge_1920.copy()
+
+# Estraiamo senza rimpiazzo per garantire che i gruppi siano disgiunti (come i ruoli)
+group1_1920 = df_pool_1920.sample(n=target_sizes_1920["group1"], random_state=42)
+df_pool_1920 = df_pool_1920.drop(group1_1920.index)
+
+group2_1920 = df_pool_1920.sample(n=target_sizes_1920["group2"], random_state=42)
+df_pool_1920 = df_pool_1920.drop(group2_1920.index)
+
+group3_1920 = df_pool_1920.sample(n=target_sizes_1920["group3"], random_state=42)
+df_pool_1920 = df_pool_1920.drop(group3_1920.index)
+
+group4_1920 = df_pool_1920.sample(n=target_sizes_1920["group4"], random_state=42)
+df_pool_1920 = df_pool_1920.drop(group4_1920.index)
+
+# L'ultimo gruppo prende i restanti (che saranno pari alla dimensione di df_fw_1819)
+group5_1920 = df_pool_1920.sample(n=target_sizes_1920["group5"], random_state=42)
+
+print("\nVerifica lunghezze gruppi estratti STAGIONE 2019-2020:")
+print(f"group1: {len(group1_1920)}")
+print(f"group2: {len(group2_1920)}")
+print(f"group3: {len(group3_1920)}")
+print(f"group4: {len(group4_1920)}")
+print(f"group5: {len(group5_1920)}")
+
+# ======================================================================================
+# #STAGIONE 2020-2021
+# ======================================================================================
+target_sizes_2021 = {
+    "group1": len(df_gk_2021),
+    "group2": len(df_df_2021),
+    "group3": len(df_wb_2021),
+    "group4": len(df_mf_2021),
+    "group5": len(df_fw_2021)
+}
+
+print("Dimensioni target per ogni gruppo casuale:")
+for group, size in target_sizes_2021.items():
+    print(f"{group}: {size} giocatori")
+
+# 2. ESTRAZIONE CASUALE PROPORZIONALE
+# Creiamo una copia per non alterare l'originale durante l'estrazione
+df_pool_2021 = df_merge_2021.copy()
+
+# Estraiamo senza rimpiazzo per garantire che i gruppi siano disgiunti (come i ruoli)
+group1_2021 = df_pool_2021.sample(n=target_sizes_2021["group1"], random_state=42)
+df_pool_2021 = df_pool_2021.drop(group1_2021.index)
+
+group2_2021 = df_pool_2021.sample(n=target_sizes_2021["group2"], random_state=42)
+df_pool_2021 = df_pool_2021.drop(group2_2021.index)
+
+group3_2021 = df_pool_2021.sample(n=target_sizes_2021["group3"], random_state=42)
+df_pool_2021 = df_pool_2021.drop(group3_2021.index)
+
+group4_2021 = df_pool_2021.sample(n=target_sizes_2021["group4"], random_state=42)
+df_pool_2021 = df_pool_2021.drop(group4_2021.index)
+
+# L'ultimo gruppo prende i restanti (che saranno pari alla dimensione di df_fw_1819)
+group5_2021 = df_pool_2021.sample(n=target_sizes_2021["group5"], random_state=42)
+
+print("\nVerifica lunghezze gruppi estratti STAGIONE 2020-2021:")
+print(f"group1: {len(group1_2021)}")
+print(f"group2: {len(group2_2021)}")
+print(f"group3: {len(group3_2021)}")
+print(f"group4: {len(group4_2021)}")
+print(f"group5: {len(group5_2021)}")
+# ======================================================================================
+# #STAGIONE 2021-2022
+# ======================================================================================
+target_sizes_2122 = {
+    "group1": len(df_gk_2122),
+    "group2": len(df_df_2122),
+    "group3": len(df_wb_2122),
+    "group4": len(df_mf_2122),
+    "group5": len(df_fw_2122)
+}
+
+print("Dimensioni target per ogni gruppo casuale:")
+for group, size in target_sizes_2122.items():
+    print(f"{group}: {size} giocatori")
+
+# 2. ESTRAZIONE CASUALE PROPORZIONALE
+# Creiamo una copia per non alterare l'originale durante l'estrazione
+df_pool_2122 = df_merge_2122.copy()
+
+# Estraiamo senza rimpiazzo per garantire che i gruppi siano disgiunti (come i ruoli)
+group1_2122 = df_pool_2122.sample(n=target_sizes_2122["group1"], random_state=42)
+df_pool_2122 = df_pool_2122.drop(group1_2122.index)
+
+group2_2122 = df_pool_2122.sample(n=target_sizes_2122["group2"], random_state=42)
+df_pool_2122 = df_pool_2122.drop(group2_2122.index)
+
+group3_2122 = df_pool_2122.sample(n=target_sizes_2122["group3"], random_state=42)
+df_pool_2122 = df_pool_2122.drop(group3_2122.index)
+
+group4_2122 = df_pool_2122.sample(n=target_sizes_2122["group4"], random_state=42)
+df_pool_2122 = df_pool_2122.drop(group4_2122.index)
+
+# L'ultimo gruppo prende i restanti (che saranno pari alla dimensione di df_fw_1819)
+group5_2122 = df_pool_2122.sample(n=target_sizes_2122["group5"], random_state=42)
+
+print("\nVerifica lunghezze gruppi estratti STAGIONE 2021-2022:")
+print(f"group1: {len(group1_2122)}")
+print(f"group2: {len(group2_2122)}")
+print(f"group3: {len(group3_2122)}")
+print(f"group4: {len(group4_2122)}")
+print(f"group5: {len(group5_2122)}")
+# ======================================================================================
+# #STAGIONE 2022-2023
+# ======================================================================================
+target_sizes_2223 = {
+    "group1": len(df_gk_2223),
+    "group2": len(df_df_2223),
+    "group3": len(df_wb_2223),
+    "group4": len(df_mf_2223),
+    "group5": len(df_fw_2223)
+}
+
+print("Dimensioni target per ogni gruppo casuale:")
+for group, size in target_sizes_2223.items():
+    print(f"{group}: {size} giocatori")
+
+# 2. ESTRAZIONE CASUALE PROPORZIONALE
+# Creiamo una copia per non alterare l'originale durante l'estrazione
+df_pool_2223 = df_merge_2223.copy()
+
+# Estraiamo senza rimpiazzo per garantire che i gruppi siano disgiunti (come i ruoli)
+group1_2223 = df_pool_2223.sample(n=target_sizes_2223["group1"], random_state=42)
+df_pool_2223 = df_pool_2223.drop(group1_2223.index)
+
+group2_2223 = df_pool_2223.sample(n=target_sizes_2223["group2"], random_state=42)
+df_pool_2223 = df_pool_2223.drop(group2_2223.index)
+
+group3_2223 = df_pool_2223.sample(n=target_sizes_2223["group3"], random_state=42)
+df_pool_2223 = df_pool_2223.drop(group3_2223.index)
+
+group4_2223 = df_pool_2223.sample(n=target_sizes_2223["group4"], random_state=42)
+df_pool_2223 = df_pool_2223.drop(group4_2223.index)
+
+# L'ultimo gruppo prende i restanti (che saranno pari alla dimensione di df_fw_1819)
+group5_2223 = df_pool_2223.sample(n=target_sizes_2223["group5"], random_state=42)
+
+print("\nVerifica lunghezze gruppi estratti STAGIONE 2022-2023:")
+print(f"group1: {len(group1_2223)}")
+print(f"group2: {len(group2_2223)}")
+print(f"group3: {len(group3_2223)}")
+print(f"group4: {len(group4_2223)}")
+print(f"group5: {len(group5_2223)}")
+# ======================================================================================
+# #STAGIONE 2023-2024
+# ======================================================================================
+target_sizes_2324 = {
+    "group1": len(df_gk_2324),
+    "group2": len(df_df_2324),
+    "group3": len(df_wb_2324),
+    "group4": len(df_mf_2324),
+    "group5": len(df_fw_2324)
+}
+
+print("Dimensioni target per ogni gruppo casuale:")
+for group, size in target_sizes_2324.items():
+    print(f"{group}: {size} giocatori")
+
+# 2. ESTRAZIONE CASUALE PROPORZIONALE
+# Creiamo una copia per non alterare l'originale durante l'estrazione
+df_pool_2324 = df_merge_2324.copy()
+
+# Estraiamo senza rimpiazzo per garantire che i gruppi siano disgiunti (come i ruoli)
+group1_2324 = df_pool_2324.sample(n=target_sizes_2324["group1"], random_state=42)
+df_pool_2324 = df_pool_2324.drop(group1_2324.index)
+
+group2_2324 = df_pool_2324.sample(n=target_sizes_2324["group2"], random_state=42)
+df_pool_2324 = df_pool_2324.drop(group2_2324.index)
+
+group3_2324 = df_pool_2324.sample(n=target_sizes_2324["group3"], random_state=42)
+df_pool_2324 = df_pool_2324.drop(group3_2324.index)
+
+group4_2324 = df_pool_2324.sample(n=target_sizes_2324["group4"], random_state=42)
+df_pool_2324 = df_pool_2324.drop(group4_2324.index)
+
+# L'ultimo gruppo prende i restanti (che saranno pari alla dimensione di df_fw_1819)
+group5_2324 = df_pool_2324.sample(n=target_sizes_2324["group5"], random_state=42)
+
+print("\nVerifica lunghezze gruppi estratti STAGIONE 2023-2024:")
+print(f"group1: {len(group1_2324)}")
+print(f"group2: {len(group2_2324)}")
+print(f"group3: {len(group3_2324)}")
+print(f"group4: {len(group4_2324)}")
+print(f"group5: {len(group5_2324)}")
+# ======================================================================================
+# #STAGIONE 2024 - 2025
+# ======================================================================================
+target_sizes_2425 = {
+    "group1": len(df_gk_2425),
+    "group2": len(df_df_2425),
+    "group3": len(df_wb_2425),
+    "group4": len(df_mf_2425),
+    "group5": len(df_fw_2425)
+}
+
+print("Dimensioni target per ogni gruppo casuale:")
+for group, size in target_sizes_2425.items():
+    print(f"{group}: {size} giocatori")
+
+# 2. ESTRAZIONE CASUALE PROPORZIONALE
+# Creiamo una copia per non alterare l'originale durante l'estrazione
+df_pool_2425 = df_merge_2425.copy()
+
+# Estraiamo senza rimpiazzo per garantire che i gruppi siano disgiunti (come i ruoli)
+group1_2425 = df_pool_2425.sample(n=target_sizes_2425["group1"], random_state=42)
+df_pool_2425 = df_pool_2425.drop(group1_2425.index)
+
+group2_2425 = df_pool_2425.sample(n=target_sizes_2425["group2"], random_state=42)
+df_pool_2425 = df_pool_2425.drop(group2_2425.index)
+
+group3_2425 = df_pool_2425.sample(n=target_sizes_2425["group3"], random_state=42)
+df_pool_2425 = df_pool_2425.drop(group3_2425.index)
+
+group4_2425 = df_pool_2425.sample(n=target_sizes_2425["group4"], random_state=42)
+df_pool_2425 = df_pool_2425.drop(group4_2425.index)
+
+# L'ultimo gruppo prende i restanti (che saranno pari alla dimensione di df_fw_1819)
+group5_2425 = df_pool_2425.sample(n=target_sizes_2425["group5"], random_state=42)
+
+print("\nVerifica lunghezze gruppi estratti STAGIONE 2024-2025:")
+print(f"group1: {len(group1_2425)}")
+print(f"group2: {len(group2_2425)}")
+print(f"group3: {len(group3_2425)}")
+print(f"group4: {len(group4_2425)}")
+print(f"group5: {len(group5_2425)}")
+#-------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------
+#FASE 12.2 - MODELLI LASSO PARTIZIONI CASUALE
+#-------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------
+# ==================================================================================================
+# MODELLO DI CONTROLLO LASSO : GRUPPI CASUALI (GROUP 1) - LASSO
+# ==================================================================================================
+group1_train_list = [
+    group1_1819, 
+    group1_1920, 
+    group1_2021, 
+    group1_2122, 
+    group1_2223, 
+    group1_2324
+]
+
+group1_1824 = pd.concat(group1_train_list, axis=0).reset_index(drop=True)
+# 1. Preparazione Dati
+# Assicurati di aver concatenato le stagioni 18-24 per il training del gruppo 1
+# E di avere il dataset group1_2425 per il test
+y_column = "value"
+all_features = [col for col in numeric_cols if col != "value" and col != "random" and col != "Born"]
+
+x_train_g1 = group1_1824[all_features]
+y_train_g1 = group1_1824[y_column]
+x_test_g1 = group1_2425[all_features]
+y_test_g1 = group1_2425[y_column]
+
+# Scala la Y (target) per uniformità con SVR e XGBoost
+y_scaler_g1_lasso = StandardScaler()
+y_train_scaled_g1_lasso = y_scaler_g1_lasso.fit_transform(y_train_g1.values.reshape(-1, 1)).ravel()
+
+start_time_g1_lasso = time.time()
+
+# 2. Definizione Pipeline
+imputer_step = SimpleImputer(strategy='constant', fill_value=0).set_output(transform="pandas")
+
+# Definiamo le trasformazioni sulle colonne
+feature_transformer = ColumnTransformer(
+    transformers=[
+        # Applica il polinomio solo alla colonna 'age'
+        ('poly', PolynomialFeatures(degree=2, include_bias=False), ['age'])
+    ],
+    remainder='passthrough' # Lascia passare tutte le altre colonne così come sono
+)
+
+pipeline_g1 = Pipeline([
+    ('imputer', imputer_step),       
+    ('transformer', feature_transformer),
+    ('scaler', StandardScaler()),
+    ('lasso', Lasso(random_state=42, max_iter=10000))
+])
+
+# 3. Configurazione GridSearch
+# TimeSeriesSplit per rispettare la cronologia
+tscv = TimeSeriesSplit(n_splits=5) 
+
+# RANGE ALPHA (Stessa logica del codice standard)
+param_grid = {
+    'lasso__alpha': np.logspace(-3, 2, 100)  # 100 valori da 0.001 a 100 (Y standardizzata)
+}
+
+print(f"Avvio della Grid Search per GRUPPO CASUALE 1 ({len(x_train_g1)} campioni)...")
+grid_search_g1 = GridSearchCV(
+    pipeline_g1, 
+    param_grid, 
+    cv=tscv, 
+    scoring='neg_mean_absolute_error', 
+    n_jobs=-1, 
+    verbose=1 
+)
+
+# 4. Addestramento
+grid_search_g1.fit(x_train_g1, y_train_scaled_g1_lasso)
+
+# 5. Analisi Risultati
+print("\n--- Risultati Grid Search (Gruppo Casuale 1) ---")
+best_alpha_g1 = grid_search_g1.best_params_['lasso__alpha']
+print(f"Alpha ottimale trovato: {best_alpha_g1:.6f}")
+print(f"Miglior MAE Scalato in Cross-Validation: {-grid_search_g1.best_score_:.4f} (Y standardizzata)")
+
+best_model_g1 = grid_search_g1.best_estimator_
+
+# 6. Valutazione Finale (Test Set 2025)
+y_pred_train_scaled_g1_lasso = best_model_g1.predict(x_train_g1)
+y_pred_test_scaled_g1_lasso = best_model_g1.predict(x_test_g1)
+
+y_pred_train_g1 = y_scaler_g1_lasso.inverse_transform(y_pred_train_scaled_g1_lasso.reshape(-1, 1)).ravel()
+y_pred_test_g1 = y_scaler_g1_lasso.inverse_transform(y_pred_test_scaled_g1_lasso.reshape(-1, 1)).ravel()
+
+mae_test_g1_lasso = mean_absolute_error(y_test_g1, y_pred_test_g1)
+mae_train_g1_lasso = mean_absolute_error(y_train_g1, y_pred_train_g1)
+r2_test_g1_lasso = r2_score(y_test_g1, y_pred_test_g1)
+r2_train_g1_lasso = r2_score(y_train_g1, y_pred_train_g1)
+
+print("\n--- Performance Modello Finale (Gruppo Casuale 1) ---")
+print(f"MAE Train: {mae_train_g1_lasso:.2f} M€")
+print(f"MAE Test:  {mae_test_g1_lasso:.2f} M€")
+print(f"R2 Train:  {r2_train_g1_lasso:.4f}")
+print(f"R2 Test:   {r2_test_g1_lasso:.4f}")
+
+# 7. Analisi dei Coefficienti
+transformer_step = best_model_g1.named_steps['transformer']
+feature_names_out = transformer_step.get_feature_names_out()
+
+lasso_model = best_model_g1.named_steps['lasso']
+lasso_coefs = lasso_model.coef_
+
+lasso_coef_g1 = pd.Series(lasso_coefs, index=feature_names_out)
+
+# Pulizia stringhe
+lasso_coef_g1.index = lasso_coef_g1.index.str.replace('remainder__', '').str.replace('poly__', '')
+
+# Filtro feature rilevanti (soglia 1M €)
+relevant_features_g1 = lasso_coef_g1[np.abs(lasso_coef_g1) >= 1e-6]
+zero_features_g1 = lasso_coef_g1[np.abs(lasso_coef_g1) < 1e-6]
+
+print("\n--- Feature Selection Automatica ---")
+print(f"Feature Totali: {len(lasso_coef_g1)}")
+print(f"Feature Azzerate da Lasso: {len(zero_features_g1)}")
+print(f"Feature Mantenute: {len(relevant_features_g1)}")
+
+print("\nTop 20 Feature più importanti (Valore Assoluto):")
+print(relevant_features_g1.abs().sort_values(ascending=False).head(20))
+
+end_time_g1_lasso = time.time()
+print(f"\n--- Tempo esecuzione: {end_time_g1_lasso - start_time_g1_lasso:.2f} sec ---")
+# ==================================================================================================
+# MODELLO DI CONTROLLO LASSO : GRUPPI CASUALI (GROUP 2) - LASSO
+# ==================================================================================================
+group2_train_list = [
+    group2_1819, 
+    group2_1920, 
+    group2_2021, 
+    group2_2122, 
+    group2_2223, 
+    group2_2324
+]
+
+group2_1824 = pd.concat(group2_train_list, axis=0).reset_index(drop=True)
+# 1. Preparazione Dati
+# Assicurati di aver concatenato le stagioni 18-24 per il training del gruppo 2
+# E di avere il dataset group2_2425 per il test
+y_column = "value"
+all_features = [col for col in numeric_cols if col != "value" and col != "random" and col != "Born"]
+
+x_train_g2 = group2_1824[all_features]
+y_train_g2 = group2_1824[y_column]
+x_test_g2 = group2_2425[all_features]
+y_test_g2 = group2_2425[y_column]
+
+# Scala la Y (target) per uniformità con SVR e XGBoost
+y_scaler_g2_lasso = StandardScaler()
+y_train_scaled_g2_lasso = y_scaler_g2_lasso.fit_transform(y_train_g2.values.reshape(-1, 1)).ravel()
+
+start_time_g2_lasso = time.time()
+
+# 2. Definizione Pipeline
+imputer_step = SimpleImputer(strategy='constant', fill_value=0).set_output(transform="pandas")
+
+# Definiamo le trasformazioni sulle colonne
+feature_transformer = ColumnTransformer(
+    transformers=[
+        # Applica il polinomio solo alla colonna 'age'
+        ('poly', PolynomialFeatures(degree=2, include_bias=False), ['age'])
+    ],
+    remainder='passthrough' # Lascia passare tutte le altre colonne così come sono
+)
+
+pipeline_g2 = Pipeline([
+    ('imputer', imputer_step),       
+    ('transformer', feature_transformer),
+    ('scaler', StandardScaler()),
+    ('lasso', Lasso(random_state=42, max_iter=10000))
+])
+
+# 3. Configurazione GridSearch
+# TimeSeriesSplit per rispettare la cronologia
+tscv = TimeSeriesSplit(n_splits=5) 
+
+# RANGE ALPHA 
+param_grid = {
+    'lasso__alpha': np.logspace(-3, 2, 100)  # 100 valori da 0.001 a 100 (Y standardizzata)
+}
+
+print(f"Avvio della Grid Search per GRUPPO CASUALE 2 ({len(x_train_g2)} campioni)...")
+grid_search_g2 = GridSearchCV(
+    pipeline_g2, 
+    param_grid, 
+    cv=tscv, 
+    scoring='neg_mean_absolute_error', 
+    n_jobs=-1, 
+    verbose=1 
+)
+
+grid_search_g2.fit(x_train_g2, y_train_scaled_g2_lasso)
+
+# 5. Analisi Risultati
+print("\n--- Risultati Grid Search (Gruppo Casuale 2) ---")
+best_alpha_g2 = grid_search_g2.best_params_['lasso__alpha']
+print(f"Alpha ottimale trovato: {best_alpha_g2:.6f}")
+print(f"Miglior MAE Scalato in Cross-Validation: {-grid_search_g2.best_score_:.4f} (Y standardizzata)")
+
+best_model_g2 = grid_search_g2.best_estimator_
+
+# 6. Valutazione Finale (Test Set 2025)
+y_pred_train_scaled_g2_lasso = best_model_g2.predict(x_train_g2)
+y_pred_test_scaled_g2_lasso = best_model_g2.predict(x_test_g2)
+
+y_pred_train_g2 = y_scaler_g2_lasso.inverse_transform(y_pred_train_scaled_g2_lasso.reshape(-1, 1)).ravel()
+y_pred_test_g2 = y_scaler_g2_lasso.inverse_transform(y_pred_test_scaled_g2_lasso.reshape(-1, 1)).ravel()
+
+mae_test_g2_lasso = mean_absolute_error(y_test_g2, y_pred_test_g2)
+mae_train_g2_lasso = mean_absolute_error(y_train_g2, y_pred_train_g2)
+r2_test_g2_lasso = r2_score(y_test_g2, y_pred_test_g2)
+r2_train_g2_lasso = r2_score(y_train_g2, y_pred_train_g2)
+
+print("\n--- Performance Modello Finale (Gruppo Casuale 2) ---")
+print(f"MAE Train: {mae_train_g2_lasso:.2f} M€")
+print(f"MAE Test:  {mae_test_g2_lasso:.2f} M€")
+print(f"R2 Train:  {r2_train_g2_lasso:.4f}")
+print(f"R2 Test:   {r2_test_g2_lasso:.4f}")
+
+# 7. Analisi dei Coefficienti
+transformer_step = best_model_g2.named_steps['transformer']
+feature_names_out = transformer_step.get_feature_names_out()
+
+lasso_model = best_model_g2.named_steps['lasso']
+lasso_coefs = lasso_model.coef_
+
+lasso_coef_g2 = pd.Series(lasso_coefs, index=feature_names_out)
+
+# Pulizia stringhe
+lasso_coef_g2.index = lasso_coef_g2.index.str.replace('remainder__', '').str.replace('poly__', '')
+
+# Filtro feature rilevanti (soglia 1M €)
+relevant_features_g2 = lasso_coef_g2[np.abs(lasso_coef_g2) >= 1e-6]
+zero_features_g2 = lasso_coef_g2[np.abs(lasso_coef_g2) < 1e-6]
+
+print("\n--- Feature Selection Automatica ---")
+print(f"Feature Totali: {len(lasso_coef_g2)}")
+print(f"Feature Azzerate da Lasso: {len(zero_features_g2)}")
+print(f"Feature Mantenute: {len(relevant_features_g2)}")
+
+print("\nTop 20 Feature più importanti (Valore Assoluto):")
+print(relevant_features_g2.abs().sort_values(ascending=False).head(20))
+
+end_time_g2_lasso = time.time()
+print(f"\n--- Tempo esecuzione: {end_time_g2_lasso - start_time_g2_lasso:.2f} sec ---")
+# ==================================================================================================
+# MODELLO DI CONTROLLO LASSO : GRUPPI CASUALI (GROUP 3) - LASSO
+# ==================================================================================================
+group3_train_list = [
+    group3_1819, 
+    group3_1920, 
+    group3_2021, 
+    group3_2122, 
+    group3_2223, 
+    group3_2324
+]
+
+group3_1824 = pd.concat(group3_train_list, axis=0).reset_index(drop=True)
+# 1. Preparazione Dati
+# Assicurati di aver concatenato le stagioni 18-24 per il training del gruppo 2
+# E di avere il dataset group2_2425 per il test
+y_column = "value"
+all_features = [col for col in numeric_cols if col != "value" and col != "random" and col != "Born"]
+
+x_train_g3 = group3_1824[all_features]
+y_train_g3 = group3_1824[y_column]
+x_test_g3 = group3_2425[all_features]
+y_test_g3 = group3_2425[y_column]
+
+# Scala la Y (target) per uniformità con SVR e XGBoost
+y_scaler_g3_lasso = StandardScaler()
+y_train_scaled_g3_lasso = y_scaler_g3_lasso.fit_transform(y_train_g3.values.reshape(-1, 1)).ravel()
+
+start_time_g3_lasso = time.time()
+
+# 2. Definizione Pipeline
+imputer_step = SimpleImputer(strategy='constant', fill_value=0).set_output(transform="pandas")
+
+# Definiamo le trasformazioni sulle colonne
+feature_transformer = ColumnTransformer(
+    transformers=[
+        # Applica il polinomio solo alla colonna 'age'
+        ('poly', PolynomialFeatures(degree=2, include_bias=False), ['age'])
+    ],
+    remainder='passthrough' # Lascia passare tutte le altre colonne così come sono
+)
+
+pipeline_g3 = Pipeline([
+    ('imputer', imputer_step),       
+    ('transformer', feature_transformer),
+    ('scaler', StandardScaler()),
+    ('lasso', Lasso(random_state=42, max_iter=10000))
+])
+
+# 3. Configurazione GridSearch
+# TimeSeriesSplit per rispettare la cronologia
+tscv = TimeSeriesSplit(n_splits=5) 
+
+# RANGE ALPHA 
+param_grid = {
+    'lasso__alpha': np.logspace(-3, 2, 100)  # 100 valori da 0.001 a 100 (Y standardizzata)
+}
+
+print(f"Avvio della Grid Search per GRUPPO CASUALE 3 ({len(x_train_g3)} campioni)...")
+grid_search_g3 = GridSearchCV(
+    pipeline_g3, 
+    param_grid, 
+    cv=tscv, 
+    scoring='neg_mean_absolute_error', 
+    n_jobs=-1, 
+    verbose=1 
+)
+
+grid_search_g3.fit(x_train_g3, y_train_scaled_g3_lasso)
+
+# 5. Analisi Risultati
+print("\n--- Risultati Grid Search (Gruppo Casuale 3) ---")
+best_alpha_g3 = grid_search_g3.best_params_['lasso__alpha']
+print(f"Alpha ottimale trovato: {best_alpha_g3:.6f}")
+print(f"Miglior MAE Scalato in Cross-Validation: {-grid_search_g3.best_score_:.4f} (Y standardizzata)")
+
+best_model_g3 = grid_search_g3.best_estimator_
+
+# 6. Valutazione Finale (Test Set 2025)
+y_pred_train_scaled_g3_lasso = best_model_g3.predict(x_train_g3)
+y_pred_test_scaled_g3_lasso = best_model_g3.predict(x_test_g3)
+
+y_pred_train_g3 = y_scaler_g3_lasso.inverse_transform(y_pred_train_scaled_g3_lasso.reshape(-1, 1)).ravel()
+y_pred_test_g3 = y_scaler_g3_lasso.inverse_transform(y_pred_test_scaled_g3_lasso.reshape(-1, 1)).ravel()
+
+mae_test_g3_lasso = mean_absolute_error(y_test_g3, y_pred_test_g3)
+mae_train_g3_lasso = mean_absolute_error(y_train_g3, y_pred_train_g3)
+r2_test_g3_lasso = r2_score(y_test_g3, y_pred_test_g3)
+r2_train_g3_lasso = r2_score(y_train_g3, y_pred_train_g3)
+
+print("\n--- Performance Modello Finale (Gruppo Casuale 3) ---")
+print(f"MAE Train: {mae_train_g3_lasso:.2f} M€")
+print(f"MAE Test:  {mae_test_g3_lasso:.2f} M€")
+print(f"R2 Train:  {r2_train_g3_lasso:.4f}")
+print(f"R2 Test:   {r2_test_g3_lasso:.4f}")
+
+# 7. Analisi dei Coefficienti
+transformer_step = best_model_g3.named_steps['transformer']
+feature_names_out = transformer_step.get_feature_names_out()
+
+lasso_model = best_model_g3.named_steps['lasso']
+lasso_coefs = lasso_model.coef_
+
+lasso_coef_g3 = pd.Series(lasso_coefs, index=feature_names_out)
+
+# Pulizia stringhe
+lasso_coef_g3.index = lasso_coef_g3.index.str.replace('remainder__', '').str.replace('poly__', '')
+
+# Filtro feature rilevanti (soglia 1M €)
+relevant_features_g3 = lasso_coef_g3[np.abs(lasso_coef_g3) >= 1e-6]
+zero_features_g3 = lasso_coef_g3[np.abs(lasso_coef_g3) < 1e-6]
+
+print("\n--- Feature Selection Automatica ---")
+print(f"Feature Totali: {len(lasso_coef_g3)}")
+print(f"Feature Azzerate da Lasso: {len(zero_features_g3)}")
+print(f"Feature Mantenute: {len(relevant_features_g3)}")
+
+print("\nTop 20 Feature più importanti (Valore Assoluto):")
+print(relevant_features_g3.abs().sort_values(ascending=False).head(20))
+
+end_time_g3_lasso = time.time()
+print(f"\n--- Tempo esecuzione: {end_time_g3_lasso - start_time_g3_lasso:.2f} sec ---")
+
+# ==================================================================================================
+# MODELLO DI CONTROLLO LASSO : GRUPPI CASUALI (GROUP 4) - LASSO
+# ==================================================================================================
+group4_train_list = [
+    group4_1819, 
+    group4_1920, 
+    group4_2021, 
+    group4_2122, 
+    group4_2223, 
+    group4_2324
+]
+
+group4_1824 = pd.concat(group4_train_list, axis=0).reset_index(drop=True)
+# 1. Preparazione Dati
+# Assicurati di aver concatenato le stagioni 18-24 per il training del gruppo 2
+# E di avere il dataset group2_2425 per il test
+y_column = "value"
+all_features = [col for col in numeric_cols if col != "value" and col != "random" and col != "Born"]
+
+x_train_g4 = group4_1824[all_features]
+y_train_g4 = group4_1824[y_column]
+x_test_g4 = group4_2425[all_features]
+y_test_g4 = group4_2425[y_column]
+
+# Scala la Y (target) per uniformità con SVR e XGBoost
+y_scaler_g4_lasso = StandardScaler()
+y_train_scaled_g4_lasso = y_scaler_g4_lasso.fit_transform(y_train_g4.values.reshape(-1, 1)).ravel()
+
+start_time_g4_lasso = time.time()
+
+# 2. Definizione Pipeline
+imputer_step = SimpleImputer(strategy='constant', fill_value=0).set_output(transform="pandas")
+
+# Definiamo le trasformazioni sulle colonne
+feature_transformer = ColumnTransformer(
+    transformers=[
+        # Applica il polinomio solo alla colonna 'age'
+        ('poly', PolynomialFeatures(degree=2, include_bias=False), ['age'])
+    ],
+    remainder='passthrough' # Lascia passare tutte le altre colonne così come sono
+)
+
+pipeline_g4 = Pipeline([
+    ('imputer', imputer_step),       
+    ('transformer', feature_transformer),
+    ('scaler', StandardScaler()),
+    ('lasso', Lasso(random_state=42, max_iter=10000))
+])
+
+# 3. Configurazione GridSearch
+# TimeSeriesSplit per rispettare la cronologia
+tscv = TimeSeriesSplit(n_splits=5) 
+
+# RANGE ALPHA 
+param_grid = {
+    'lasso__alpha': np.logspace(-3, 2, 100)  # 100 valori da 0.001 a 100 (Y standardizzata)
+}
+
+print(f"Avvio della Grid Search per GRUPPO CASUALE 4 ({len(x_train_g4)} campioni)...")
+grid_search_g4 = GridSearchCV(
+    pipeline_g4, 
+    param_grid, 
+    cv=tscv, 
+    scoring='neg_mean_absolute_error', 
+    n_jobs=-1, 
+    verbose=1 
+)
+
+grid_search_g4.fit(x_train_g4, y_train_scaled_g4_lasso)
+
+# 5. Analisi Risultati
+print("\n--- Risultati Grid Search (Gruppo Casuale 4) ---")
+best_alpha_g4 = grid_search_g4.best_params_['lasso__alpha']
+print(f"Alpha ottimale trovato: {best_alpha_g4:.6f}")
+print(f"Miglior MAE Scalato in Cross-Validation: {-grid_search_g4.best_score_:.4f} (Y standardizzata)")
+
+best_model_g4 = grid_search_g4.best_estimator_
+
+# 6. Valutazione Finale (Test Set 2025)
+y_pred_train_scaled_g4_lasso = best_model_g4.predict(x_train_g4)
+y_pred_test_scaled_g4_lasso = best_model_g4.predict(x_test_g4)
+
+y_pred_train_g4 = y_scaler_g4_lasso.inverse_transform(y_pred_train_scaled_g4_lasso.reshape(-1, 1)).ravel()
+y_pred_test_g4 = y_scaler_g4_lasso.inverse_transform(y_pred_test_scaled_g4_lasso.reshape(-1, 1)).ravel()
+
+mae_test_g4_lasso = mean_absolute_error(y_test_g4, y_pred_test_g4)
+mae_train_g4_lasso = mean_absolute_error(y_train_g4, y_pred_train_g4)
+r2_test_g4_lasso = r2_score(y_test_g4, y_pred_test_g4)
+r2_train_g4_lasso = r2_score(y_train_g4, y_pred_train_g4)
+
+print("\n--- Performance Modello Finale (Gruppo Casuale 4) ---")
+print(f"MAE Train: {mae_train_g4_lasso:.2f} M€")
+print(f"MAE Test:  {mae_test_g4_lasso:.2f} M€")
+print(f"R2 Train:  {r2_train_g4_lasso:.4f}")
+print(f"R2 Test:   {r2_test_g4_lasso:.4f}")
+
+# 7. Analisi dei Coefficienti
+transformer_step = best_model_g4.named_steps['transformer']
+feature_names_out = transformer_step.get_feature_names_out()
+
+lasso_model = best_model_g4.named_steps['lasso']
+lasso_coefs = lasso_model.coef_
+
+lasso_coef_g4 = pd.Series(lasso_coefs, index=feature_names_out)
+
+# Pulizia stringhe
+lasso_coef_g4.index = lasso_coef_g4.index.str.replace('remainder__', '').str.replace('poly__', '')
+
+# Filtro feature rilevanti (soglia 1M €)
+relevant_features_g4 = lasso_coef_g4[np.abs(lasso_coef_g4) >= 1e-6]
+zero_features_g4 = lasso_coef_g4[np.abs(lasso_coef_g4) < 1e-6]
+
+print("\n--- Feature Selection Automatica ---")
+print(f"Feature Totali: {len(lasso_coef_g4)}")
+print(f"Feature Azzerate da Lasso: {len(zero_features_g4)}")
+print(f"Feature Mantenute: {len(relevant_features_g4)}")
+
+print("\nTop 20 Feature più importanti (Valore Assoluto):")
+print(relevant_features_g4.abs().sort_values(ascending=False).head(20))
+
+end_time_g4_lasso = time.time()
+print(f"\n--- Tempo esecuzione: {end_time_g4_lasso - start_time_g4_lasso:.2f} sec ---")
+# ==================================================================================================
+# MODELLO DI CONTROLLO LASSO : GRUPPI CASUALI (GROUP 5) - LASSO
+# ==================================================================================================
+group5_train_list = [
+    group5_1819, 
+    group5_1920, 
+    group5_2021, 
+    group5_2122, 
+    group5_2223, 
+    group5_2324
+]
+
+group5_1824 = pd.concat(group5_train_list, axis=0).reset_index(drop=True)
+# 1. Preparazione Dati
+# Assicurati di aver concatenato le stagioni 18-24 per il training del gruppo 2
+# E di avere il dataset group2_2425 per il test
+y_column = "value"
+all_features = [col for col in numeric_cols if col != "value" and col != "random" and col != "Born"]
+
+x_train_g5 = group5_1824[all_features]
+y_train_g5 = group5_1824[y_column]
+x_test_g5 = group5_2425[all_features]
+y_test_g5 = group5_2425[y_column]
+
+# Scala la Y (target) per uniformità con SVR e XGBoost
+y_scaler_g5_lasso = StandardScaler()
+y_train_scaled_g5_lasso = y_scaler_g5_lasso.fit_transform(y_train_g5.values.reshape(-1, 1)).ravel()
+
+start_time_g5_lasso = time.time()
+
+# 2. Definizione Pipeline
+imputer_step = SimpleImputer(strategy='constant', fill_value=0).set_output(transform="pandas")
+
+# Definiamo le trasformazioni sulle colonne
+feature_transformer = ColumnTransformer(
+    transformers=[
+        # Applica il polinomio solo alla colonna 'age'
+        ('poly', PolynomialFeatures(degree=2, include_bias=False), ['age'])
+    ],
+    remainder='passthrough' # Lascia passare tutte le altre colonne così come sono
+)
+
+pipeline_g5 = Pipeline([
+    ('imputer', imputer_step),       
+    ('transformer', feature_transformer),
+    ('scaler', StandardScaler()),
+    ('lasso', Lasso(random_state=42, max_iter=10000))
+])
+
+# 3. Configurazione GridSearch
+# TimeSeriesSplit per rispettare la cronologia
+tscv = TimeSeriesSplit(n_splits=5) 
+
+# RANGE ALPHA 
+param_grid = {
+    'lasso__alpha': np.logspace(-3, 2, 100)  # 100 valori da 0.001 a 100 (Y standardizzata)
+}
+
+print(f"Avvio della Grid Search per GRUPPO CASUALE 5 ({len(x_train_g5)} campioni)...")
+grid_search_g5 = GridSearchCV(
+    pipeline_g5, 
+    param_grid, 
+    cv=tscv, 
+    scoring='neg_mean_absolute_error', 
+    n_jobs=-1, 
+    verbose=1 
+)
+
+grid_search_g5.fit(x_train_g5, y_train_scaled_g5_lasso)
+
+# 5. Analisi Risultati
+print("\n--- Risultati Grid Search (Gruppo Casuale 5) ---")
+best_alpha_g5 = grid_search_g5.best_params_['lasso__alpha']
+print(f"Alpha ottimale trovato: {best_alpha_g5:.6f}")
+print(f"Miglior MAE Scalato in Cross-Validation: {-grid_search_g5.best_score_:.4f} (Y standardizzata)")
+
+best_model_g5 = grid_search_g5.best_estimator_
+
+# 6. Valutazione Finale (Test Set 2025)
+y_pred_train_scaled_g5_lasso = best_model_g5.predict(x_train_g5)
+y_pred_test_scaled_g5_lasso = best_model_g5.predict(x_test_g5)
+
+y_pred_train_g5 = y_scaler_g5_lasso.inverse_transform(y_pred_train_scaled_g5_lasso.reshape(-1, 1)).ravel()
+y_pred_test_g5 = y_scaler_g5_lasso.inverse_transform(y_pred_test_scaled_g5_lasso.reshape(-1, 1)).ravel()
+
+mae_test_g5_lasso = mean_absolute_error(y_test_g5, y_pred_test_g5)
+mae_train_g5_lasso = mean_absolute_error(y_train_g5, y_pred_train_g5)
+r2_test_g5_lasso = r2_score(y_test_g5, y_pred_test_g5)
+r2_train_g5_lasso = r2_score(y_train_g5, y_pred_train_g5)
+
+print("\n--- Performance Modello Finale (Gruppo Casuale 5) ---")
+print(f"MAE Train: {mae_train_g5_lasso:.2f} M€")
+print(f"MAE Test:  {mae_test_g5_lasso:.2f} M€")
+print(f"R2 Train:  {r2_train_g5_lasso:.4f}")
+print(f"R2 Test:   {r2_test_g5_lasso:.4f}")
+
+# 7. Analisi dei Coefficienti
+transformer_step = best_model_g5.named_steps['transformer']
+feature_names_out = transformer_step.get_feature_names_out()
+
+lasso_model = best_model_g5.named_steps['lasso']
+lasso_coefs = lasso_model.coef_
+
+lasso_coef_g5 = pd.Series(lasso_coefs, index=feature_names_out)
+
+# Pulizia stringhe
+lasso_coef_g5.index = lasso_coef_g5.index.str.replace('remainder__', '').str.replace('poly__', '')
+
+# Filtro feature rilevanti (soglia 1M €)
+relevant_features_g5 = lasso_coef_g5[np.abs(lasso_coef_g5) >= 1e-6]
+zero_features_g5 = lasso_coef_g5[np.abs(lasso_coef_g5) < 1e-6]
+
+print("\n--- Feature Selection Automatica ---")
+print(f"Feature Totali: {len(lasso_coef_g5)}")
+print(f"Feature Azzerate da Lasso: {len(zero_features_g5)}")
+print(f"Feature Mantenute: {len(relevant_features_g5)}")
+
+print("\nTop 20 Feature più importanti (Valore Assoluto):")
+print(relevant_features_g5.abs().sort_values(ascending=False).head(20))
+
+end_time_g5_lasso = time.time()
+print(f"\n--- Tempo esecuzione: {end_time_g5_lasso - start_time_g5_lasso:.2f} sec ---")
+# ==================================================================================================
+# MODELLO DI CONTROLLO SVR : GRUPPI CASUALI (GROUP 1) - SVR
+# ==================================================================================================
+
+y_column = "value"
+all_features = [col for col in numeric_cols if col != "value" and col != "random" and col != "Born"]
+print(f"Inizio addestramento SVR di controllo (Group 1) su {len(all_features)} feature.")
+
+# Dataset Group 1 (Training 18-24 e Test 24-25)
+x_train_g1 = group1_1824[all_features]
+y_train_g1 = group1_1824[y_column]
+x_test_g1 = group1_2425[all_features]
+y_test_g1 = group1_2425[y_column]
+
+# Momento di inizio del modello
+start_time_g1_svr = time.time()
+
+# --- 2. SCALARE LA Y (TARGET) ---
+y_scaler_g1_svr = StandardScaler()
+y_train_scaled_svr_g1 = y_scaler_g1_svr.fit_transform(y_train_g1.values.reshape(-1, 1)).ravel()
+
+# --- 3. DEFINIZIONE DELLA PIPELINE ---
+pipeline_svr_g1 = Pipeline([
+    ('imputer', SimpleImputer(strategy='constant', fill_value=0)),
+    ('scaler', StandardScaler()), 
+    ('svr', SVR(kernel='rbf')) 
+])
+
+# --- 4. SELEZIONE IPERPARAMETRI (GridSearchCV) ---
+param_grid = {
+    'svr__C': [6, 7, 8, 9, 10, 11],          
+    'svr__gamma': [0.001, 0.01, 0.1, 1, 1.1],      
+    'svr__epsilon': [0.1, 0.2, 0.5, 0.6]      
+}
+
+tscv = TimeSeriesSplit(n_splits=5) 
+print("Avvio della GridSearchCV per SVR (Group 1)...")
+print(f"Totale combinazioni: {len(param_grid['svr__C']) * len(param_grid['svr__gamma']) * len(param_grid['svr__epsilon'])}")
+
+grid_search_svr_g1 = GridSearchCV(
+    pipeline_svr_g1,
+    param_grid=param_grid, 
+    cv=tscv, 
+    scoring='neg_mean_absolute_error', 
+    n_jobs=-1, 
+    verbose=2 
+)
+
+# FIT
+grid_search_svr_g1.fit(x_train_g1, y_train_scaled_svr_g1)
+
+# --- 5. RISULTATI ---
+print("\n--- Risultati GridSearchCV SVR (Group 1) ---")
+print(f"Migliori iperparametri trovati: {grid_search_svr_g1.best_params_}")
+
+best_model_g1_svr = grid_search_svr_g1.best_estimator_
+
+# --- 6. VALUTAZIONE FINALE (CON INVERSE_TRANSFORM) ---
+y_pred_train_scaled_g1_svr = best_model_g1_svr.predict(x_train_g1)
+y_pred_test_scaled_g1_svr = best_model_g1_svr.predict(x_test_g1)
+
+y_pred_train_final_g1_svr = y_scaler_g1_svr.inverse_transform(y_pred_train_scaled_g1_svr.reshape(-1, 1)).ravel()
+y_pred_test_final_g1_svr = y_scaler_g1_svr.inverse_transform(y_pred_test_scaled_g1_svr.reshape(-1, 1)).ravel()
+
+mae_test_g1_svr = mean_absolute_error(y_test_g1, y_pred_test_final_g1_svr)
+mae_train_g1_svr = mean_absolute_error(y_train_g1, y_pred_train_final_g1_svr)
+r2_test_g1_svr = r2_score(y_test_g1, y_pred_test_final_g1_svr)
+r2_train_g1_svr = r2_score(y_train_g1, y_pred_train_final_g1_svr)
+
+print("\n--- Performance Modello SVR Ottimizzato (Group 1) ---")
+print(f"MAE sul set di TRAINING: {mae_train_g1_svr:.2f} €")
+print(f"MAE sul set di TEST: {mae_test_g1_svr:.2f} €")
+print(f"R2 Score sul set di TRAINING: {r2_train_g1_svr:.4f}")
+print(f"R2 Score sul set di TEST: {r2_test_g1_svr:.4f}")
+
+# --- 7. PERMUTATION IMPORTANCE ---
+print("\nAvvio calcolo Permutation Importance per il Gruppo 1")
+
+# Nota: Assicurati che create_unscaled_scorer sia definita nel tuo ambiente
+g1_scorer = create_unscaled_scorer(y_scaler_g1_svr)
+
+perm_imp_g1_svr = permutation_importance(
+    best_model_g1_svr, 
+    x_test_g1, 
+    y_test_g1, 
+    n_repeats=10,
+    random_state=42, 
+    n_jobs=-1,
+    scoring=g1_scorer 
+)
+
+importance_g1_svr = pd.DataFrame({
+    'feature': x_train_g1.columns,
+    'importance_mean': perm_imp_g1_svr.importances_mean,
+    'importance_std': perm_imp_g1_svr.importances_std
+})
+
+importance_g1_svr = importance_g1_svr.sort_values('importance_mean', ascending=False)
+
+print("\n--- Feature Importance del Gruppo Casuale 1 per SVR ---")
+print(importance_g1_svr.head(10))
+
+# Fine del modello
+end_time_g1_svr = time.time()
+print(f"--- Tempo di esecuzione SVR Group 1: {end_time_g1_svr - start_time_g1_svr:.2f} secondi ---")
+
+# ==================================================================================================
+# MODELLO DI CONTROLLO SVR : GRUPPI CASUALI (GROUP 2) - SVR
+# ==================================================================================================
+
+y_column = "value"
+all_features = [col for col in numeric_cols if col != "value" and col != "random" and col != "Born"]
+print(f"Inizio addestramento SVR di controllo (Group 1) su {len(all_features)} feature.")
+
+# Dataset Group 1 (Training 18-24 e Test 24-25)
+x_train_g2 = group2_1824[all_features]
+y_train_g2 = group2_1824[y_column]
+x_test_g2 = group2_2425[all_features]
+y_test_g2 = group2_2425[y_column]
+
+# Momento di inizio del modello
+start_time_g2_svr = time.time()
+
+# --- 2. SCALARE LA Y (TARGET) ---
+y_scaler_g2_svr = StandardScaler()
+y_train_scaled_svr_g2 = y_scaler_g2_svr.fit_transform(y_train_g2.values.reshape(-1, 1)).ravel()
+
+# --- 3. DEFINIZIONE DELLA PIPELINE ---
+pipeline_svr_g2 = Pipeline([
+    ('imputer', SimpleImputer(strategy='constant', fill_value=0)),
+    ('scaler', StandardScaler()), 
+    ('svr', SVR(kernel='rbf')) 
+])
+
+# --- 4. SELEZIONE IPERPARAMETRI (GridSearchCV) ---
+param_grid = {
+    'svr__C': [6, 7, 8, 9, 10, 11],          
+    'svr__gamma': [0.001, 0.01, 0.1, 1, 1.1],      
+    'svr__epsilon': [0.1, 0.2, 0.5, 0.6]      
+}
+
+tscv = TimeSeriesSplit(n_splits=5) 
+print("Avvio della GridSearchCV per SVR (Group 2)...")
+print(f"Totale combinazioni: {len(param_grid['svr__C']) * len(param_grid['svr__gamma']) * len(param_grid['svr__epsilon'])}")
+
+grid_search_svr_g2 = GridSearchCV(
+    pipeline_svr_g2,
+    param_grid=param_grid, 
+    cv=tscv, 
+    scoring='neg_mean_absolute_error', 
+    n_jobs=-1, 
+    verbose=2 
+)
+
+# FIT
+grid_search_svr_g2.fit(x_train_g2, y_train_scaled_svr_g2)
+
+# --- 5. RISULTATI ---
+print("\n--- Risultati GridSearchCV SVR (Group 2) ---")
+print(f"Migliori iperparametri trovati: {grid_search_svr_g2.best_params_}")
+
+best_model_g2_svr = grid_search_svr_g2.best_estimator_
+
+# --- 6. VALUTAZIONE FINALE (CON INVERSE_TRANSFORM) ---
+y_pred_train_scaled_g2_svr = best_model_g2_svr.predict(x_train_g2)
+y_pred_test_scaled_g2_svr = best_model_g2_svr.predict(x_test_g2)
+
+y_pred_train_final_g2_svr = y_scaler_g2_svr.inverse_transform(y_pred_train_scaled_g2_svr.reshape(-1, 1)).ravel()
+y_pred_test_final_g2_svr = y_scaler_g2_svr.inverse_transform(y_pred_test_scaled_g2_svr.reshape(-1, 1)).ravel()
+
+mae_test_g2_svr = mean_absolute_error(y_test_g2, y_pred_test_final_g2_svr)
+mae_train_g2_svr = mean_absolute_error(y_train_g2, y_pred_train_final_g2_svr)
+r2_test_g2_svr = r2_score(y_test_g2, y_pred_test_final_g2_svr)
+r2_train_g2_svr = r2_score(y_train_g2, y_pred_train_final_g2_svr)
+
+print("\n--- Performance Modello SVR Ottimizzato (Group 2) ---")
+print(f"MAE sul set di TRAINING: {mae_train_g2_svr:.2f} €")
+print(f"MAE sul set di TEST: {mae_test_g2_svr:.2f} €")
+print(f"R2 Score sul set di TRAINING: {r2_train_g2_svr:.4f}")
+print(f"R2 Score sul set di TEST: {r2_test_g2_svr:.4f}")
+
+# --- 7. PERMUTATION IMPORTANCE ---
+print("\nAvvio calcolo Permutation Importance per il Gruppo 2")
+
+# Nota: Assicurati che create_unscaled_scorer sia definita nel tuo ambiente
+g2_scorer = create_unscaled_scorer(y_scaler_g2_svr)
+
+perm_imp_g2_svr = permutation_importance(
+    best_model_g2_svr, 
+    x_test_g2, 
+    y_test_g2, 
+    n_repeats=10,
+    random_state=42, 
+    n_jobs=-1,
+    scoring=g2_scorer 
+)
+
+importance_g2_svr = pd.DataFrame({
+    'feature': x_train_g2.columns,
+    'importance_mean': perm_imp_g2_svr.importances_mean,
+    'importance_std': perm_imp_g2_svr.importances_std
+})
+
+importance_g2_svr = importance_g2_svr.sort_values('importance_mean', ascending=False)
+
+print("\n--- Feature Importance del Gruppo Casuale 2 per SVR ---")
+print(importance_g2_svr.head(10))
+
+# Fine del modello
+end_time_g2_svr = time.time()
+print(f"--- Tempo di esecuzione SVR Group 2: {end_time_g2_svr - start_time_g2_svr:.2f} secondi ---")
+
+# ==================================================================================================
+# MODELLO DI CONTROLLO SVR : GRUPPI CASUALI (GROUP 3) - SVR
+# ==================================================================================================
+
+y_column = "value"
+all_features = [col for col in numeric_cols if col != "value" and col != "random" and col != "Born"]
+print(f"Inizio addestramento SVR di controllo (Group 1) su {len(all_features)} feature.")
+
+# Dataset Group 1 (Training 18-24 e Test 24-25)
+x_train_g3 = group3_1824[all_features]
+y_train_g3 = group3_1824[y_column]
+x_test_g3 = group3_2425[all_features]
+y_test_g3 = group3_2425[y_column]
+
+# Momento di inizio del modello
+start_time_g3_svr = time.time()
+
+# --- 2. SCALARE LA Y (TARGET) ---
+y_scaler_g3_svr = StandardScaler()
+y_train_scaled_svr_g3 = y_scaler_g3_svr.fit_transform(y_train_g3.values.reshape(-1, 1)).ravel()
+
+# --- 3. DEFINIZIONE DELLA PIPELINE ---
+pipeline_svr_g3 = Pipeline([
+    ('imputer', SimpleImputer(strategy='constant', fill_value=0)),
+    ('scaler', StandardScaler()), 
+    ('svr', SVR(kernel='rbf')) 
+])
+
+# --- 4. SELEZIONE IPERPARAMETRI (GridSearchCV) ---
+param_grid = {
+    'svr__C': [6, 7, 8, 9, 10, 11],          
+    'svr__gamma': [0.001, 0.01, 0.1, 1, 1.1],      
+    'svr__epsilon': [0.1, 0.2, 0.5, 0.6]      
+}
+
+tscv = TimeSeriesSplit(n_splits=5) 
+print("Avvio della GridSearchCV per SVR (Group 3)...")
+print(f"Totale combinazioni: {len(param_grid['svr__C']) * len(param_grid['svr__gamma']) * len(param_grid['svr__epsilon'])}")
+
+grid_search_svr_g3 = GridSearchCV(
+    pipeline_svr_g3,
+    param_grid=param_grid, 
+    cv=tscv, 
+    scoring='neg_mean_absolute_error', 
+    n_jobs=-1, 
+    verbose=2 
+)
+
+# FIT
+grid_search_svr_g3.fit(x_train_g3, y_train_scaled_svr_g3)
+
+# --- 5. RISULTATI ---
+print("\n--- Risultati GridSearchCV SVR (Group 3) ---")
+print(f"Migliori iperparametri trovati: {grid_search_svr_g3.best_params_}")
+
+best_model_g3_svr = grid_search_svr_g3.best_estimator_
+
+# --- 6. VALUTAZIONE FINALE (CON INVERSE_TRANSFORM) ---
+y_pred_train_scaled_g3_svr = best_model_g3_svr.predict(x_train_g3)
+y_pred_test_scaled_g3_svr = best_model_g3_svr.predict(x_test_g3)
+
+y_pred_train_final_g3_svr = y_scaler_g3_svr.inverse_transform(y_pred_train_scaled_g3_svr.reshape(-1, 1)).ravel()
+y_pred_test_final_g3_svr = y_scaler_g3_svr.inverse_transform(y_pred_test_scaled_g3_svr.reshape(-1, 1)).ravel()
+
+mae_test_g3_svr = mean_absolute_error(y_test_g3, y_pred_test_final_g3_svr)
+mae_train_g3_svr = mean_absolute_error(y_train_g3, y_pred_train_final_g3_svr)
+r2_test_g3_svr = r2_score(y_test_g3, y_pred_test_final_g3_svr)
+r2_train_g3_svr = r2_score(y_train_g3, y_pred_train_final_g3_svr)
+
+print("\n--- Performance Modello SVR Ottimizzato (Group 3) ---")
+print(f"MAE sul set di TRAINING: {mae_train_g3_svr:.2f} €")
+print(f"MAE sul set di TEST: {mae_test_g3_svr:.2f} €")
+print(f"R2 Score sul set di TRAINING: {r2_train_g3_svr:.4f}")
+print(f"R2 Score sul set di TEST: {r2_test_g3_svr:.4f}")
+
+# --- 7. PERMUTATION IMPORTANCE ---
+print("\nAvvio calcolo Permutation Importance per il Gruppo 3")
+
+# Nota: Assicurati che create_unscaled_scorer sia definita nel tuo ambiente
+g3_scorer = create_unscaled_scorer(y_scaler_g3_svr)
+
+perm_imp_g3_svr = permutation_importance(
+    best_model_g3_svr, 
+    x_test_g3, 
+    y_test_g3, 
+    n_repeats=10,
+    random_state=42, 
+    n_jobs=-1,
+    scoring=g3_scorer 
+)
+
+importance_g3_svr = pd.DataFrame({
+    'feature': x_train_g3.columns,
+    'importance_mean': perm_imp_g3_svr.importances_mean,
+    'importance_std': perm_imp_g3_svr.importances_std
+})
+
+importance_g3_svr = importance_g3_svr.sort_values('importance_mean', ascending=False)
+
+print("\n--- Feature Importance del Gruppo Casuale 3 per SVR ---")
+print(importance_g3_svr.head(10))
+
+# Fine del modello
+end_time_g3_svr = time.time()
+print(f"--- Tempo di esecuzione SVR Group 3: {end_time_g3_svr - start_time_g3_svr:.2f} secondi ---")
+
+# ==================================================================================================
+# MODELLO DI CONTROLLO SVR : GRUPPI CASUALI (GROUP 4) - SVR
+# ==================================================================================================
+
+y_column = "value"
+all_features = [col for col in numeric_cols if col != "value" and col != "random" and col != "Born"]
+print(f"Inizio addestramento SVR di controllo (Group 1) su {len(all_features)} feature.")
+
+# Dataset Group 1 (Training 18-24 e Test 24-25)
+x_train_g4 = group4_1824[all_features]
+y_train_g4 = group4_1824[y_column]
+x_test_g4 = group4_2425[all_features]
+y_test_g4 = group4_2425[y_column]
+
+# Momento di inizio del modello
+start_time_g4_svr = time.time()
+
+# --- 2. SCALARE LA Y (TARGET) ---
+y_scaler_g4_svr = StandardScaler()
+y_train_scaled_svr_g4 = y_scaler_g4_svr.fit_transform(y_train_g4.values.reshape(-1, 1)).ravel()
+
+# --- 3. DEFINIZIONE DELLA PIPELINE ---
+pipeline_svr_g4 = Pipeline([
+    ('imputer', SimpleImputer(strategy='constant', fill_value=0)),
+    ('scaler', StandardScaler()), 
+    ('svr', SVR(kernel='rbf')) 
+])
+
+# --- 4. SELEZIONE IPERPARAMETRI (GridSearchCV) ---
+param_grid = {
+    'svr__C': [6, 7, 8, 9, 10, 11],          
+    'svr__gamma': [0.001, 0.01, 0.1, 1, 1.1],      
+    'svr__epsilon': [0.1, 0.2, 0.5, 0.6]      
+}
+
+tscv = TimeSeriesSplit(n_splits=5) 
+print("Avvio della GridSearchCV per SVR (Group 4)...")
+print(f"Totale combinazioni: {len(param_grid['svr__C']) * len(param_grid['svr__gamma']) * len(param_grid['svr__epsilon'])}")
+
+grid_search_svr_g4 = GridSearchCV(
+    pipeline_svr_g4,
+    param_grid=param_grid, 
+    cv=tscv, 
+    scoring='neg_mean_absolute_error', 
+    n_jobs=-1, 
+    verbose=2 
+)
+
+# FIT
+grid_search_svr_g4.fit(x_train_g4, y_train_scaled_svr_g4)
+
+# --- 5. RISULTATI ---
+print("\n--- Risultati GridSearchCV SVR (Group 4) ---")
+print(f"Migliori iperparametri trovati: {grid_search_svr_g4.best_params_}")
+
+best_model_g4_svr = grid_search_svr_g4.best_estimator_
+
+# --- 6. VALUTAZIONE FINALE (CON INVERSE_TRANSFORM) ---
+y_pred_train_scaled_g4_svr = best_model_g4_svr.predict(x_train_g4)
+y_pred_test_scaled_g4_svr = best_model_g4_svr.predict(x_test_g4)
+
+y_pred_train_final_g4_svr = y_scaler_g4_svr.inverse_transform(y_pred_train_scaled_g4_svr.reshape(-1, 1)).ravel()
+y_pred_test_final_g4_svr = y_scaler_g4_svr.inverse_transform(y_pred_test_scaled_g4_svr.reshape(-1, 1)).ravel()
+
+mae_test_g4_svr = mean_absolute_error(y_test_g4, y_pred_test_final_g4_svr)
+mae_train_g4_svr = mean_absolute_error(y_train_g4, y_pred_train_final_g4_svr)
+r2_test_g4_svr = r2_score(y_test_g4, y_pred_test_final_g4_svr)
+r2_train_g4_svr = r2_score(y_train_g4, y_pred_train_final_g4_svr)
+
+print("\n--- Performance Modello SVR Ottimizzato (Group 4) ---")
+print(f"MAE sul set di TRAINING: {mae_train_g4_svr:.2f} €")
+print(f"MAE sul set di TEST: {mae_test_g4_svr:.2f} €")
+print(f"R2 Score sul set di TRAINING: {r2_train_g4_svr:.4f}")
+print(f"R2 Score sul set di TEST: {r2_test_g4_svr:.4f}")
+
+# --- 7. PERMUTATION IMPORTANCE ---
+print("\nAvvio calcolo Permutation Importance per il Gruppo 4")
+
+# Nota: Assicurati che create_unscaled_scorer sia definita nel tuo ambiente
+g4_scorer = create_unscaled_scorer(y_scaler_g4_svr)
+
+perm_imp_g4_svr = permutation_importance(
+    best_model_g4_svr, 
+    x_test_g4, 
+    y_test_g4, 
+    n_repeats=10,
+    random_state=42, 
+    n_jobs=-1,
+    scoring=g4_scorer 
+)
+
+importance_g4_svr = pd.DataFrame({
+    'feature': x_train_g4.columns,
+    'importance_mean': perm_imp_g4_svr.importances_mean,
+    'importance_std': perm_imp_g4_svr.importances_std
+})
+
+importance_g4_svr = importance_g4_svr.sort_values('importance_mean', ascending=False)
+
+print("\n--- Feature Importance del Gruppo Casuale 4 per SVR ---")
+print(importance_g4_svr.head(10))
+
+# Fine del modello
+end_time_g4_svr = time.time()
+print(f"--- Tempo di esecuzione SVR Group 4: {end_time_g4_svr - start_time_g4_svr:.2f} secondi ---")
+
+# ==================================================================================================
+# MODELLO DI CONTROLLO SVR : GRUPPI CASUALI (GROUP 5) - SVR
+# ==================================================================================================
+
+y_column = "value"
+all_features = [col for col in numeric_cols if col != "value" and col != "random" and col != "Born"]
+print(f"Inizio addestramento SVR di controllo (Group 1) su {len(all_features)} feature.")
+
+# Dataset Group 1 (Training 18-24 e Test 24-25)
+x_train_g5 = group5_1824[all_features]
+y_train_g5 = group5_1824[y_column]
+x_test_g5 = group5_2425[all_features]
+y_test_g5 = group5_2425[y_column]
+
+# Momento di inizio del modello
+start_time_g5_svr = time.time()
+
+# --- 2. SCALARE LA Y (TARGET) ---
+y_scaler_g5_svr = StandardScaler()
+y_train_scaled_svr_g5 = y_scaler_g5_svr.fit_transform(y_train_g5.values.reshape(-1, 1)).ravel()
+
+# --- 3. DEFINIZIONE DELLA PIPELINE ---
+pipeline_svr_g5 = Pipeline([
+    ('imputer', SimpleImputer(strategy='constant', fill_value=0)),
+    ('scaler', StandardScaler()), 
+    ('svr', SVR(kernel='rbf')) 
+])
+
+# --- 4. SELEZIONE IPERPARAMETRI (GridSearchCV) ---
+param_grid = {
+    'svr__C': [6, 7, 8, 9, 10, 11],          
+    'svr__gamma': [0.001, 0.01, 0.1, 1, 1.1],      
+    'svr__epsilon': [0.1, 0.2, 0.5, 0.6]      
+}
+
+tscv = TimeSeriesSplit(n_splits=5) 
+print("Avvio della GridSearchCV per SVR (Group 5)...")
+print(f"Totale combinazioni: {len(param_grid['svr__C']) * len(param_grid['svr__gamma']) * len(param_grid['svr__epsilon'])}")
+
+grid_search_svr_g5 = GridSearchCV(
+    pipeline_svr_g5,
+    param_grid=param_grid, 
+    cv=tscv, 
+    scoring='neg_mean_absolute_error', 
+    n_jobs=-1, 
+    verbose=2 
+)
+
+# FIT
+grid_search_svr_g5.fit(x_train_g5, y_train_scaled_svr_g5)
+
+# --- 5. RISULTATI ---
+print("\n--- Risultati GridSearchCV SVR (Group 5) ---")
+print(f"Migliori iperparametri trovati: {grid_search_svr_g5.best_params_}")
+
+best_model_g5_svr = grid_search_svr_g5.best_estimator_
+
+# --- 6. VALUTAZIONE FINALE (CON INVERSE_TRANSFORM) ---
+y_pred_train_scaled_g5_svr = best_model_g5_svr.predict(x_train_g5)
+y_pred_test_scaled_g5_svr = best_model_g5_svr.predict(x_test_g5)
+
+y_pred_train_final_g5_svr = y_scaler_g5_svr.inverse_transform(y_pred_train_scaled_g5_svr.reshape(-1, 1)).ravel()
+y_pred_test_final_g5_svr = y_scaler_g5_svr.inverse_transform(y_pred_test_scaled_g5_svr.reshape(-1, 1)).ravel()
+
+mae_test_g5_svr = mean_absolute_error(y_test_g5, y_pred_test_final_g5_svr)
+mae_train_g5_svr = mean_absolute_error(y_train_g5, y_pred_train_final_g5_svr)
+r2_test_g5_svr = r2_score(y_test_g5, y_pred_test_final_g5_svr)
+r2_train_g5_svr = r2_score(y_train_g5, y_pred_train_final_g5_svr)
+
+print("\n--- Performance Modello SVR Ottimizzato (Group 5) ---")
+print(f"MAE sul set di TRAINING: {mae_train_g5_svr:.2f} €")
+print(f"MAE sul set di TEST: {mae_test_g5_svr:.2f} €")
+print(f"R2 Score sul set di TRAINING: {r2_train_g5_svr:.4f}")
+print(f"R2 Score sul set di TEST: {r2_test_g5_svr:.4f}")
+
+# --- 7. PERMUTATION IMPORTANCE ---
+print("\nAvvio calcolo Permutation Importance per il Gruppo 5")
+
+# Nota: Assicurati che create_unscaled_scorer sia definita nel tuo ambiente
+g5_scorer = create_unscaled_scorer(y_scaler_g5_svr)
+
+perm_imp_g5_svr = permutation_importance(
+    best_model_g5_svr, 
+    x_test_g5, 
+    y_test_g5, 
+    n_repeats=10,
+    random_state=42, 
+    n_jobs=-1,
+    scoring=g5_scorer 
+)
+
+importance_g5_svr = pd.DataFrame({
+    'feature': x_train_g5.columns,
+    'importance_mean': perm_imp_g5_svr.importances_mean,
+    'importance_std': perm_imp_g5_svr.importances_std
+})
+
+importance_g5_svr = importance_g5_svr.sort_values('importance_mean', ascending=False)
+
+print("\n--- Feature Importance del Gruppo Casuale 5 per SVR ---")
+print(importance_g5_svr.head(10))
+
+# Fine del modello
+end_time_g5_svr = time.time()
+print(f"--- Tempo di esecuzione SVR Group 5: {end_time_g5_svr - start_time_g5_svr:.2f} secondi ---")
+
+# ======================================================================================
+# MODELLO DI CONTROLLO: GRUPPI CASUALI (GROUP 1) - XGBOOST
+# ======================================================================================
+#
+y_column = "value"
+all_features = [col for col in numeric_cols if col != "value" and col != "random" and col!="Born"]
+print(f"Inizio addestramento XGBoost di controllo (Group 1) su {len(all_features)} feature.")
+
+x_train_g1 = group1_1824[all_features]
+y_train_g1 = group1_1824[y_column]
+x_test_g1 = group1_2425[all_features]
+y_test_g1 = group1_2425[y_column]
+
+# Inizio cronometro
+start_time_g1_xgb = time.time()
+
+# --- 2. SCALARE LA Y (TARGET) ---
+# Anche se XGBoost è robusto, scaliamo la Y per confrontare i MAE scalati 
+# durante la GridSearch con quelli dell'SVR.
+y_scaler_g1_xgb = StandardScaler()
+y_train_scaled_g1_xgb = y_scaler_g1_xgb.fit_transform(y_train_g1.values.reshape(-1, 1)).ravel()
+
+# --- 3. DEFINIZIONE DELLA PIPELINE ---
+# Usiamo XGBRegressor. n_jobs=1 all'interno del modello perché la parallelizzazione
+# è già gestita esternamente dalla GridSearchCV (n_jobs=-1).
+pipeline_xgb_g1 = Pipeline([
+    ('imputer', SimpleImputer(strategy='constant', fill_value=0)),
+    ('scaler', StandardScaler()), 
+    ('xgb', XGBRegressor(objective='reg:squarederror', random_state=42, n_jobs=1))
+])
+
+# --- 4. SELEZIONE IPERPARAMETRI (GridSearchCV) ---
+param_grid = {
+    'xgb__n_estimators': [30, 40, 50, 70, 80],  
+    'xgb__learning_rate': [0.05, 0.1, 0.2],
+    'xgb__max_depth': [2, 3, 5, 7, 9],
+    'xgb__subsample': [0.7, 0.8, 1.0],  
+    'xgb__colsample_bytree': [0.7, 0.8, 0.9] 
+}
+
+tscv = TimeSeriesSplit(n_splits=5)
+print("Avvio della GridSearchCV per XGBoost (Group 1)")
+
+grid_search_g1_xgb = GridSearchCV(
+    pipeline_xgb_g1,
+    param_grid=param_grid,
+    cv=tscv,
+    scoring='neg_mean_absolute_error',
+    n_jobs=-1,
+    verbose=2
+)
+
+# FIT sui dati scalati
+grid_search_g1_xgb.fit(x_train_g1, y_train_scaled_g1_xgb)
+
+# --- 5. RISULTATI ---
+print("\n--- Risultati GridSearchCV XGBoost (Group 1) ---")
+print(f"Migliori iperparametri: {grid_search_g1_xgb.best_params_}")
+print(f"Miglior MAE Scalato in CV: {-grid_search_g1_xgb.best_score_:.4f}")
+
+best_model_g1_xgb = grid_search_g1_xgb.best_estimator_
+
+# --- 6. VALUTAZIONE FINALE (DE-SCALATA) ---
+y_pred_train_scaled_g1_xgb = best_model_g1_xgb.predict(x_train_g1)
+y_pred_test_scaled_g1_xgb = best_model_g1_xgb.predict(x_test_g1)
+
+# Riportiamo le previsioni in Milioni di Euro
+y_pred_train_final_g1_xgb = y_scaler_g1_xgb.inverse_transform(y_pred_train_scaled_g1_xgb.reshape(-1, 1)).ravel()
+y_pred_test_final_g1_xgb = y_scaler_g1_xgb.inverse_transform(y_pred_test_scaled_g1_xgb.reshape(-1, 1)).ravel()
+
+mae_test_g1_xgb = mean_absolute_error(y_test_g1, y_pred_test_final_g1_xgb)
+mae_train_g1_xgb = mean_absolute_error(y_train_g1, y_pred_train_final_g1_xgb)
+r2_test_g1_xgb = r2_score(y_test_g1, y_pred_test_final_g1_xgb)
+r2_train_g1_xgb = r2_score(y_train_g1, y_pred_train_final_g1_xgb)
+
+print("\n--- Performance Modello XGBoost Ottimizzato (Group 1) ---")
+print(f"MAE Training Set: {mae_train_g1_xgb:.2f} €")
+print(f"MAE Test Set: {mae_test_g1_xgb:.2f} €")
+print(f"R2 Score Training: {r2_train_g1_xgb:.4f}")
+print(f"R2 Score Test: {r2_test_g1_xgb:.4f}")
+
+print("\n--- Confronto Finale (Group 1) ---")
+print(f"Lasso (Group 1):   R2 Test = {r2_test_g1_lasso:.4f}")
+print(f"SVR RBF (Group 1): R2 Test = {r2_test_g1_svr:.4f}")
+print(f"XGBoost (Group 1): R2 Test = {r2_test_g1_xgb:.4f}")
+
+# --- 7. PERMUTATION IMPORTANCE (Basata su MAE Reale) ---
+print("\nAvvio calcolo Permutation Importance (XGBoost Group 1)...")
+
+g1_xgb_scorer = create_unscaled_scorer(y_scaler_g1_xgb)
+
+perm_imp_g1_xgb = permutation_importance(
+    best_model_g1_xgb, 
+    x_test_g1, 
+    y_test_g1, 
+    n_repeats=10, 
+    random_state=42, 
+    n_jobs=-1,
+    scoring=g1_xgb_scorer
+)
+
+importance_g1_xgb = pd.DataFrame({
+    'feature': x_train_g1.columns, 
+    'importance_mean': perm_imp_g1_xgb.importances_mean,
+    'importance_std': perm_imp_g1_xgb.importances_std
+})
+
+importance_g1_xgb = importance_g1_xgb.sort_values('importance_mean', ascending=False)
+
+print("\n--- Feature Importance del Group 1 per XGBoost (In € MAE) ---")
+print(importance_g1_xgb.head(25))
+
+# Fine cronometro
+end_time_g1_xgb = time.time()
+execution_time_g1_xgb = end_time_g1_xgb - start_time_g1_xgb
+print(f"\n--- Tempo di esecuzione XGBoost Group 1: {execution_time_g1_xgb:.2f} secondi ---")
+# ======================================================================================
+# MODELLO DI CONTROLLO: GRUPPI CASUALI (GROUP 2) - XGBOOST
+# ======================================================================================
+
+y_column = "value"
+all_features = [col for col in numeric_cols if col != "value" and col != "random" and col!="Born"]
+print(f"Inizio addestramento XGBoost di controllo (Group 2) su {len(all_features)} feature.")
+
+x_train_g2 = group2_1824[all_features]
+y_train_g2 = group2_1824[y_column]
+x_test_g2 = group2_2425[all_features]
+y_test_g2 = group2_2425[y_column]
+
+# Inizio cronometro
+start_time_g2_xgb = time.time()
+
+# --- 2. SCALARE LA Y (TARGET) ---
+# Anche se XGBoost è robusto, scaliamo la Y per confrontare i MAE scalati 
+# durante la GridSearch con quelli dell'SVR.
+y_scaler_g2_xgb = StandardScaler()
+y_train_scaled_g2_xgb = y_scaler_g2_xgb.fit_transform(y_train_g2.values.reshape(-1, 1)).ravel()
+
+# --- 3. DEFINIZIONE DELLA PIPELINE ---
+# Usiamo XGBRegressor. n_jobs=1 all'interno del modello perché la parallelizzazione
+# è già gestita esternamente dalla GridSearchCV (n_jobs=-1).
+pipeline_xgb_g2 = Pipeline([
+    ('imputer', SimpleImputer(strategy='constant', fill_value=0)),
+    ('scaler', StandardScaler()), 
+    ('xgb', XGBRegressor(objective='reg:squarederror', random_state=42, n_jobs=1))
+])
+
+# --- 4. SELEZIONE IPERPARAMETRI (GridSearchCV) ---
+param_grid = {
+    'xgb__n_estimators': [30, 40, 50, 70, 80],  
+    'xgb__learning_rate': [0.05, 0.1, 0.2],
+    'xgb__max_depth': [2, 3, 5, 7, 9],
+    'xgb__subsample': [0.7, 0.8, 1.0],  
+    'xgb__colsample_bytree': [0.7, 0.8, 0.9] 
+}
+
+tscv = TimeSeriesSplit(n_splits=5)
+print("Avvio della GridSearchCV per XGBoost (Group 2)")
+
+grid_search_g2_xgb = GridSearchCV(
+    pipeline_xgb_g2,
+    param_grid=param_grid,
+    cv=tscv,
+    scoring='neg_mean_absolute_error',
+    n_jobs=-1,
+    verbose=2
+)
+
+# FIT sui dati scalati
+grid_search_g2_xgb.fit(x_train_g2, y_train_scaled_g2_xgb)
+
+# --- 5. RISULTATI ---
+print("\n--- Risultati GridSearchCV XGBoost (Group 2) ---")
+print(f"Migliori iperparametri: {grid_search_g2_xgb.best_params_}")
+print(f"Miglior MAE Scalato in CV: {-grid_search_g2_xgb.best_score_:.4f}")
+
+best_model_g2_xgb = grid_search_g2_xgb.best_estimator_
+
+# --- 6. VALUTAZIONE FINALE (DE-SCALATA) ---
+y_pred_train_scaled_g2_xgb = best_model_g2_xgb.predict(x_train_g2)
+y_pred_test_scaled_g2_xgb = best_model_g2_xgb.predict(x_test_g2)
+
+# Riportiamo le previsioni in Milioni di Euro
+y_pred_train_final_g2_xgb = y_scaler_g2_xgb.inverse_transform(y_pred_train_scaled_g2_xgb.reshape(-1, 1)).ravel()
+y_pred_test_final_g2_xgb = y_scaler_g2_xgb.inverse_transform(y_pred_test_scaled_g2_xgb.reshape(-1, 1)).ravel()
+
+mae_test_g2_xgb = mean_absolute_error(y_test_g2, y_pred_test_final_g2_xgb)
+mae_train_g2_xgb = mean_absolute_error(y_train_g2, y_pred_train_final_g2_xgb)
+r2_test_g2_xgb = r2_score(y_test_g2, y_pred_test_final_g2_xgb)
+r2_train_g2_xgb = r2_score(y_train_g2, y_pred_train_final_g2_xgb)
+
+print("\n--- Performance Modello XGBoost Ottimizzato (Group 2) ---")
+print(f"MAE Training Set: {mae_train_g2_xgb:.2f} €")
+print(f"MAE Test Set: {mae_test_g2_xgb:.2f} €")
+print(f"R2 Score Training: {r2_train_g2_xgb:.4f}")
+print(f"R2 Score Test: {r2_test_g2_xgb:.4f}")
+
+print("\n--- Confronto Finale (Group 2) ---")
+print(f"Lasso (Group 2):   R2 Test = {r2_test_g2_lasso:.4f}")
+print(f"SVR RBF (Group 2): R2 Test = {r2_test_g2_svr:.4f}")
+print(f"XGBoost (Group 2): R2 Test = {r2_test_g2_xgb:.4f}")
+
+# --- 7. PERMUTATION IMPORTANCE (Basata su MAE Reale) ---
+print("\nAvvio calcolo Permutation Importance (XGBoost Group 2)...")
+
+g2_xgb_scorer = create_unscaled_scorer(y_scaler_g2_xgb)
+
+perm_imp_g2_xgb = permutation_importance(
+    best_model_g2_xgb, 
+    x_test_g2, 
+    y_test_g2, 
+    n_repeats=10, 
+    random_state=42, 
+    n_jobs=-1,
+    scoring=g2_xgb_scorer
+)
+
+importance_g2_xgb = pd.DataFrame({
+    'feature': x_train_g2.columns, 
+    'importance_mean': perm_imp_g2_xgb.importances_mean,
+    'importance_std': perm_imp_g2_xgb.importances_std
+})
+
+importance_g2_xgb = importance_g2_xgb.sort_values('importance_mean', ascending=False)
+
+print("\n--- Feature Importance del Group 2 per XGBoost (In € MAE) ---")
+print(importance_g2_xgb.head(25))
+
+# Fine cronometro
+end_time_g2_xgb = time.time()
+execution_time_g2_xgb = end_time_g2_xgb - start_time_g2_xgb
+print(f"\n--- Tempo di esecuzione XGBoost Group 2: {execution_time_g2_xgb:.2f} secondi ---")
+# ======================================================================================
+# MODELLO DI CONTROLLO: GRUPPI CASUALI (GROUP 3) - XGBOOST
+# ======================================================================================
+
+y_column = "value"
+all_features = [col for col in numeric_cols if col != "value" and col != "random" and col!="Born"]
+print(f"Inizio addestramento XGBoost di controllo (Group 3) su {len(all_features)} feature.")
+
+x_train_g3 = group3_1824[all_features]
+y_train_g3 = group3_1824[y_column]
+x_test_g3 = group3_2425[all_features]
+y_test_g3 = group3_2425[y_column]
+
+# Inizio cronometro
+start_time_g3_xgb = time.time()
+
+# --- 2. SCALARE LA Y (TARGET) ---
+# Anche se XGBoost è robusto, scaliamo la Y per confrontare i MAE scalati 
+# durante la GridSearch con quelli dell'SVR.
+y_scaler_g3_xgb = StandardScaler()
+y_train_scaled_g3_xgb = y_scaler_g3_xgb.fit_transform(y_train_g3.values.reshape(-1, 1)).ravel()
+
+# --- 3. DEFINIZIONE DELLA PIPELINE ---
+# Usiamo XGBRegressor. n_jobs=1 all'interno del modello perché la parallelizzazione
+# è già gestita esternamente dalla GridSearchCV (n_jobs=-1).
+pipeline_xgb_g3 = Pipeline([
+    ('imputer', SimpleImputer(strategy='constant', fill_value=0)),
+    ('scaler', StandardScaler()), 
+    ('xgb', XGBRegressor(objective='reg:squarederror', random_state=42, n_jobs=1))
+])
+
+# --- 4. SELEZIONE IPERPARAMETRI (GridSearchCV) ---
+param_grid = {
+    'xgb__n_estimators': [30, 40, 50, 70, 80],  
+    'xgb__learning_rate': [0.05, 0.1, 0.2],
+    'xgb__max_depth': [2, 3, 5, 7, 9],
+    'xgb__subsample': [0.7, 0.8, 1.0],  
+    'xgb__colsample_bytree': [0.7, 0.8, 0.9] 
+}
+
+tscv = TimeSeriesSplit(n_splits=5)
+print("Avvio della GridSearchCV per XGBoost (Group 3)")
+
+grid_search_g3_xgb = GridSearchCV(
+    pipeline_xgb_g3,
+    param_grid=param_grid,
+    cv=tscv,
+    scoring='neg_mean_absolute_error',
+    n_jobs=-1,
+    verbose=2
+)
+
+# FIT sui dati scalati
+grid_search_g3_xgb.fit(x_train_g3, y_train_scaled_g3_xgb)
+
+# --- 5. RISULTATI ---
+print("\n--- Risultati GridSearchCV XGBoost (Group 3) ---")
+print(f"Migliori iperparametri: {grid_search_g3_xgb.best_params_}")
+print(f"Miglior MAE Scalato in CV: {-grid_search_g3_xgb.best_score_:.4f}")
+
+best_model_g3_xgb = grid_search_g3_xgb.best_estimator_
+
+# --- 6. VALUTAZIONE FINALE (DE-SCALATA) ---
+y_pred_train_scaled_g3_xgb = best_model_g3_xgb.predict(x_train_g3)
+y_pred_test_scaled_g3_xgb = best_model_g3_xgb.predict(x_test_g3)
+
+# Riportiamo le previsioni in Milioni di Euro
+y_pred_train_final_g3_xgb = y_scaler_g3_xgb.inverse_transform(y_pred_train_scaled_g3_xgb.reshape(-1, 1)).ravel()
+y_pred_test_final_g3_xgb = y_scaler_g3_xgb.inverse_transform(y_pred_test_scaled_g3_xgb.reshape(-1, 1)).ravel()
+
+mae_test_g3_xgb = mean_absolute_error(y_test_g3, y_pred_test_final_g3_xgb)
+mae_train_g3_xgb = mean_absolute_error(y_train_g3, y_pred_train_final_g3_xgb)
+r2_test_g3_xgb = r2_score(y_test_g3, y_pred_test_final_g3_xgb)
+r2_train_g3_xgb = r2_score(y_train_g3, y_pred_train_final_g3_xgb)
+
+print("\n--- Performance Modello XGBoost Ottimizzato (Group 3) ---")
+print(f"MAE Training Set: {mae_train_g3_xgb:.2f} €")
+print(f"MAE Test Set: {mae_test_g3_xgb:.2f} €")
+print(f"R2 Score Training: {r2_train_g3_xgb:.4f}")
+print(f"R2 Score Test: {r2_test_g3_xgb:.4f}")
+
+print("\n--- Confronto Finale (Group 3) ---")
+print(f"Lasso (Group 3):   R2 Test = {r2_test_g3_lasso:.4f}")
+print(f"SVR RBF (Group 3): R2 Test = {r2_test_g3_svr:.4f}")
+print(f"XGBoost (Group 3): R2 Test = {r2_test_g3_xgb:.4f}")
+
+# --- 7. PERMUTATION IMPORTANCE (Basata su MAE Reale) ---
+print("\nAvvio calcolo Permutation Importance (XGBoost Group 3)...")
+
+g3_xgb_scorer = create_unscaled_scorer(y_scaler_g3_xgb)
+
+perm_imp_g3_xgb = permutation_importance(
+    best_model_g3_xgb, 
+    x_test_g3, 
+    y_test_g3, 
+    n_repeats=10, 
+    random_state=42, 
+    n_jobs=-1,
+    scoring=g3_xgb_scorer
+)
+
+importance_g3_xgb = pd.DataFrame({
+    'feature': x_train_g3.columns, 
+    'importance_mean': perm_imp_g3_xgb.importances_mean,
+    'importance_std': perm_imp_g3_xgb.importances_std
+})
+
+importance_g3_xgb = importance_g3_xgb.sort_values('importance_mean', ascending=False)
+
+print("\n--- Feature Importance del Group 3 per XGBoost (In € MAE) ---")
+print(importance_g3_xgb.head(25))
+
+# Fine cronometro
+end_time_g3_xgb = time.time()
+execution_time_g3_xgb = end_time_g3_xgb - start_time_g3_xgb
+print(f"\n--- Tempo di esecuzione XGBoost Group 3: {execution_time_g3_xgb:.2f} secondi ---")
+
+# ======================================================================================
+# MODELLO DI CONTROLLO: GRUPPI CASUALI (GROUP 4) - XGBOOST
+# ======================================================================================
+
+y_column = "value"
+all_features = [col for col in numeric_cols if col != "value" and col != "random" and col!="Born"]
+print(f"Inizio addestramento XGBoost di controllo (Group 4) su {len(all_features)} feature.")
+
+x_train_g4 = group4_1824[all_features]
+y_train_g4 = group4_1824[y_column]
+x_test_g4 = group4_2425[all_features]
+y_test_g4 = group4_2425[y_column]
+
+# Inizio cronometro
+start_time_g4_xgb = time.time()
+
+# --- 2. SCALARE LA Y (TARGET) ---
+# Anche se XGBoost è robusto, scaliamo la Y per confrontare i MAE scalati 
+# durante la GridSearch con quelli dell'SVR.
+y_scaler_g4_xgb = StandardScaler()
+y_train_scaled_g4_xgb = y_scaler_g4_xgb.fit_transform(y_train_g4.values.reshape(-1, 1)).ravel()
+
+# --- 3. DEFINIZIONE DELLA PIPELINE ---
+# Usiamo XGBRegressor. n_jobs=1 all'interno del modello perché la parallelizzazione
+# è già gestita esternamente dalla GridSearchCV (n_jobs=-1).
+pipeline_xgb_g4 = Pipeline([
+    ('imputer', SimpleImputer(strategy='constant', fill_value=0)),
+    ('scaler', StandardScaler()), 
+    ('xgb', XGBRegressor(objective='reg:squarederror', random_state=42, n_jobs=1))
+])
+
+# --- 4. SELEZIONE IPERPARAMETRI (GridSearchCV) ---
+param_grid = {
+    'xgb__n_estimators': [30, 40, 50, 70, 80],  
+    'xgb__learning_rate': [0.05, 0.1, 0.2],
+    'xgb__max_depth': [2, 3, 5, 7, 9],
+    'xgb__subsample': [0.7, 0.8, 1.0],  
+    'xgb__colsample_bytree': [0.7, 0.8, 0.9] 
+}
+
+tscv = TimeSeriesSplit(n_splits=5)
+print("Avvio della GridSearchCV per XGBoost (Group 4)")
+
+grid_search_g4_xgb = GridSearchCV(
+    pipeline_xgb_g4,
+    param_grid=param_grid,
+    cv=tscv,
+    scoring='neg_mean_absolute_error',
+    n_jobs=-1,
+    verbose=2
+)
+
+# FIT sui dati scalati
+grid_search_g4_xgb.fit(x_train_g4, y_train_scaled_g4_xgb)
+
+# --- 5. RISULTATI ---
+print("\n--- Risultati GridSearchCV XGBoost (Group 4) ---")
+print(f"Migliori iperparametri: {grid_search_g4_xgb.best_params_}")
+print(f"Miglior MAE Scalato in CV: {-grid_search_g4_xgb.best_score_:.4f}")
+
+best_model_g4_xgb = grid_search_g4_xgb.best_estimator_
+
+# --- 6. VALUTAZIONE FINALE (DE-SCALATA) ---
+y_pred_train_scaled_g4_xgb = best_model_g4_xgb.predict(x_train_g4)
+y_pred_test_scaled_g4_xgb = best_model_g4_xgb.predict(x_test_g4)
+
+# Riportiamo le previsioni in Milioni di Euro
+y_pred_train_final_g4_xgb = y_scaler_g4_xgb.inverse_transform(y_pred_train_scaled_g4_xgb.reshape(-1, 1)).ravel()
+y_pred_test_final_g4_xgb = y_scaler_g4_xgb.inverse_transform(y_pred_test_scaled_g4_xgb.reshape(-1, 1)).ravel()
+
+mae_test_g4_xgb = mean_absolute_error(y_test_g4, y_pred_test_final_g4_xgb)
+mae_train_g4_xgb = mean_absolute_error(y_train_g4, y_pred_train_final_g4_xgb)
+r2_test_g4_xgb = r2_score(y_test_g4, y_pred_test_final_g4_xgb)
+r2_train_g4_xgb = r2_score(y_train_g4, y_pred_train_final_g4_xgb)
+
+print("\n--- Performance Modello XGBoost Ottimizzato (Group 4) ---")
+print(f"MAE Training Set: {mae_train_g4_xgb:.2f} €")
+print(f"MAE Test Set: {mae_test_g4_xgb:.2f} €")
+print(f"R2 Score Training: {r2_train_g4_xgb:.4f}")
+print(f"R2 Score Test: {r2_test_g4_xgb:.4f}")
+
+print("\n--- Confronto Finale (Group 4) ---")
+print(f"Lasso (Group 4):   R2 Test = {r2_test_g4_lasso:.4f}")
+print(f"SVR RBF (Group 4): R2 Test = {r2_test_g4_svr:.4f}")
+print(f"XGBoost (Group 4): R2 Test = {r2_test_g4_xgb:.4f}")
+
+# --- 7. PERMUTATION IMPORTANCE (Basata su MAE Reale) ---
+print("\nAvvio calcolo Permutation Importance (XGBoost Group 4)...")
+
+g4_xgb_scorer = create_unscaled_scorer(y_scaler_g4_xgb)
+
+perm_imp_g4_xgb = permutation_importance(
+    best_model_g4_xgb, 
+    x_test_g4, 
+    y_test_g4, 
+    n_repeats=10, 
+    random_state=42, 
+    n_jobs=-1,
+    scoring=g4_xgb_scorer
+)
+
+importance_g4_xgb = pd.DataFrame({
+    'feature': x_train_g4.columns, 
+    'importance_mean': perm_imp_g4_xgb.importances_mean,
+    'importance_std': perm_imp_g4_xgb.importances_std
+})
+
+importance_g4_xgb = importance_g4_xgb.sort_values('importance_mean', ascending=False)
+
+print("\n--- Feature Importance del Group 4 per XGBoost (In € MAE) ---")
+print(importance_g4_xgb.head(25))
+
+# Fine cronometro
+end_time_g4_xgb = time.time()
+execution_time_g4_xgb = end_time_g4_xgb - start_time_g4_xgb
+print(f"\n--- Tempo di esecuzione XGBoost Group 4: {execution_time_g4_xgb:.2f} secondi ---")
+
+# ======================================================================================
+# MODELLO DI CONTROLLO: GRUPPI CASUALI (GROUP 5) - XGBOOST
+# ======================================================================================
+
+y_column = "value"
+all_features = [col for col in numeric_cols if col != "value" and col != "random" and col!="Born"]
+print(f"Inizio addestramento XGBoost di controllo (Group 4) su {len(all_features)} feature.")
+
+x_train_g5 = group5_1824[all_features]
+y_train_g5 = group5_1824[y_column]
+x_test_g5 = group5_2425[all_features]
+y_test_g5 = group5_2425[y_column]
+
+# Inizio cronometro
+start_time_g5_xgb = time.time()
+
+# --- 2. SCALARE LA Y (TARGET) ---
+# Anche se XGBoost è robusto, scaliamo la Y per confrontare i MAE scalati 
+# durante la GridSearch con quelli dell'SVR.
+y_scaler_g5_xgb = StandardScaler()
+y_train_scaled_g5_xgb = y_scaler_g5_xgb.fit_transform(y_train_g5.values.reshape(-1, 1)).ravel()
+
+# --- 3. DEFINIZIONE DELLA PIPELINE ---
+# Usiamo XGBRegressor. n_jobs=1 all'interno del modello perché la parallelizzazione
+# è già gestita esternamente dalla GridSearchCV (n_jobs=-1).
+pipeline_xgb_g5 = Pipeline([
+    ('imputer', SimpleImputer(strategy='constant', fill_value=0)),
+    ('scaler', StandardScaler()), 
+    ('xgb', XGBRegressor(objective='reg:squarederror', random_state=42, n_jobs=1))
+])
+
+# --- 4. SELEZIONE IPERPARAMETRI (GridSearchCV) ---
+param_grid = {
+    'xgb__n_estimators': [30, 40, 50, 70, 80],  
+    'xgb__learning_rate': [0.05, 0.1, 0.2],
+    'xgb__max_depth': [2, 3, 5, 7, 9],
+    'xgb__subsample': [0.7, 0.8, 1.0],  
+    'xgb__colsample_bytree': [0.7, 0.8, 0.9] 
+}
+
+tscv = TimeSeriesSplit(n_splits=5)
+print("Avvio della GridSearchCV per XGBoost (Group 4)")
+
+grid_search_g5_xgb = GridSearchCV(
+    pipeline_xgb_g5,
+    param_grid=param_grid,
+    cv=tscv,
+    scoring='neg_mean_absolute_error',
+    n_jobs=-1,
+    verbose=2
+)
+
+# FIT sui dati scalati
+grid_search_g5_xgb.fit(x_train_g5, y_train_scaled_g5_xgb)
+
+# --- 5. RISULTATI ---
+print("\n--- Risultati GridSearchCV XGBoost (Group 5) ---")
+print(f"Migliori iperparametri: {grid_search_g5_xgb.best_params_}")
+print(f"Miglior MAE Scalato in CV: {-grid_search_g5_xgb.best_score_:.4f}")
+
+best_model_g5_xgb = grid_search_g5_xgb.best_estimator_
+
+# --- 6. VALUTAZIONE FINALE (DE-SCALATA) ---
+y_pred_train_scaled_g5_xgb = best_model_g5_xgb.predict(x_train_g5)
+y_pred_test_scaled_g5_xgb = best_model_g5_xgb.predict(x_test_g5)
+
+# Riportiamo le previsioni in Milioni di Euro
+y_pred_train_final_g5_xgb = y_scaler_g5_xgb.inverse_transform(y_pred_train_scaled_g5_xgb.reshape(-1, 1).ravel())
+y_pred_test_final_g5_xgb = y_scaler_g5_xgb.inverse_transform(y_pred_test_scaled_g5_xgb.reshape(-1, 1)).ravel()
+
+mae_test_g5_xgb = mean_absolute_error(y_test_g5, y_pred_test_final_g5_xgb)
+mae_train_g5_xgb = mean_absolute_error(y_train_g5, y_pred_train_final_g5_xgb)
+r2_test_g5_xgb = r2_score(y_test_g5, y_pred_test_final_g5_xgb)
+r2_train_g5_xgb = r2_score(y_train_g5, y_pred_train_final_g5_xgb)
+
+print("\n--- Performance Modello XGBoost Ottimizzato (Group 5) ---")
+print(f"MAE Training Set: {mae_train_g5_xgb:.2f} €")
+print(f"MAE Test Set: {mae_test_g5_xgb:.2f} €")
+print(f"R2 Score Training: {r2_train_g5_xgb:.4f}")
+print(f"R2 Score Test: {r2_test_g5_xgb:.4f}")
+
+print("\n--- Confronto Finale (Group 5) ---")
+print(f"Lasso (Group 5):   R2 Test = {r2_test_g5_lasso:.4f}")
+print(f"SVR RBF (Group 5): R2 Test = {r2_test_g5_svr:.4f}")
+print(f"XGBoost (Group 5): R2 Test = {r2_test_g5_xgb:.4f}")
+
+# --- 7. PERMUTATION IMPORTANCE (Basata su MAE Reale) ---
+print("\nAvvio calcolo Permutation Importance (XGBoost Group 5)...")
+
+g5_xgb_scorer = create_unscaled_scorer(y_scaler_g5_xgb)
+
+perm_imp_g5_xgb = permutation_importance(
+    best_model_g5_xgb, 
+    x_test_g5, 
+    y_test_g5, 
+    n_repeats=10, 
+    random_state=42, 
+    n_jobs=-1,
+    scoring=g5_xgb_scorer
+)
+
+importance_g5_xgb = pd.DataFrame({
+    'feature': x_train_g5.columns, 
+    'importance_mean': perm_imp_g5_xgb.importances_mean,
+    'importance_std': perm_imp_g5_xgb.importances_std
+})
+
+importance_g5_xgb = importance_g5_xgb.sort_values('importance_mean', ascending=False)
+
+print("\n--- Feature Importance del Group 5 per XGBoost (In € MAE) ---")
+print(importance_g5_xgb.head(25))
+
+# Fine cronometro
+end_time_g5_xgb = time.time()
+execution_time_g5_xgb = end_time_g5_xgb - start_time_g5_xgb
+print(f"\n--- Tempo di esecuzione XGBoost Group 5: {execution_time_g5_xgb:.2f} secondi ---")
+#-------------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------------
+#FASE 13 - GRAFICI
 #-------------------------------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------------------------------
@@ -5111,46 +7383,8 @@ print(f"XGBoost Random (Controllo): {r2_test_fw_xgb_ctrl:.4f}")
 #-------------------------------------------------------------------------------------------------------------
 #GRAFICI R2 PER I MODELLI LASSO
 #-------------------------------------------------------------------------------------------------------------
-# Etichette per l'asse X (i gruppi)
-labels_plot = ['Portieri (GK)', 'Difensori (DF)', 'Wingback (WB)', 'Centrocampisti (MF)', 'Attaccanti (FW)']
-
-# Liste di valori R²
-test_scores_lasso = [r2_test_gk_lasso, r2_test_df_lasso, r2_test_wb_lasso, r2_test_mf_lasso, r2_test_fw_lasso]
-train_scores_lasso = [r2_train_gk_lasso, r2_train_df_lasso, r2_train_wb_lasso, r2_train_mf_lasso, r2_train_fw_lasso]
-
-# Posizionamento sull'asse X
-x = np.arange(len(labels_plot))  # le posizioni dei gruppi: [0, 1, 2, 3, 4]
-width = 0.35  # Larghezza delle singole barre
-
-#CREAZIONE DEL GRAFICO A BARRE RAGGRUPPATO ---
-# Aumenta la dimensione del grafico per una migliore leggibilità
-fig, ax = plt.subplots(figsize=(12, 7))
-
-# Crea le barre R² TRAIN
-# Spostiamo le barre a DESTRA di 'x' di mezza larghezza (width/2)
-rects3 = ax.bar(x - width/2, train_scores_lasso, width, 
-                label='R² Train', color='darkorange')
-# Crea le barre R² TEST
-# Spostiamo le barre a SINISTRA di 'x' di mezza larghezza (width/2)
-rects4 = ax.bar(x + width/2, test_scores_lasso, width, 
-                label='R² Test', color='royalblue')
-
-#PULIZIA E ETICHETTE ---
-# Aggiungi etichette, titolo e legenda
-ax.set_ylabel('R² Score')
-ax.set_title('Confronto R² Score (Training set vs. Test set) per Lasso Regression', fontsize=16)
-# Imposta le etichette dell'asse X al centro dei gruppi di barre
-ax.set_xticks(x)
-ax.set_xticklabels(labels_plot)
-# Imposta i limiti dell'asse Y (R² è solitamente tra 0 e 1, ma può essere negativo)
-# Aggiusta questo se i tuoi R² sono molto bassi
-ax.set_ylim([0, 1])
-# Aggiungi una linea a R²=0
-ax.axhline(0, color='grey', linewidth=0.8)
-# Aggiungi la legenda
-ax.legend()
 # Aggiungi i valori esatti sopra ogni barra (opzionale, ma utile)
-def add_bar_labels(rects):
+def add_bar_labels(rects, ax):
     for rect in rects:
         height = rect.get_height()
         ax.annotate(f'{height:.4f}',
@@ -5159,13 +7393,6 @@ def add_bar_labels(rects):
                     textcoords="offset points",
                     ha='center', va='bottom',
                     fontsize=10)
-add_bar_labels(rects3)
-add_bar_labels(rects4)
-# Ottimizza lo spazio
-fig.tight_layout()
-# Mostra il grafico
-plt.show()
-
 # -------------------------------------------------------------------------------------------------
 # Performance sul Training Set (df_df_1824)
 # -------------------------------------------------------------------------------------------------
@@ -5377,23 +7604,14 @@ ax.set_xticks(x)
 ax.set_xticklabels(labels_plot)
 # Imposto i limiti dell'asse Y (R² è solitamente tra 0 e 1, ma può essere negativo)
 # Aggiusto questo se i tuoi R² sono molto bassi
-ax.set_ylim([0, 1])
+ax.set_ylim([-1, 1])
 # Aggiungo una linea a R²=0
 ax.axhline(0, color='grey', linewidth=0.8)
 # Aggiungo la legenda
 ax.legend()
-# Aggiungo i valori esatti sopra ogni barra (opzionale, ma utile)
-def add_bar_labels(rects):
-    for rect in rects:
-        height = rect.get_height()
-        ax.annotate(f'{height:.4f}',
-                    xy=(rect.get_x() + rect.get_width() / 2, height),
-                    xytext=(0, 3),  # 3 punti di offset verticale
-                    textcoords="offset points",
-                    ha='center', va='bottom',
-                    fontsize=10)
-add_bar_labels(rects1)
-add_bar_labels(rects2)
+ax=[-1, 1]
+add_bar_labels(rects1, ax)
+add_bar_labels(rects2, ax)
 # Ottimizzo lo spazio
 fig.tight_layout()
 # Mostro il grafico
@@ -5436,23 +7654,14 @@ ax.set_xticks(x)
 ax.set_xticklabels(labels_plot)
 # Imposta i limiti dell'asse Y (R² è solitamente tra 0 e 1, ma può essere negativo)
 # Aggiusta questo se i tuoi R² sono molto bassi
-ax.set_ylim([0, 1])
+ax.set_ylim([-1, 1])
 # Aggiungi una linea a R²=0
 ax.axhline(0, color='grey', linewidth=0.8)
 # Aggiungi la legenda
 ax.legend()
-# Aggiungi i valori esatti sopra ogni barra (opzionale, ma utile)
-def add_bar_labels(rects):
-    for rect in rects:
-        height = rect.get_height()
-        ax.annotate(f'{height:.4f}',
-                    xy=(rect.get_x() + rect.get_width() / 2, height),
-                    xytext=(0, 3),  # 3 punti di offset verticale
-                    textcoords="offset points",
-                    ha='center', va='bottom',
-                    fontsize=10)
-add_bar_labels(rects3)
-add_bar_labels(rects4)
+ax=[-1, 1]
+add_bar_labels(rects3, ax)
+add_bar_labels(rects4, ax)
 # Ottimizza lo spazio
 fig.tight_layout()
 # Mostra il grafico
@@ -5495,22 +7704,13 @@ ax.set_xticks(x)
 ax.set_xticklabels(labels_plot)
 # Imposta i limiti dell'asse Y (R² è solitamente tra 0 e 1, ma può essere negativo)
 # Aggiusta questo se i tuoi R² sono molto bassi
-ax.set_ylim([0, 1])
+ax.set_ylim([-1, 1])
 # Aggiungi una linea a R²=0
 ax.axhline(0, color='grey', linewidth=0.8)
 # Aggiungi la legenda
 ax.legend()
 # Aggiungi i valori esatti sopra ogni barra (opzionale, ma utile)
-def add_bar_labels(rects):
-    for rect in rects:
-        height = rect.get_height()
-        ax.annotate(f'{height:.4f}',
-                    xy=(rect.get_x() + rect.get_width() / 2, height),
-                    xytext=(0, 3),  # 3 punti di offset verticale
-                    textcoords="offset points",
-                    ha='center', va='bottom',
-                    fontsize=10)
-add_bar_labels(rects3)
+add_bar_labels(rects3,ax)
 add_bar_labels(rects4)
 # Ottimizza lo spazio
 fig.tight_layout()
@@ -5545,7 +7745,7 @@ ax.set_ylabel('R2 Score (Test Set)')
 ax.set_title('Confronto della performance dei modelli per Ruolo (R2 Score sul test set)')
 ax.set_xticks(x)
 ax.set_xticklabels(labels_plot)
-ax.set_ylim(0, 1.0) # L'R2 solitamente va da 0 a 1 (se positivo)
+ax.set_ylim([-1, 1]) # L'R2 solitamente va da 0 a 1 (se positivo)
 ax.legend()
 
 # Aggiungiamo una griglia orizzontale per facilitare la lettura
@@ -5569,6 +7769,19 @@ fig.tight_layout()
 
 # 4. Mostra e salva il grafico
 plt.show()
+#------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------------
+#GRAFICI R2 PER I MODELLI A CONFRONTO
+#------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------------
+#Grafici per il confronto tra gli R2 TEST sui diversi modelli in base alla suddivisione in
+#partizioni diverse ovvero
+#1)LASSO VS LASSO SENZA PARTIZIONI VS LASSO SU GRUPPI CASUALI
+#2)SVR VS SVR SENZA PARTIZIONI VS SVR SU GRUPPI CASUALI
+#3)XGB VS XGB SENZA PARTIZIONI VS XGB SU GRUPPI CASUALI
+
+#DA AGGIUNGERE
+
 #-------------------------------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------------------------------
@@ -5652,3 +7865,15 @@ df_fw_2425.to_csv('dati_attaccanti_2425.csv', index=False, sep=';', encoding='ut
 #Una feature non è importangte se eseguendo una permutazione dei suoi valori l'errore del modello non cambia
 #perchè in questo caso il modello sta ignorando la feature a scopi predittivi.
 #PER INFO: (https://christophm.github.io/interpretable-ml-book/feature-importance.html)
+
+
+
+
+"""Per tutti i modelli — Lasso, SVR e XGBoost — sia nelle versioni per ruolo sia nelle versioni per gruppi casuali, 
+la selezione degli iperparametri tramite GridSearchCV è stata eseguita minimizzando il MAE calcolato sulla variabile target 
+standardizzata. Questa scelta è tecnica: lavorare su una Y con media zero e deviazione standard unitaria garantisce che la penalizzazione 
+interna dei modelli sia applicata in modo stabile e confrontabile tra fold di cross-validation diversi. Le metriche di performance 
+riportate nei risultati — MAE e R² — sono invece calcolate sulla scala originale (milioni di euro), dopo l'applicazione dell'inverse_transform. 
+Il MAE espresso in M€ è direttamente interpretabile nel contesto calcistico e permette di valutare la qualità del modello in termini economicamente 
+significativi, ponendo il focus sull'aspetto monetario della stima. Questa impostazione è uniforme in tutto il codebase e garantisce la piena comparabilità 
+dei risultati tra i diversi modelli e contesti."""
