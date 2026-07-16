@@ -49,6 +49,11 @@ from xgboost import XGBRegressor
 #Funzione di scoring personalizzata per la Permutation Importance
 from sklearn.metrics import mean_absolute_error
 
+# Inizio cronometro globale dell'esperimento
+import time
+import warnings
+import os
+
 def create_unscaled_scorer(scaler_to_use):
     """
     Funzione 'fabbrica' che genera uno scorer personalizzato.
@@ -70,6 +75,27 @@ def create_unscaled_scorer(scaler_to_use):
         return -mae_in_euros
         
     return custom_scorer
+
+# Funzione per inserire i valori con la virgola europea sui decimali (3 cifre per R²)
+def autolabel_europeo(rects):
+    for rect in rects:
+        height = rect.get_height()
+        formatted_val = f"{height:.3f}".replace(".", ",")
+        
+        # Gestione visiva della posizione del testo in base al segno di R²
+        # Se il valore è molto vicino al limite inferiore, l'offset viene calibrato di conseguenza
+        if height >= 0:
+            va_position = 'bottom'
+            offset = 3
+        else:
+            va_position = 'top'
+            offset = -12
+        
+        ax.annotate(formatted_val,
+                    xy=(rect.get_x() + rect.get_width() / 2, height),
+                    xytext=(0, offset),  
+                    textcoords="offset points",
+                    ha='center', va=va_position, fontsize=10, fontweight='bold')
 #--------------------------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------------------------
@@ -5313,6 +5339,21 @@ print(f"group5: {len(group5_2425)}")
 # ======================================================================================
 # DATASET GLOBALI CON STESSA NUMEROSITA' DEI DATASET ROLE-SPECIFIC
 # ======================================================================================
+#GRUPPO DEI PORTIERI
+#Dataset composto dai dataset casuali di numerosità pari al ruolo corrispondente per le stagioni 
+#dallka stagione 2018-2019 alla stagione 2023-2024
+#group1 equivale ai Portieri (primo ruolo)
+#group2 equivale ai Difensori (secondo ruolo)
+#group3 equivale ai Wingback (terzo ruolo)
+#group4 equivale ai Centrocampisti (quarto ruolo)
+#group5 equivale ai Attaccanti (quinto ruolo)
+
+#Quindi group1_1819 è composto da giocatori randomici estratti dalla stagione 2018-2019 con 
+#numerosità pari a df_gk_1819
+
+#Oppure group4_2122 è composto da giocatori randomici estratti dalla stagione 2021-2022 con 
+#numerosità pari a df_mf_2122
+
 group1_train_list = [
     group1_1819, 
     group1_1920, 
@@ -5368,154 +5409,98 @@ group5_train_list = [
 
 group5_1824 = pd.concat(group5_train_list, axis=0).reset_index(drop=True)
 # ======================================================================================
-#MODELLO DI CONTROLLO SENZA PARTIZIONI - LASSO 
+# MODELLO DI CONTROLLO GLOBALE DOWNSAMPLED - LASSO 
 # ======================================================================================
-# Inizio cronometro
+# 1. SOPPRESSIONE TOTALE E AGGRESSIVA DEI WARNING (SIA PYTHON CHE SISTEMA)
+warnings.filterwarnings('ignore') # Disabilita i warning generici di Python
+warnings.filterwarnings('ignore', module='sklearn') # Disabilita i warning interni di sklearn
+# Disabilita i warning derivanti dai processi paralleli (n_jobs=-1) a livello di sistema operativo
+os.environ["PYTHONWARNINGS"] = "ignore" 
+
+from sklearn.exceptions import ConvergenceWarning
+warnings.filterwarnings('ignore', category=ConvergenceWarning)
+
+# Inizio cronometro globale dell'esperimento
 start_time_lasso_glob = time.time()
 
 # 2. DEFINIZIONE FEATURE E TARGET
 y_column = "value"
 all_features = [col for col in numeric_cols if col != "value" and col != "random" and col!="Born"]
 
-x_train_glob = group1_1824[all_features]
-y_train_glob = group1_1824[y_column]
-x_test_glob = df_gk_2425[all_features]
-y_test_glob = df_gk_2425[y_column]
-
-# 3. SCALARE LA Y (Target)
-y_scaler_lasso_glob = StandardScaler()
-y_train_scaled_lasso_glob = y_scaler_lasso_glob.fit_transform(y_train_glob.values.reshape(-1, 1)).ravel()
-
-# 4. PIPELINE LASSO
-# set_output necessario affinché il ColumnTransformer riceva un DataFrame con nomi colonne
-imputer_step = SimpleImputer(strategy='constant', fill_value=0).set_output(transform="pandas")
-
-feature_transformer = ColumnTransformer(
-    transformers=[
-        ('poly', PolynomialFeatures(degree=2, include_bias=False), ['age'])
-    ],
-    remainder='passthrough'
-)
-
-pipeline_lasso_glob = Pipeline([
-    ('imputer', imputer_step),
-    ('transformer', feature_transformer),
-    ('scaler', StandardScaler()),
-    ('lasso', Lasso(random_state=42, max_iter=10000))
-])
-
-# 5. GRID SEARCH CON TIMESERIESSPLIT
-param_grid_lasso = {
-    'lasso__alpha': np.logspace(-3, 2, 100)  # 100 valori da 0.001 a 100 (Y standardizzata)
-}
-
-tscv = TimeSeriesSplit(n_splits=5)
-
-grid_search_lasso_glob = GridSearchCV(
-    pipeline_lasso_glob,
-    param_grid=param_grid_lasso,
-    cv=tscv,
-    scoring='neg_mean_absolute_error',
-    n_jobs=-1,
-    verbose=1
-)
-
-print(f"Inizio addestramento LASSO Globale su {len(x_train_glob)} campioni...")
-grid_search_lasso_glob.fit(x_train_glob, y_train_scaled_lasso_glob)
-
-# 6. VALUTAZIONE E INVERSE TRANSFORM
-best_lasso_glob = grid_search_lasso_glob.best_estimator_
-
-y_pred_train_scaled_lasso_glob = best_lasso_glob.predict(x_train_glob)
-y_pred_test_scaled_lasso_glob = best_lasso_glob.predict(x_test_glob)
-
-y_pred_train_lasso_glob = y_scaler_lasso_glob.inverse_transform(y_pred_train_scaled_lasso_glob.reshape(-1, 1)).ravel()
-y_pred_test_lasso_glob = y_scaler_lasso_glob.inverse_transform(y_pred_test_scaled_lasso_glob.reshape(-1, 1)).ravel()
-
-# Metriche
-r2_train_lasso_glob = r2_score(y_train_glob, y_pred_train_lasso_glob)
-r2_test_lasso_glob = r2_score(y_test_glob, y_pred_test_lasso_glob)
-mae_test_lasso_glob = mean_absolute_error(y_test_glob, y_pred_test_lasso_glob)
-mae_train_lasso_glob = mean_absolute_error(y_train_glob, y_pred_train_lasso_glob)
-
-# 7. ANALISI DEI COEFFICIENTI
-transformer_step = best_lasso_glob.named_steps['transformer']
-feature_names_out = transformer_step.get_feature_names_out()
-
-lasso_regressor_glob = best_lasso_glob.named_steps['lasso']
-lasso_coef_glob = pd.Series(lasso_regressor_glob.coef_, index=feature_names_out)
-lasso_coef_glob.index = lasso_coef_glob.index.str.replace('remainder__', '').str.replace('poly__', '')
-
-zero_features_glob = lasso_coef_glob[np.abs(lasso_coef_glob) < 1e-6]
-relevant_features_glob = lasso_coef_glob[np.abs(lasso_coef_glob) >= 1e-6]
-
-print("\n--- Feature Selection Automatica Eseguita ---")
-print(f"Feature totali iniziali: {len(all_features)}")
-print(f"Feature eliminate da Lasso (coefficiente ≈ 0): {len(zero_features_glob)}")
-print(f"Feature mantenute (significative): {len(relevant_features_glob)}")
-
-print("\nFeature più importanti (coefficienti più alti):")
-print(relevant_features_glob.abs().sort_values(ascending=False).head(10))
-
-print("\n--- RISULTATI MODELLO LASSO GLOBALE (TUTTI I RUOLI - SENZA PARTIZIONE) ---")
-print(f"Miglior Alpha: {grid_search_lasso_glob.best_params_['lasso__alpha']}")
-print(f"MAE TRAINING: {mae_train_lasso_glob:.2f} €")
-print(f"MAE TEST: {mae_test_lasso_glob:.2f} €")
-print(f"R2 Score TRAINING: {r2_train_lasso_glob:.4f}")
-print(f"R2 Score TEST: {r2_test_lasso_glob:.4f}")
-
-# Fine cronometro
-end_time_lasso_glob = time.time()
-execution_time_lasso_glob = end_time_lasso_glob - start_time_lasso_glob
-print(f"\n--- Tempo di esecuzione LASSO SENZA PARTIZIONI: {execution_time_lasso_glob:.2f} secondi ---")
-
-# =============================================================================
-# APPLICAZIONE DEL MODELLO LASSO GLOBALE SUI SINGOLI RUOLI
-# Il modello è stato allenato su tutti i giocatori (2018-2024).
-# Lo applichiamo ora sui sottoinsiemi per ruolo del test set (2024-25)
-# e del training set (2018-2024) per un confronto diretto con i modelli per ruolo.
-# =============================================================================
-
-ruoli = {
-    'GK': (df_gk_1824, df_gk_2425),
-    'DF': (df_df_1824, df_df_2425),
-    'WB': (df_wb_1824, df_wb_2425),
-    'MF': (df_mf_1824, df_mf_2425),
-    'FW': (df_fw_1824, df_fw_2425),
-}
-
-print("\n--- APPLICAZIONE MODELLO LASSO GLOBALE SUI SINGOLI RUOLI ---")
-print(f"{'Ruolo':<6} {'R2 Train':>10} {'R2 Test':>10} {'MAE Train':>12} {'MAE Test':>12} {'N Train':>9} {'N Test':>8}")
-print("-" * 65)
-
+# 3. INIZIALIZZAZIONE VARIABILI PER I GRAFICI DI FASE 13
 r2_train_lasso_glob_gk = r2_train_lasso_glob_df = r2_train_lasso_glob_wb = r2_train_lasso_glob_mf = r2_train_lasso_glob_fw = None
 r2_test_lasso_glob_gk  = r2_test_lasso_glob_df  = r2_test_lasso_glob_wb  = r2_test_lasso_glob_mf  = r2_test_lasso_glob_fw  = None
 mae_train_lasso_glob_gk = mae_train_lasso_glob_df = mae_train_lasso_glob_wb = mae_train_lasso_glob_mf = mae_train_lasso_glob_fw = None
 mae_test_lasso_glob_gk  = mae_test_lasso_glob_df  = mae_test_lasso_glob_wb  = mae_test_lasso_glob_mf  = mae_test_lasso_glob_fw  = None
 
-for ruolo, (df_train_ruolo, df_test_ruolo) in ruoli.items():
+# 4. MAPPATURA RIGOROSA: OGNI GRUPPO CASUALE DI CONTROLLO AL SUO RUOLO REALE DI TEST
+esperimenti_ruoli = {
+    'GK': (group1_1824, df_gk_2425),
+    'DF': (group2_1824, df_df_2425),
+    'WB': (group3_1824, df_wb_2425),
+    'MF': (group4_1824, df_mf_2425),
+    'FW': (group5_1824, df_fw_2425),
+}
 
-    # Feature e target per ruolo
-    x_train_ruolo = df_train_ruolo[all_features]
-    y_train_ruolo = df_train_ruolo[y_column]
-    x_test_ruolo  = df_test_ruolo[all_features]
-    y_test_ruolo  = df_test_ruolo[y_column]
+# Struttura per memorizzare le metriche e stamparle in modo pulito alla fine
+tabella_risultati = []
 
-    # Predizioni scalate usando il modello globale già allenato
-    y_pred_train_scaled = best_lasso_glob.predict(x_train_ruolo)
-    y_pred_test_scaled  = best_lasso_glob.predict(x_test_ruolo)
+# Configurazione della griglia e della cross-validation temporale
+param_grid_lasso = {'lasso__alpha': np.logspace(-3, 2, 100)}
+tscv = TimeSeriesSplit(n_splits=5)
 
-    # Inverse transform con lo scaler globale
-    y_pred_train_ruolo = y_scaler_lasso_glob.inverse_transform(y_pred_train_scaled.reshape(-1, 1)).ravel()
-    y_pred_test_ruolo  = y_scaler_lasso_glob.inverse_transform(y_pred_test_scaled.reshape(-1, 1)).ravel()
-
-    # Metriche
-    r2_train  = r2_score(y_train_ruolo, y_pred_train_ruolo)
-    r2_test   = r2_score(y_test_ruolo,  y_pred_test_ruolo)
-    mae_train = mean_absolute_error(y_train_ruolo, y_pred_train_ruolo)
-    mae_test  = mean_absolute_error(y_test_ruolo,  y_pred_test_ruolo)
-
-    # Salvataggio in variabili nominali per uso nei grafici di Fase 13
+for ruolo, (df_train_glob_ridotto, df_test_ruolo_reale) in esperimenti_ruoli.items():
+    
+    # Feature e target specifici per il gruppo di controllo corrente
+    x_train_ctrl = df_train_glob_ridotto[all_features]
+    y_train_ctrl = df_train_glob_ridotto[y_column]
+    x_test_ctrl  = df_test_ruolo_reale[all_features]
+    y_test_ctrl  = df_test_ruolo_reale[y_column]
+    
+    # Scaling del Target specifico per questo campionamento
+    y_scaler_ctrl = StandardScaler()
+    y_train_scaled_ctrl = y_scaler_ctrl.fit_transform(y_train_ctrl.values.reshape(-1, 1)).ravel()
+    
+    # Definizione della Pipeline
+    imputer_step = SimpleImputer(strategy='constant', fill_value=0).set_output(transform="pandas")
+    feature_transformer = ColumnTransformer(
+        transformers=[('poly', PolynomialFeatures(degree=2, include_bias=False), ['age'])],
+        remainder='passthrough'
+    )
+    pipeline_lasso_ctrl = Pipeline([
+        ('imputer', imputer_step),
+        ('transformer', feature_transformer),
+        ('scaler', StandardScaler()),
+        ('lasso', Lasso(random_state=42, max_iter=10000))
+    ])
+    
+    # Grid Search locale
+    grid_search_ctrl = GridSearchCV(
+        pipeline_lasso_ctrl,
+        param_grid=param_grid_lasso,
+        cv=tscv,
+        scoring='neg_mean_absolute_error',
+        n_jobs=-1,
+        verbose=0
+    )
+    
+    grid_search_ctrl.fit(x_train_ctrl, y_train_scaled_ctrl)
+    best_lasso_ctrl = grid_search_ctrl.best_estimator_
+    
+    # Predizioni e Inverse Transform
+    y_pred_train_scaled = best_lasso_ctrl.predict(x_train_ctrl)
+    y_pred_test_scaled  = best_lasso_ctrl.predict(x_test_ctrl)
+    
+    y_pred_train_final = y_scaler_ctrl.inverse_transform(y_pred_train_scaled.reshape(-1, 1)).ravel()
+    y_pred_test_final  = y_scaler_ctrl.inverse_transform(y_pred_test_scaled.reshape(-1, 1)).ravel()
+    
+    # Calcolo Metriche
+    r2_train  = r2_score(y_train_ctrl, y_pred_train_final)
+    r2_test   = r2_score(y_test_ctrl,  y_pred_test_final)
+    mae_train = mean_absolute_error(y_train_ctrl, y_pred_train_final)
+    mae_test  = mean_absolute_error(y_test_ctrl,  y_pred_test_final)
+    
+    # ASSOCIAZIONE ALLE VARIABILI NOMINALI PER LA FASE 13 (Salva i tuoi grafici!)
     if ruolo == 'GK':
         r2_train_lasso_glob_gk  = r2_train;  r2_test_lasso_glob_gk  = r2_test
         mae_train_lasso_glob_gk = mae_train; mae_test_lasso_glob_gk  = mae_test
@@ -5532,175 +5517,120 @@ for ruolo, (df_train_ruolo, df_test_ruolo) in ruoli.items():
         r2_train_lasso_glob_fw  = r2_train;  r2_test_lasso_glob_fw  = r2_test
         mae_train_lasso_glob_fw = mae_train; mae_test_lasso_glob_fw  = mae_test
 
-    print(f"{ruolo:<6} {r2_train:>10.4f} {r2_test:>10.4f} {mae_train:>12.2f} {mae_test:>12.2f} {len(y_train_ruolo):>9} {len(y_test_ruolo):>8}")
+    # Salvataggio dati nella lista interna per la stampa finale differita
+    tabella_risultati.append({
+        'ruolo': ruolo,
+        'n_train': len(x_train_ctrl),
+        'alpha': grid_search_ctrl.best_params_['lasso__alpha'],
+        'r2_train': r2_train,
+        'r2_test': r2_test,
+        'mae_test': mae_test
+    })
 
-print("-" * 65)
-print("\nConfronto di riferimento (modello globale su tutto il test set):")
-print(f"  R2 Test globale:  {r2_test_lasso_glob:.4f}")
-print(f"  MAE Test globale: {mae_test_lasso_glob:.2f} €")
+# Fine cronometro e calcolo tempi
+end_time_lasso_glob = time.time()
+execution_time_lasso_glob = end_time_lasso_glob - start_time_lasso_glob
 
-# =============================================================================
-#MODELLO DI CONTROLLO SENZA PARTIZIONI - SVR
-# =============================================================================
-# 1. PREPARAZIONE DATASET GLOBALI (18/19 - 23/24 per Training, 24/25 per Test)
-train_df_global_list = [df_merge_1819, df_merge_1920, df_merge_2021, df_merge_2122, df_merge_2223, df_merge_2324]
-df_train_glob = pd.concat(train_df_global_list, axis=0).reset_index(drop=True)
-df_test_glob = df_merge_2425.copy()
+# STAMPA DELLA TABELLA DI CONFRONTO FINALE COMPATTA ED ELIGIBILE PER LA TESI
+print("\n" + "=" * 90)
+print("             TABELLA FINALE: MODELLI GLOBALI RIDOTTI (STUDIO DI CONTROLLO)")
+print("=" * 90)
+print(f"{'Ruolo':<6} {'N Train':>10} {'Miglior Alpha':>15} {'R2 Train':>12} {'R2 Test':>12} {'MAE Test':>15}")
+print("-" * 90)
 
-# Inizio cronometro
+for res in tabella_risultati:
+    print(f"{res['ruolo']:<6} {res['n_train']:>10} {res['alpha']:>15.4f} {res['r2_train']:>12.4f} {res['r2_test']:>12.4f} {res['mae_test']:>12.2f} €")
+
+print("-" * 90)
+print(f"Tempo di esecuzione totale: {execution_time_lasso_glob:.2f} secondi")
+print("=" * 90)
+# ======================================================================================
+# MODELLO DI CONTROLLO GLOBALE DOWNSAMPLED - SVR 
+# ======================================================================================
+# 1. SOPPRESSIONE TOTALE E AGGRESSIVA DEI WARNING
+warnings.filterwarnings('ignore') 
+warnings.filterwarnings('ignore', module='sklearn') 
+os.environ["PYTHONWARNINGS"] = "ignore" 
+
+# Inizio cronometro globale dell'esperimento
 start_time_svr_glob = time.time()
 
 # 2. DEFINIZIONE FEATURE E TARGET
 y_column = "value"
 all_features = [col for col in numeric_cols if col != "value" and col != "random" and col!="Born"]
 
-x_train_glob = df_train_glob[all_features]
-y_train_glob = df_train_glob[y_column]
-x_test_glob = df_test_glob[all_features]
-y_test_glob = df_test_glob[y_column]
-
-# Utilizziamo lo stesso scaler 
-y_scaler_svr_glob = StandardScaler()
-y_train_scaled_svr_glob = y_scaler_svr_glob.fit_transform(y_train_glob.values.reshape(-1, 1)).ravel()
-
-# 3. PIPELINE SVR
-# L'SVR è estremamente sensibile alla scala delle feature, quindi StandardScaler è vitale
-pipeline_svr_glob = Pipeline([
-    ('imputer', SimpleImputer(strategy='constant', fill_value=0)),
-    ('scaler', StandardScaler()),
-    ('svr', SVR(kernel='rbf') )
-])
-
-# 4. GRID SEARCH CON TIMESERIESSPLIT
-# Testiamo i parametri classici: C (regolarizzazione) ed Epsilon (tolleranza errore)
-param_grid_svr_glob = {
-    'svr__C': [1, 10, 100],
-    'svr__gamma': [0.001, 0.01, 0.1, 1, 1.1],
-    'svr__epsilon': [0.1, 0.2, 0.5, 0.6, 0.7],
-}
-
-
-tscv = TimeSeriesSplit(n_splits=5)
-
-grid_search_svr_glob = GridSearchCV(
-    pipeline_svr_glob,
-    param_grid=param_grid_svr_glob,
-    cv=tscv,
-    scoring='neg_mean_absolute_error',
-    n_jobs=-1,
-    verbose=1
-)
-
-print(f"Inizio addestramento SVR Globale su {len(x_train_glob)} campioni...")
-grid_search_svr_glob.fit(x_train_glob, y_train_scaled_svr_glob)
-
-# 5. VALUTAZIONE E INVERSE TRANSFORM
-best_svr_glob = grid_search_svr_glob.best_estimator_
-
-y_pred_train_scaled_svr_glob = best_svr_glob.predict(x_train_glob)
-y_pred_test_scaled_svr_glob = best_svr_glob.predict(x_test_glob)
-
-y_pred_train_svr_glob = y_scaler_svr_glob.inverse_transform(y_pred_train_scaled_svr_glob.reshape(-1, 1)).ravel()
-y_pred_test_svr_glob = y_scaler_svr_glob.inverse_transform(y_pred_test_scaled_svr_glob.reshape(-1, 1)).ravel()
-
-# 6. CALCOLO METRICHE
-r2_train_svr_glob = r2_score(y_train_glob, y_pred_train_svr_glob)
-r2_test_svr_glob = r2_score(y_test_glob, y_pred_test_svr_glob)
-
-mae_train_svr_glob = mean_absolute_error(y_train_glob, y_pred_train_svr_glob)
-mae_test_svr_glob = mean_absolute_error(y_test_glob, y_pred_test_svr_glob)
-
-print("\n--- RISULTATI MODELLO SVR GLOBALE (TUTTI I RUOLI - SENZA PARTIZIONE) ---")
-print(f"Migliori Parametri: {grid_search_svr_glob.best_params_}")
-print(f"MAE TRAINING: {mae_train_svr_glob:.2f} €")
-print(f"MAE TEST: {mae_test_svr_glob:.2f} €")
-print(f"R2 Score TRAINING: {r2_train_svr_glob:.4f}")
-print(f"R2 Score TEST: {r2_test_svr_glob:.4f}")
-
-# Fine cronometro
-end_time_svr_glob = time.time()
-execution_time_svr_glob = end_time_svr_glob - start_time_svr_glob
-print(f"\n--- Tempo di esecuzione SVR SENZA PARTIZIONI: {execution_time_svr_glob:.2f} secondi ---")
-
-print("\nAvvio calcolo Permutation Importance per il Modello SVR Globale...")
-
-# Generiamo lo scorer personalizzato usando lo scaler globale (per calcolare l'importanza su valori reali)
-glob_scorer = create_unscaled_scorer(y_scaler_svr_glob)
-
-# Eseguiamo la permutazione sul test set globale
-perm_imp_glob_svr = permutation_importance(
-    best_svr_glob, 
-    x_test_glob, 
-    y_test_glob, 
-    n_repeats=20,       # 20 ripetizioni per rendere la stima stabile e robusta
-    random_state=42, 
-    n_jobs=-1,          # Sfrutta tutti i core del processore
-    scoring=glob_scorer
-)
-
-# Organizzazione dei risultati in un DataFrame per una lettura pulita
-importance_glob_svr = pd.DataFrame({
-    'feature': x_train_glob.columns,
-    'importance_mean': perm_imp_glob_svr.importances_mean,
-    'importance_std': perm_imp_glob_svr.importances_std
-})
-
-# Ordiniamo le feature dalle più impattanti alle meno impattanti
-importance_glob_svr = importance_glob_svr.sort_values('importance_mean', ascending=False)
-
-print("\n--- Feature Importance Globale per SVR (Top 10 Variabili) ---")
-print(importance_glob_svr.head(10))
-# Fine cronometro
-end_time_svr_glob = time.time()
-execution_time_svr_glob = end_time_svr_glob - start_time_svr_glob
-print(f"\n--- Tempo di esecuzione SVR SENZA PARTIZIONI: {execution_time_svr_glob:.2f} secondi ---")
-# =============================================================================
-# APPLICAZIONE DEL MODELLO SVR GLOBALE SUI SINGOLI RUOLI
-# Il modello è stato allenato su tutti i giocatori (2018-2024).
-# Lo applichiamo ora sui sottoinsiemi per ruolo del test set (2024-25)
-# e del training set (2018-2024) per un confronto diretto con i modelli per ruolo.
-# =============================================================================
-
-ruoli = {
-    'GK': (df_gk_1824, df_gk_2425),
-    'DF': (df_df_1824, df_df_2425),
-    'WB': (df_wb_1824, df_wb_2425),
-    'MF': (df_mf_1824, df_mf_2425),
-    'FW': (df_fw_1824, df_fw_2425),
-}
-
-print("\n--- APPLICAZIONE MODELLO SVR GLOBALE SUI SINGOLI RUOLI ---")
-print(f"{'Ruolo':<6} {'R2 Train':>10} {'R2 Test':>10} {'MAE Train':>12} {'MAE Test':>12} {'N Train':>9} {'N Test':>8}")
-print("-" * 65)
-
+# 3. INIZIALIZZAZIONE VARIABILI PER I GRAFICI DI FASE 13 (Salvataggio SVR)
 r2_train_svr_glob_gk = r2_train_svr_glob_df = r2_train_svr_glob_wb = r2_train_svr_glob_mf = r2_train_svr_glob_fw = None
 r2_test_svr_glob_gk  = r2_test_svr_glob_df  = r2_test_svr_glob_wb  = r2_test_svr_glob_mf  = r2_test_svr_glob_fw  = None
 mae_train_svr_glob_gk = mae_train_svr_glob_df = mae_train_svr_glob_wb = mae_train_svr_glob_mf = mae_train_svr_glob_fw = None
 mae_test_svr_glob_gk  = mae_test_svr_glob_df  = mae_test_svr_glob_wb  = mae_test_svr_glob_mf  = mae_test_svr_glob_fw  = None
 
-for ruolo, (df_train_ruolo, df_test_ruolo) in ruoli.items():
+# 4. MAPPATURA RIGOROSA: OGNI GRUPPO CASUALE DI CONTROLLO AL SUO RUOLO REALE DI TEST
+esperimenti_ruoli = {
+    'GK': (group1_1824, df_gk_2425),
+    'DF': (group2_1824, df_df_2425),
+    'WB': (group3_1824, df_wb_2425),
+    'MF': (group4_1824, df_mf_2425),
+    'FW': (group5_1824, df_fw_2425),
+}
 
-    # Feature e target per ruolo
-    x_train_ruolo = df_train_ruolo[all_features]
-    y_train_ruolo = df_train_ruolo[y_column]
-    x_test_ruolo  = df_test_ruolo[all_features]
-    y_test_ruolo  = df_test_ruolo[y_column]
+# Struttura per memorizzare le metriche e stamparle in modo pulito alla fine
+tabella_risultati_svr = []
 
-    # Predizioni scalate usando il modello globale già allenato
-    y_pred_train_scaled = best_svr_glob.predict(x_train_ruolo)
-    y_pred_test_scaled  = best_svr_glob.predict(x_test_ruolo)
+# Configurazione della griglia e della cross-validation temporale
+param_grid_svr = {
+    'svr__C': [1, 10, 100],
+    'svr__gamma': [0.001, 0.01, 0.1, 1, 1.1],
+    'svr__epsilon': [0.1, 0.2, 0.5, 0.6, 0.7],
+}
+tscv = TimeSeriesSplit(n_splits=5)
 
-    # Inverse transform con lo scaler globale
-    y_pred_train_ruolo = y_scaler_svr_glob.inverse_transform(y_pred_train_scaled.reshape(-1, 1)).ravel()
-    y_pred_test_ruolo  = y_scaler_svr_glob.inverse_transform(y_pred_test_scaled.reshape(-1, 1)).ravel()
-
-    # Metriche
-    r2_train  = r2_score(y_train_ruolo, y_pred_train_ruolo)
-    r2_test   = r2_score(y_test_ruolo,  y_pred_test_ruolo)
-    mae_train = mean_absolute_error(y_train_ruolo, y_pred_train_ruolo)
-    mae_test  = mean_absolute_error(y_test_ruolo,  y_pred_test_ruolo)
-
-    # Salvataggio in variabili nominali per uso nei grafici di Fase 13
+for ruolo, (df_train_glob_ridotto, df_test_ruolo_reale) in esperimenti_ruoli.items():
+    
+    # Feature e target specifici per il gruppo di controllo corrente
+    x_train_ctrl = df_train_glob_ridotto[all_features]
+    y_train_ctrl = df_train_glob_ridotto[y_column]
+    x_test_ctrl  = df_test_ruolo_reale[all_features]
+    y_test_ctrl  = df_test_ruolo_reale[y_column]
+    
+    # Scaling del Target specifico per questo campionamento
+    y_scaler_ctrl = StandardScaler()
+    y_train_scaled_ctrl = y_scaler_ctrl.fit_transform(y_train_ctrl.values.reshape(-1, 1)).ravel()
+    
+    # Definizione della Pipeline SVR (sensibile alla scala, per cui lo StandardScaler interno è vitale)
+    pipeline_svr_ctrl = Pipeline([
+        ('imputer', SimpleImputer(strategy='constant', fill_value=0)),
+        ('scaler', StandardScaler()),
+        ('svr', SVR(kernel='rbf'))
+    ])
+    
+    # Grid Search locale
+    grid_search_ctrl = GridSearchCV(
+        pipeline_svr_ctrl,
+        param_grid=param_grid_svr,
+        cv=tscv,
+        scoring='neg_mean_absolute_error',
+        n_jobs=-1,
+        verbose=0
+    )
+    
+    grid_search_ctrl.fit(x_train_ctrl, y_train_scaled_ctrl)
+    best_svr_ctrl = grid_search_ctrl.best_estimator_
+    
+    # Predizioni e Inverse Transform
+    y_pred_train_scaled = best_svr_ctrl.predict(x_train_ctrl)
+    y_pred_test_scaled  = best_svr_ctrl.predict(x_test_ctrl)
+    
+    y_pred_train_final = y_scaler_ctrl.inverse_transform(y_pred_train_scaled.reshape(-1, 1)).ravel()
+    y_pred_test_final  = y_scaler_ctrl.inverse_transform(y_pred_test_scaled.reshape(-1, 1)).ravel()
+    
+    # Calcolo Metriche
+    r2_train  = r2_score(y_train_ctrl, y_pred_train_final)
+    r2_test   = r2_score(y_test_ctrl,  y_pred_test_final)
+    mae_train = mean_absolute_error(y_train_ctrl, y_pred_train_final)
+    mae_test  = mean_absolute_error(y_test_ctrl,  y_pred_test_final)
+    
+    # ASSOCIAZIONE ALLE VARIABILI NOMINALI PER LA FASE 13
     if ruolo == 'GK':
         r2_train_svr_glob_gk  = r2_train;  r2_test_svr_glob_gk  = r2_test
         mae_train_svr_glob_gk = mae_train; mae_test_svr_glob_gk  = mae_test
@@ -5717,172 +5647,126 @@ for ruolo, (df_train_ruolo, df_test_ruolo) in ruoli.items():
         r2_train_svr_glob_fw  = r2_train;  r2_test_svr_glob_fw  = r2_test
         mae_train_svr_glob_fw = mae_train; mae_test_svr_glob_fw  = mae_test
 
-    print(f"{ruolo:<6} {r2_train:>10.4f} {r2_test:>10.4f} {mae_train:>12.2f} {mae_test:>12.2f} {len(y_train_ruolo):>9} {len(y_test_ruolo):>8}")
+    # Prepariamo la stringa dei parametri ottimali per la tabella
+    best_p = grid_search_ctrl.best_params_
+    best_params_str = f"C:{best_p['svr__C']}, g:{best_p['svr__gamma']}, e:{best_p['svr__epsilon']}"
 
-print("-" * 65)
-print("\nConfronto di riferimento (modello globale su tutto il test set):")
-print(f"  R2 Test globale:  {r2_test_svr_glob:.4f}")
-print(f"  MAE Test globale: {mae_test_svr_glob:.2f} €")
-# ======================================================================================
-# MODELLO DI CONTROLLO SENZA PARTIZIONI - XGBOOST 
-# ======================================================================================
-# 1. PREPARAZIONE DATASET GLOBALI (18/19 - 23/24 per Training, 24/25 per Test)
-train_df_global_list = [df_merge_1819, df_merge_1920, df_merge_2021, df_merge_2122, df_merge_2223, df_merge_2324]
-df_train_glob = pd.concat(train_df_global_list, axis=0).reset_index(drop=True)
-df_test_glob = df_merge_2425.copy()
+    # Salvataggio dati nella lista interna
+    tabella_risultati_svr.append({
+        'ruolo': ruolo,
+        'n_train': len(x_train_ctrl),
+        'params': best_params_str,
+        'r2_train': r2_train,
+        'r2_test': r2_test,
+        'mae_test': mae_test
+    })
 
-# Inizio cronometro
+# Fine cronometro e calcolo tempi
+end_time_svr_glob = time.time()
+execution_time_svr_glob = end_time_svr_glob - start_time_svr_glob
+
+# STAMPA DELLA TABELLA DI CONFRONTO FINALE COMPATTA ED ELIGIBILE PER LA TESI
+print("\n" + "=" * 105)
+print("             TABELLA FINALE SVR: MODELLI GLOBALI RIDOTTI (STUDIO DI CONTROLLO)")
+print("=" * 105)
+print(f"{'Ruolo':<5} {'N Train':>8} {'Migliori Parametri':>28} {'R2 Train':>12} {'R2 Test':>12} {'MAE Test':>15}")
+print("-" * 105)
+
+for res in tabella_risultati_svr:
+    print(f"{res['ruolo']:<5} {res['n_train']:>8} {res['params']:>28} {res['r2_train']:>12.4f} {res['r2_test']:>12.4f} {res['mae_test']:>12.2f} €")
+
+print("-" * 105)
+print(f"Tempo di esecuzione totale SVR Controllo: {execution_time_svr_glob:.2f} secondi")
+print("=" * 105)
+# ======================================================================================
+# MODELLO DI CONTROLLO GLOBALE DOWNSAMPLED - XGBOOST (FASE REVISIONATA)
+# ======================================================================================
+# 1. SOPPRESSIONE TOTALE E AGGRESSIVA DEI WARNING
+warnings.filterwarnings('ignore') 
+warnings.filterwarnings('ignore', module='sklearn') 
+os.environ["PYTHONWARNINGS"] = "ignore" 
+
+# Inizio cronometro globale dell'esperimento
 start_time_xgb_glob = time.time()
 
 # 2. DEFINIZIONE FEATURE E TARGET
 y_column = "value"
 all_features = [col for col in numeric_cols if col != "value" and col != "random" and col!="Born"]
 
-x_train_glob = df_train_glob[all_features]
-y_train_glob = df_train_glob[y_column]
-x_test_glob = df_test_glob[all_features]
-y_test_glob = df_test_glob[y_column]
+# 3. INIZIALIZZAZIONE VARIABILI PER I GRAFICI DI FASE 13 (Salvataggio XGBoost)
+r2_train_xgb_glob_gk = r2_train_xgb_glob_df = r2_train_xgb_glob_wb = r2_train_xgb_glob_mf = r2_train_xgb_glob_fw = None
+r2_test_xgb_glob_gk  = r2_test_xgb_glob_df  = r2_test_xgb_glob_wb  = r2_test_xgb_glob_mf  = r2_test_xgb_glob_fw  = None
+mae_train_xgb_glob_gk = mae_train_xgb_glob_df = mae_train_xgb_glob_wb = mae_train_xgb_glob_mf = mae_train_xgb_glob_fw = None
+mae_test_xgb_glob_gk  = mae_test_xgb_glob_df  = mae_test_xgb_glob_wb  = mae_test_xgb_glob_mf  = mae_test_xgb_glob_fw  = None
 
-# 3. SCALARE LA Y
-y_scaler_xgb_glob = StandardScaler()
-y_train_scaled_xgb_glob = y_scaler_xgb_glob.fit_transform(y_train_glob.values.reshape(-1, 1)).ravel()
+# 4. MAPPATURA RIGOROSA: OGNI GRUPPO CASUALE DI CONTROLLO AL SUO RUOLO REALE DI TEST
+esperimenti_ruoli = {
+    'GK': (group1_1824, df_gk_2425),
+    'DF': (group2_1824, df_df_2425),
+    'WB': (group3_1824, df_wb_2425),
+    'MF': (group4_1824, df_mf_2425),
+    'FW': (group5_1824, df_fw_2425),
+}
 
-# 4. PIPELINE XGBOOST
-pipeline_xgb_glob = Pipeline([
-    ('imputer', SimpleImputer(strategy='constant', fill_value=0)),
-    ('scaler', StandardScaler()),
-    ('xgb', XGBRegressor(objective='reg:squarederror', random_state=42))
-])
+# Struttura per memorizzare le metriche e stamparle in modo pulito alla fine
+tabella_risultati_xgb = []
 
-# 5. GRID SEARCH (Stessa griglia usata per i ruoli per coerenza)
-param_grid_xgb_glob = {
+# Configurazione della griglia e della cross-validation temporale
+param_grid_xgb = {
     'xgb__n_estimators': [50, 70, 90],
     'xgb__learning_rate': [0.1, 0.2, 0.3],
     'xgb__max_depth': [5, 7, 9],
     'xgb__subsample': [0.7, 0.8, 1.0],
     'xgb__colsample_bytree': [0.7, 0.8]
 }
-
 tscv = TimeSeriesSplit(n_splits=5)
 
-grid_search_xgb_glob = GridSearchCV(
-    pipeline_xgb_glob,
-    param_grid=param_grid_xgb_glob,
-    cv=tscv,
-    scoring='neg_mean_absolute_error',
-    n_jobs=-1,
-    verbose=1
-)
-
-print(f"Inizio addestramento XGBoost Globale su {len(x_train_glob)} campioni...")
-grid_search_xgb_glob.fit(x_train_glob, y_train_scaled_xgb_glob)
-
-# 6. VALUTAZIONE E INVERSE TRANSFORM
-best_xgb_glob = grid_search_xgb_glob.best_estimator_
-
-y_pred_train_scaled_xgb_glob = best_xgb_glob.predict(x_train_glob)
-y_pred_test_scaled_xgb_glob = best_xgb_glob.predict(x_test_glob)
-
-y_pred_train_xgb_glob = y_scaler_xgb_glob.inverse_transform(y_pred_train_scaled_xgb_glob.reshape(-1, 1)).ravel()
-y_pred_test_xgb_glob = y_scaler_xgb_glob.inverse_transform(y_pred_test_scaled_xgb_glob.reshape(-1, 1)).ravel()
-
-# 7. METRICHE
-r2_train_xgb_glob = r2_score(y_train_glob, y_pred_train_xgb_glob)
-r2_test_xgb_glob = r2_score(y_test_glob, y_pred_test_xgb_glob)
-mae_train_xgb_glob = mean_absolute_error(y_train_glob, y_pred_train_xgb_glob)
-mae_test_xgb_glob = mean_absolute_error(y_test_glob, y_pred_test_xgb_glob)
-
-print("\n--- RISULTATI MODELLO XGBOOST GLOBALE (TUTTI I RUOLI - SENZA PARTIZIONE) ---")
-print(f"Migliori Parametri: {grid_search_xgb_glob.best_params_}")
-print(f"MAE TRAINING: {mae_train_xgb_glob:,.2f} €")
-print(f"MAE TEST: {mae_test_xgb_glob:,.2f} €")
-print(f"R2 Score TRAINING: {r2_train_xgb_glob:.4f}")
-print(f"R2 Score TEST: {r2_test_xgb_glob:.4f}")
-
-# Fine cronometro
-end_time_xgb_glob = time.time()
-execution_time_xgb_glob = end_time_xgb_glob - start_time_xgb_glob
-print(f"\n--- Tempo di esecuzione XGB SENZA PARTIZIONI: {execution_time_xgb_glob:.2f} secondi ---")
-
-print("\nAvvio calcolo Permutation Importance per il Modello XGB Globale...")
-
-# Generiamo lo scorer personalizzato usando lo scaler globale (per calcolare l'importanza su valori reali)
-glob_scorer = create_unscaled_scorer(y_scaler_xgb_glob)
-
-# Eseguiamo la permutazione sul test set globale
-perm_imp_glob_xgb = permutation_importance(
-    best_xgb_glob, 
-    x_test_glob, 
-    y_test_glob, 
-    n_repeats=20,       # 20 ripetizioni per rendere la stima stabile e robusta
-    random_state=42, 
-    n_jobs=-1,          # Sfrutta tutti i core del processore
-    scoring=glob_scorer
-)
-
-# Organizzazione dei risultati in un DataFrame per una lettura pulita
-importance_glob_xgb = pd.DataFrame({
-    'feature': x_train_glob.columns,
-    'importance_mean': perm_imp_glob_xgb.importances_mean,
-    'importance_std': perm_imp_glob_xgb.importances_std
-})
-
-# Ordiniamo le feature dalle più impattanti alle meno impattanti
-importance_glob_xgb = importance_glob_xgb.sort_values('importance_mean', ascending=False)
-
-print("\n--- Feature Importance Globale per XGB (Top 10 Variabili) ---")
-print(importance_glob_xgb.head(10))
-# Fine cronometro
-end_time_xgb_glob = time.time()
-execution_time_xgb_glob = end_time_xgb_glob - start_time_xgb_glob
-print(f"\n--- Tempo di esecuzione XGB SENZA PARTIZIONI: {execution_time_xgb_glob:.2f} secondi ---")
-# =============================================================================
-# APPLICAZIONE DEL MODELLO XGB GLOBALE SUI SINGOLI RUOLI
-# Il modello è stato allenato su tutti i giocatori (2018-2024).
-# Lo applichiamo ora sui sottoinsiemi per ruolo del test set (2024-25)
-# e del training set (2018-2024) per un confronto diretto con i modelli per ruolo.
-# =============================================================================
-
-ruoli = {
-    'GK': (df_gk_1824, df_gk_2425),
-    'DF': (df_df_1824, df_df_2425),
-    'WB': (df_wb_1824, df_wb_2425),
-    'MF': (df_mf_1824, df_mf_2425),
-    'FW': (df_fw_1824, df_fw_2425),
-}
-
-print("\n--- APPLICAZIONE MODELLO XGB GLOBALE SUI SINGOLI RUOLI ---")
-print(f"{'Ruolo':<6} {'R2 Train':>10} {'R2 Test':>10} {'MAE Train':>12} {'MAE Test':>12} {'N Train':>9} {'N Test':>8}")
-print("-" * 65)
-
-r2_train_xgb_glob_gk = r2_train_xgb_glob_df = r2_train_xgb_glob_wb = r2_train_xgb_glob_mf = r2_train_xgb_glob_fw = None
-r2_test_xgb_glob_gk  = r2_test_xgb_glob_df  = r2_test_xgb_glob_wb  = r2_test_xgb_glob_mf  = r2_test_xgb_glob_fw  = None
-mae_train_xgb_glob_gk = mae_train_xgb_glob_df = mae_train_xgb_glob_wb = mae_train_xgb_glob_mf = mae_train_xgb_glob_fw = None
-mae_test_xgb_glob_gk  = mae_test_xgb_glob_df  = mae_test_xgb_glob_wb  = mae_test_xgb_glob_mf  = mae_test_xgb_glob_fw  = None
-
-for ruolo, (df_train_ruolo, df_test_ruolo) in ruoli.items():
-
-    # Feature e target per ruolo
-    x_train_ruolo = df_train_ruolo[all_features]
-    y_train_ruolo = df_train_ruolo[y_column]
-    x_test_ruolo  = df_test_ruolo[all_features]
-    y_test_ruolo  = df_test_ruolo[y_column]
-
-    # Predizioni scalate usando il modello globale già allenato
-    y_pred_train_scaled = best_xgb_glob.predict(x_train_ruolo)
-    y_pred_test_scaled  = best_xgb_glob.predict(x_test_ruolo)
-
-    # Inverse transform con lo scaler globale
-    y_pred_train_ruolo = y_scaler_xgb_glob.inverse_transform(y_pred_train_scaled.reshape(-1, 1)).ravel()
-    y_pred_test_ruolo  = y_scaler_xgb_glob.inverse_transform(y_pred_test_scaled.reshape(-1, 1)).ravel()
-
-    # Metriche
-    r2_train  = r2_score(y_train_ruolo, y_pred_train_ruolo)
-    r2_test   = r2_score(y_test_ruolo,  y_pred_test_ruolo)
-    mae_train = mean_absolute_error(y_train_ruolo, y_pred_train_ruolo)
-    mae_test  = mean_absolute_error(y_test_ruolo,  y_pred_test_ruolo)
-
-    # Salvataggio in variabili nominali per uso nei grafici di Fase 13
+for ruolo, (df_train_glob_ridotto, df_test_ruolo_reale) in esperimenti_ruoli.items():
+    
+    # Feature e target specifici per il gruppo di controllo corrente
+    x_train_ctrl = df_train_glob_ridotto[all_features]
+    y_train_ctrl = df_train_glob_ridotto[y_column]
+    x_test_ctrl  = df_test_ruolo_reale[all_features]
+    y_test_ctrl  = df_test_ruolo_reale[y_column]
+    
+    # Scaling del Target specifico per questo campionamento
+    y_scaler_ctrl = StandardScaler()
+    y_train_scaled_ctrl = y_scaler_ctrl.fit_transform(y_train_ctrl.values.reshape(-1, 1)).ravel()
+    
+    # Definizione della Pipeline XGBoost
+    pipeline_xgb_ctrl = Pipeline([
+        ('imputer', SimpleImputer(strategy='constant', fill_value=0)),
+        ('scaler', StandardScaler()),
+        ('xgb', XGBRegressor(objective='reg:squarederror', random_state=42))
+    ])
+    
+    # Grid Search locale
+    grid_search_ctrl = GridSearchCV(
+        pipeline_xgb_ctrl,
+        param_grid=param_grid_xgb,
+        cv=tscv,
+        scoring='neg_mean_absolute_error',
+        n_jobs=-1,
+        verbose=0
+    )
+    
+    grid_search_ctrl.fit(x_train_ctrl, y_train_scaled_ctrl)
+    best_xgb_ctrl = grid_search_ctrl.best_estimator_
+    
+    # Predizioni e Inverse Transform
+    y_pred_train_scaled = best_xgb_ctrl.predict(x_train_ctrl)
+    y_pred_test_scaled  = best_xgb_ctrl.predict(x_test_ctrl)
+    
+    y_pred_train_final = y_scaler_ctrl.inverse_transform(y_pred_train_scaled.reshape(-1, 1)).ravel()
+    y_pred_test_final  = y_scaler_ctrl.inverse_transform(y_pred_test_scaled.reshape(-1, 1)).ravel()
+    
+    # Calcolo Metriche
+    r2_train  = r2_score(y_train_ctrl, y_pred_train_final)
+    r2_test   = r2_score(y_test_ctrl,  y_pred_test_final)
+    mae_train = mean_absolute_error(y_train_ctrl, y_pred_train_final)
+    mae_test  = mean_absolute_error(y_test_ctrl,  y_pred_test_final)
+    
+    # ASSOCIAZIONE ALLE VARIABILI NOMINALI PER LA FASE 13
     if ruolo == 'GK':
         r2_train_xgb_glob_gk  = r2_train;  r2_test_xgb_glob_gk  = r2_test
         mae_train_xgb_glob_gk = mae_train; mae_test_xgb_glob_gk  = mae_test
@@ -5899,12 +5783,36 @@ for ruolo, (df_train_ruolo, df_test_ruolo) in ruoli.items():
         r2_train_xgb_glob_fw  = r2_train;  r2_test_xgb_glob_fw  = r2_test
         mae_train_xgb_glob_fw = mae_train; mae_test_xgb_glob_fw  = mae_test
 
-    print(f"{ruolo:<6} {r2_train:>10.4f} {r2_test:>10.4f} {mae_train:>12.2f} {mae_test:>12.2f} {len(y_train_ruolo):>9} {len(y_test_ruolo):>8}")
+    # Prepariamo la stringa dei parametri ottimali per la tabella
+    bp = grid_search_ctrl.best_params_
+    best_params_str = f"n:{bp['xgb__n_estimators']}, lr:{bp['xgb__learning_rate']}, d:{bp['xgb__max_depth']}"
 
-print("-" * 65)
-print("\nConfronto di riferimento (modello globale su tutto il test set):")
-print(f"  R2 Test globale:  {r2_test_xgb_glob:.4f}")
-print(f"  MAE Test globale: {mae_test_xgb_glob:.2f} €")
+    # Salvataggio dati nella lista interna
+    tabella_risultati_xgb.append({
+        'ruolo': ruolo,
+        'n_train': len(x_train_ctrl),
+        'params': best_params_str,
+        'r2_train': r2_train,
+        'r2_test': r2_test,
+        'mae_test': mae_test
+    })
+
+# Fine cronometro e calcolo tempi
+end_time_xgb_glob = time.time()
+execution_time_xgb_glob = end_time_xgb_glob - start_time_xgb_glob
+# STAMPA DELLA TABELLA DI CONFRONTO FINALE COMPATTA ED ELIGIBILE PER LA TESI
+print("\n" + "=" * 100)
+print("           TABELLA FINALE XGBOOST: MODELLI GLOBALI RIDOTTI (STUDIO DI CONTROLLO)")
+print("=" * 100)
+print(f"{'Ruolo':<5} {'N Train':>8} {'Parametri Chiave':>25} {'R2 Train':>12} {'R2 Test':>12} {'MAE Test':>15}")
+print("-" * 100)
+
+for res in tabella_risultati_xgb:
+    print(f"{res['ruolo']:<5} {res['n_train']:>8} {res['params']:>25} {res['r2_train']:>12.4f} {res['r2_test']:>12.4f} {res['mae_test']:>12.2f} €")
+
+print("-" * 100)
+print(f"Tempo di esecuzione totale XGB Controllo: {execution_time_xgb_glob:.2f} secondi")
+print("=" * 100)
 #-------------------------------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------------------------------
@@ -8059,7 +7967,7 @@ fig.tight_layout()
 plt.show()
 #------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------
-#GRAFICI R2 PER I MODELLI A CONFRONTO - VARIABILI DI PERFORMANCE vs VAARIABILE DI CONTROLLO
+#GRAFICI R2 PER I MODELLI A CONFRONTO - VARIABILI DI PERFORMANCE vs VARIABILE DI CONTROLLO
 #------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------
 #Grafici per il confronto tra gli R2 TEST sui diversi modelli in base alla suddivisione in
@@ -8220,7 +8128,7 @@ ax.set_xticks(x)
 ax.set_xticklabels(labels_plot, fontsize=11, fontweight='bold') 
 
 # MODIFICA ASSE ORDINATE: Impostazione dei limiti minimi e massimi richiesti
-ax.set_ylim(-0.4, 0.75)
+ax.set_ylim(-0.4, 0.80)
 
 # Legenda impostata a 14, senza titolo interno
 ax.legend(fontsize=14, frameon=True, loc='upper right')
@@ -8289,7 +8197,7 @@ ax.set_xticks(x)
 ax.set_xticklabels(labels_plot, fontsize=11, fontweight='bold') 
 
 # MODIFICA ASSE ORDINATE: Impostazione dei limiti minimi e massimi richiesti
-ax.set_ylim(0, 0.80)
+ax.set_ylim(0, 0.70)
 
 # Legenda impostata a 14, senza titolo interno
 ax.legend(fontsize=14, frameon=True, loc='upper right')
@@ -8422,14 +8330,54 @@ ax.set_ylim(0, 0.80)
 # Legenda impostata a 14, senza titolo interno
 ax.legend(fontsize=14, frameon=True, loc='upper right')
 
-# Funzione per inserire i valori con la virgola europea sui decimali (3 cifre per R²)
-def autolabel_europeo(rects):
+autolabel_europeo(rects1)
+autolabel_europeo(rects2)
+
+# Aggiunta di una linea dello zero marcata per evidenziare il benchmark di base
+ax.axhline(0, color='black', linestyle='-', linewidth=0.8, alpha=0.7)
+
+# Pulizia assi e griglia retrostante
+ax.yaxis.grid(True, linestyle='--', alpha=0.5)
+ax.set_axisbelow(True)
+sns.despine()
+#------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------------
+#GRAFICI R2 FINALI - GRAFICI PER LA CONCLUSIONE
+#------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------------
+# --- DATI ---
+# Assicurati di avere queste liste popolate con i tuoi risultati
+test_scores_lasso = [r2_test_gk_lasso, r2_test_df_lasso, r2_test_wb_lasso, r2_test_mf_lasso, r2_test_fw_lasso]
+test_scores_lasso_glob = [r2_test_lasso_glob_gk, r2_test_lasso_glob_df, r2_test_lasso_glob_wb, r2_test_lasso_glob_mf, r2_test_lasso_glob_fw]
+test_scores_svr = [r2_test_gk_svr, r2_test_df_svr, r2_test_wb_svr, r2_test_mf_svr, r2_test_fw_svr]
+test_scores_svr_glob = [r2_test_svr_glob_gk, r2_test_svr_glob_df, r2_test_svr_glob_wb, r2_test_svr_glob_mf, r2_test_svr_glob_fw]
+test_scores_xgb = [r2_test_gk_xgb, r2_test_df_xgb, r2_test_wb_xgb, r2_test_mf_xgb, r2_test_fw_xgb]
+test_scores_xgb_glob = [r2_test_xgb_glob_gk, r2_test_xgb_glob_df, r2_test_xgb_glob_wb, r2_test_xgb_glob_mf, r2_test_xgb_glob_fw]
+
+# 1. Impostazione dello stile di base
+sns.set_theme(style="white")
+
+# Etichette estese dell'asse X
+labels_plot = ['GK', 'DF', 'WB', 'MF', 'FW']
+x = np.arange(len(labels_plot))
+width = 0.35  
+
+# 2. Configurazione cromatica (Blues palette)
+blues_palette = sns.color_palette("Blues", 6)
+color_specific = blues_palette[5]  # Blu scuro per i modelli role-specific
+color_global = blues_palette[2]    # Celeste per i modelli globali
+
+# 3. Creazione del grafico
+# Aumentata leggermente la larghezza (12) per ospitare le nuove etichette di testo lunghe
+fig, axes = plt.subplots(3, 1, figsize=(10, 18), sharey=False)
+
+# Funzione per formattare e posizionare i valori sopra le barre
+def autolabel_europeo(ax, rects):
     for rect in rects:
         height = rect.get_height()
         formatted_val = f"{height:.3f}".replace(".", ",")
         
         # Gestione visiva della posizione del testo in base al segno di R²
-        # Se il valore è molto vicino al limite inferiore, l'offset viene calibrato di conseguenza
         if height >= 0:
             va_position = 'bottom'
             offset = 3
@@ -8441,19 +8389,58 @@ def autolabel_europeo(rects):
                     xy=(rect.get_x() + rect.get_width() / 2, height),
                     xytext=(0, offset),  
                     textcoords="offset points",
-                    ha='center', va=va_position, fontsize=10, fontweight='bold')
+                    ha='center', 
+                    va=va_position, 
+                    fontsize=13, 
+                    fontweight='bold')
 
-autolabel_europeo(rects1)
-autolabel_europeo(rects2)
+# Funzione per applicare lo stile uniforme a tutti i subplot
+def apply_custom_style(ax, title):
+    ax.set_title(title, fontsize=15, fontweight='bold', pad=15)
+    ax.set_ylabel('$R^2$', fontsize=15, fontweight='bold')
+    ax.set_xticks(x)
+    ax.set_xticklabels(labels_plot, fontsize=11, fontweight='bold')
+    
+    # Limiti uniformi asse Y come da richiesta
+    ax.set_ylim(0, 0.70)
+    
+    # Legenda standardizzata
+    ax.legend(fontsize=14, frameon=True, loc='upper right')
+    
+    # Aggiunta linea dello zero marcata
+    ax.axhline(0, color='black', linestyle='-', linewidth=0.8, alpha=0.7)
+    
+    # Pulizia assi e griglia retrostante
+    ax.yaxis.grid(True, linestyle='--', alpha=0.5)
+    ax.set_axisbelow(True)
 
-# Aggiunta di una linea dello zero marcata per evidenziare il benchmark di base
-ax.axhline(0, color='black', linestyle='-', linewidth=0.8, alpha=0.7)
+# --- Subplot 1: XGBoost ---
+rects1_xgb = axes[0].bar(x - width/2, test_scores_xgb, width, label='Role-Specific', color=color_specific)
+rects2_xgb = axes[0].bar(x + width/2, test_scores_xgb_glob, width, label='Globale', color=color_global)
+apply_custom_style(axes[0], 'XGBoost')
+autolabel_europeo(axes[0], rects1_xgb)
+autolabel_europeo(axes[0], rects2_xgb)
 
-# Pulizia assi e griglia retrostante
-ax.yaxis.grid(True, linestyle='--', alpha=0.5)
-ax.set_axisbelow(True)
-sns.despine()
+# --- Subplot 2: SVR ---
+rects1_svr = axes[1].bar(x - width/2, test_scores_svr, width, label='Role-Specific', color=color_specific)
+rects2_svr = axes[1].bar(x + width/2, test_scores_svr_glob, width, label='Globale', color=color_global)
+apply_custom_style(axes[1], 'SVR')
+autolabel_europeo(axes[1], rects1_svr)
+autolabel_europeo(axes[1], rects2_svr)
 
+# --- Subplot 3: LASSO ---
+rects1_lasso = axes[2].bar(x - width/2, test_scores_lasso, width, label='Role-Specific', color=color_specific)
+rects2_lasso = axes[2].bar(x + width/2, test_scores_lasso_glob, width, label='Globale', color=color_global)
+apply_custom_style(axes[2], 'Lasso')
+autolabel_europeo(axes[2], rects1_lasso)
+autolabel_europeo(axes[2], rects2_lasso)
+
+# Rimozione dei bordi superiori e destri (Stile Concordato)
+sns.despine(fig)
+
+# Regolazione del layout per evitare sovrapposizioni
+plt.tight_layout()
+plt.show()
 #-------------------------------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------------------------------
